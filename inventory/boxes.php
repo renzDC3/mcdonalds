@@ -23,6 +23,7 @@ if (!isset($_SESSION["user"])) {
 
 </head>
 <body>
+    <h1>Hello my world,goobye.</h1>
         
 <h1>Boxes</h1>
         
