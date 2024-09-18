@@ -38,3 +38,22 @@
     padding: 22px;
     list-style-type: none;
  }
+ .bottom-buttons {
+    position: fixed;
+    bottom: 20px;
+    width: 100%;
+    display: flex;
+    justify-content: space-between;
+    padding: 0 20px;
+}
+
+#receiving-btn {
+    position: absolute;
+    left: 20px;
+}
+
+#movingout-btn {
+    position: absolute;
+    right: 20px;
+}
+

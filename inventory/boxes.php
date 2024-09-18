@@ -22,14 +22,35 @@ if (!isset($_SESSION["user"])) {
     <title>Boxes</title>
 
 </head>
-<body>
-    <h1>Hello my world,goobye.</h1>
-        
 <h1>Boxes</h1>
+<body>
+    <table class="table">
+  <thead>
+    <tr>
+      <th scope="col">ID#</th>
+      <th scope="col">Productname>
+      <th scope="col">Quantity</th>
+    </tr>
+  </thead>
+  <tbody class="table-group-divider">
+    <tr>
+      <th scope="row">1</th>
+      <td>Small</td>
+      <td>123</td>
+    </tr>
+    <tr>
+      <th scope="row">2</th>
+      <td>Meduim</td>
+      <td>342</td>
+    </tr>
+    <tr>
+      <th scope="row">3</th>
+      <td>Large</td>
+      <td>765</td>
+    </tr>
+  </tbody>
+</table>
         
 
-          
-
-    
 </body>
 </html>
