@@ -21,6 +21,10 @@ if (!isset($_SESSION["user"])) {
 <body>
 <div calss="logout-box">
     
+
+    <!-- Display User Info-->
+
+
     <a href="logout.php" class="logoutButton btn btn-warning">Logout</a>
     
 </div>

@@ -7,35 +7,34 @@
 
 .tertiary{
 
-    
-    padding-top:20%;
-    padding: 8%;
-    border: 4px solid;
+
+    margin-top: 40px;
+    padding: 2%;
+    border: black;
     box-sizing: border-box; 
     border-radius:10px; 
-    margin: 50px;
-        white-space: nowrap; 
-        text-overflow: ellipsis;
-
+    white-space: nowrap; 
+    text-overflow: ellipsis;
     white-space: nowrap;
 
 }
 .tertiary a{
+    
     text-decoration: none; 
     color: rgb(187, 170, 170) !important;
     -webkit-text-stroke-width: 1px;
     -webkit-text-stroke-color: black;
-    border: 0px solid #000;
+    
     box-sizing: border-box; 
     border-radius: 60px; 
     padding: 20px;
-    margin-top: 20px;
-    font-weight: 790;
+    
+    font-weight: 890;
     -webkit-box-align: center;
 }
 .tertiary li{
-    
-    
-    padding-bottom: 50px;
+    border: 2px solid rgb(0, 0, 0);
+    background-color: rgb(163, 0, 0);
+    padding: 22px;
     list-style-type: none;
  }
