@@ -22,7 +22,7 @@ if (isset($_SESSION["user"])) {
 
 <body>
 <br><br> <br><br>
-    <h1>hello</h1>
+    
     <div class="container">
 
     
