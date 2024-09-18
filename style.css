@@ -1,0 +1,35 @@
+.container{
+    margin: 0% auto;
+    width: 350px;
+    background-color:  rgb(163, 0, 0) !important;
+    border: 5px solid rgb(172, 147, 0) !important;
+}
+.form-group{
+    margin-top: 30px;
+    margin-bottom: 20px;
+    margin-left: 60px;
+    width: 200px;
+    
+    
+    
+}
+.message{
+    
+    font-size: 13px;
+    margin-top: 260px;
+    margin-left: 780px;
+    position: absolute;
+    width: 160px;
+    
+}
+
+
+.message1{
+    
+    font-size: 13px;
+    margin-top: 240px;
+    margin-left: 780px;
+    position: absolute;
+    width: 160px;
+    
+}

@@ -1,0 +1,10 @@
+h1 {
+    padding: 200px;
+    width: 100%; /* Adjust as needed */
+    margin: 0 auto;
+
+    font-weight: bold;
+    font-size: 120px;
+    color:  rgb(163, 0, 0) !important;
+    text-shadow: 2px 2px 2px rgb(0, 0, 0); /* Adjust the values for desired effect */
+}
