@@ -55,12 +55,14 @@ if (!isset($_SESSION["user"])) {
             <iframe id="embeddedPage" src="/mcdonalds/inventory/tissues.php"> </iframe>
             </div>
             
+        <!--Second row-->
             </ul>
             <ul class="tertiary">
-
+            
             <li><a onclick="toggleIframe('#frame7')">CAN</a></li>
             <div class="iframeContainer" id ='frame7'>
             <iframe id="embeddedPage" src="/mcdonalds/inventory/can.php"> </iframe>
+
             </div>
             
             <li><a onclick="toggleIframe('#frame8')">CUPS</a></li>

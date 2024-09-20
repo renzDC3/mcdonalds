@@ -14,7 +14,7 @@ if (!isset($_SESSION["user"])) {
     <link rel="stylesheet" href="table.css">
     
 </head>
-<h1>Boxes</h1>
+
 <body>
 <table>
   <tr>

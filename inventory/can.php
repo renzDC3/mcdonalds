@@ -15,7 +15,7 @@ if (!isset($_SESSION["user"])) {
     
 
 </head>
-<h1>Boxes</h1>
+
 <body>
 <table>
   <tr>

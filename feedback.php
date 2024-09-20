@@ -18,8 +18,14 @@ if (!isset($_SESSION["user"])) {
 
     <title></title>
 </head>
-<body>
+<style>
+h1{text-align:center;
 
+}
+</style>
+
+<body>
+    <h1>feedback</h1>
 </body>
 </html>
 
