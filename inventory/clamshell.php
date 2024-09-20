@@ -18,16 +18,16 @@ if (!isset($_SESSION["user"])) {
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
     <link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/bootstrap@5.2.2/dist/css/bootstrap.min.css" integrity="sha384-Zenh87qX5JnK2Jl0vWa8Ck2rdkQ2Bzep5IDxbcnCeuOxjzrPF/et3URy9Bv1WTRi" crossorigin="anonymous">
     <link rel="stylesheet" href="inventory-design.css">
-    <script src="/mcdonalds/loadLayout.js" defer></script>
+    
     
     <title>Clamshell</title>
 
 </head>
 <body>
         
-<h1>Clamshell</h1>
 
-<table style="width:65%">
+
+<table>
   <tr>
     <th>Product Name</th>
     <th>Boxes Get</th>
@@ -35,36 +35,33 @@ if (!isset($_SESSION["user"])) {
   </tr>
   <tr>
 
-    <td> <div class="first-row">1PC</div></td>
-     <td><div class ="second-row">
+    <td>1PC</td>
+     <td>
         <input type="number" name="quantity" min="1" max="200" step="1"></input>
-       </div>
     </td>
-    <td><div class="third-row">Code</div></td>
+    <td>Code</td>
+    </tr>
+  <td>2PC</td>
+     <td>
+        <input type="number" name="quantity" min="1" max="200" step="1"></input>
+   
+    </td>
+    <td>Code</td>
   </tr>
 
-  <td> <div class="first-row">2PC</div></td>
-     <td><div class ="second-row">
+  <td>Spaghetti</td>
+     <td>
         <input type="number" name="quantity" min="1" max="200" step="1"></input>
-       </div>
     </td>
-    <td><div class="third-row">Code</div></td>
+    <td>Code</td>
   </tr>
 
-  <td> <div class="first-row">Spaghetti</div></td>
-     <td><div class ="second-row">
+  <td>Fillet</td>
+     <td>
         <input type="number" name="quantity" min="1" max="200" step="1"></input>
        </div>
     </td>
-    <td><div class="third-row">Code</div></td>
-  </tr>
-
-  <td> <div class="first-row">Fillet</div></td>
-     <td><div class ="second-row">
-        <input type="number" name="quantity" min="1" max="200" step="1"></input>
-       </div>
-    </td>
-    <td><div class="third-row">Code</div></td>
+    <td>Code</td>
   </tr>
 </table>
     

@@ -52,12 +52,25 @@
             if (empty($fullName) || empty($email) || empty($password) || empty($passwordRepeat)) {
                 array_push($errors, "All fields are required");
             }
+            
             if (!filter_var($email, FILTER_VALIDATE_EMAIL)) {
                 array_push($errors, "Email is not valid");
             }
-            if (strlen($password) < 8) {
-                array_push($errors, "Password must be at least 8 characters long");
+            if (strlen($password) < 12) {
+                array_push($errors, "Password must be at least 12 characters long");
             }
+            if (!preg_match('/[A-Za-z]/', $password)) {
+                array_push($errors, "Password must include at least one letter");
+            }
+            
+            if (!preg_match('/[0-9]/', $password)) {
+                array_push($errors, "Password must include at least one number");
+            }
+            
+            if (!preg_match('/[!@#$%^&*(),.?":{}|<>]/', $password)) {
+                array_push($errors, "Password must include at least one symbol");
+            }
+            
             if ($password !== $passwordRepeat) {
                 array_push($errors, "Passwords do not match");
             }

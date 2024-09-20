@@ -24,12 +24,20 @@ if (!isset($_SESSION["user"])) {
         
             <div class ="inventory-list">
             <ul class="tertiary">
-                <li><a href="/mcdonalds/inventory/clamshell.php">CLAMSHELL</a></li>
+            <li><a class="clamshell" onclick="toggleIframe()">CLAMSHELL</a></li>
+            <div class="iframeContainer">
+            <iframe id="embeddedPage1" src="/mcdonalds/inventory/clamshell.php"> </iframe>
+            </div>
+                
+                
+                
+            
                 <li><a href="/mcdonalds/inventory/powder.php">POWDER</a></li>
                 <li><a href="/mcdonalds/inventory/sauces.php" >SAUCES</a></li>
                 <li><a href="/mcdonalds/inventory/lids.php">LIDS</a></li>
                 <li><a href="/mcdonalds/inventory/boxes.php">BOXES</a></li>
                 <li><a href="/mcdonalds/inventory/tissues.php">TISSUES</a></li>
+                
             </ul>
             <ul class="tertiary">
                 <li><a href="/mcdonalds/inventory/can.php">CAN</a></li>

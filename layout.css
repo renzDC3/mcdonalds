@@ -3,8 +3,10 @@ body {
     flex-direction: column;
     margin-bottom: 0;
     background: url('bg.jpeg') center center;
-    background-size: cover; /* This should cover the viewport */
-    min-height: 100vh; /* Ensure the body takes at least full viewport height */
+    
+    background-size: cover; 
+    min-height: 200vh; 
+    
 }
 
 
@@ -80,7 +82,7 @@ nav ul li a {
 a.active, a:hover {
     
     background: rgb(160, 160, 0) !important;
-  
+    
     transition: .5s;
 }
 
