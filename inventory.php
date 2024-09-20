@@ -24,29 +24,69 @@ if (!isset($_SESSION["user"])) {
         
             <div class ="inventory-list">
             <ul class="tertiary">
-            <li><a class="clamshell" onclick="toggleIframe()">CLAMSHELL</a></li>
-            <div class="iframeContainer">
-            <iframe id="embeddedPage1" src="/mcdonalds/inventory/clamshell.php"> </iframe>
-            </div>
-                
-                
-                
             
-                <li><a href="/mcdonalds/inventory/powder.php">POWDER</a></li>
-                <li><a href="/mcdonalds/inventory/sauces.php" >SAUCES</a></li>
-                <li><a href="/mcdonalds/inventory/lids.php">LIDS</a></li>
-                <li><a href="/mcdonalds/inventory/boxes.php">BOXES</a></li>
-                <li><a href="/mcdonalds/inventory/tissues.php">TISSUES</a></li>
-                
+            <li><a onclick="toggleIframe('#frame1')">CLAMSHELL</a></li>
+            <div class="iframeContainer" id='frame1'>
+            <iframe id="embeddedPage" src="/mcdonalds/inventory/clamshell.php"> </iframe>
+            </div>
+            
+            <li><a onclick="toggleIframe('#frame2')">POWDER</a></li>
+            <div class="iframeContainer" id ='frame2'>
+            <iframe id="embeddedPage" src="/mcdonalds/inventory/powder.php"> </iframe>
+            </div>
+
+            <li><a onclick="toggleIframe('#frame3')">SAUCES</a></li>
+            <div class="iframeContainer" id ='frame3'>
+            <iframe id="embeddedPage" src="/mcdonalds/inventory/sauces.php"> </iframe>
+            </div>
+            
+            <li><a onclick="toggleIframe('#frame4')">LIDS</a></li>
+            <div class="iframeContainer" id ='frame4'>
+            <iframe id="embeddedPage" src="/mcdonalds/inventory/LIDS.php"> </iframe>
+            </div>
+
+            <li><a onclick="toggleIframe('#frame5')">BOXES</a></li>
+            <div class="iframeContainer" id ='frame5'>
+            <iframe id="embeddedPage" src="/mcdonalds/inventory/boxes.php"> </iframe>
+            </div>
+
+            <li><a onclick="toggleIframe('#frame6')">TISSUES</a></li>
+            <div class="iframeContainer" id ='frame6'>
+            <iframe id="embeddedPage" src="/mcdonalds/inventory/tissues.php"> </iframe>
+            </div>
+            
             </ul>
             <ul class="tertiary">
-                <li><a href="/mcdonalds/inventory/can.php">CAN</a></li>
-                <li><a href="/mcdonalds/inventory/cups.php" >CUPS</a></li>
-                <li><a href="/mcdonalds/inventory/paper-bag.php" >PAPER BAG</a></li>
-                <li><a href="/mcdonalds/inventory/utensil.php" >UTENSIL</a></li>
-                <li><a href="/mcdonalds/inventory/granules.php">GRANULES</a></li>
-                <li><a href="/mcdonalds/inventory/drinks.php" >DRINKS</a></li>
-            </ul>
+
+            <li><a onclick="toggleIframe('#frame7')">CAN</a></li>
+            <div class="iframeContainer" id ='frame7'>
+            <iframe id="embeddedPage" src="/mcdonalds/inventory/can.php"> </iframe>
+            </div>
+            
+            <li><a onclick="toggleIframe('#frame8')">CUPS</a></li>
+            <div class="iframeContainer" id ='frame8'>
+            <iframe id="embeddedPage" src="/mcdonalds/inventory/powder.php"> </iframe>
+            </div>
+
+            <li><a onclick="toggleIframe('#frame9')">PAPER BAG</a></li>
+            <div class="iframeContainer" id ='frame9'>
+            <iframe id="embeddedPage" src="/mcdonalds/inventory/paper-bag.php"> </iframe>
+            </div>
+
+            <li><a onclick="toggleIframe('#frame10')">UTENSIL</a></li>
+            <div class="iframeContainer" id ='frame10'>
+            <iframe id="embeddedPage" src="/mcdonalds/inventory/utensil.php"> </iframe>
+            </div>
+
+            <li><a onclick="toggleIframe('#frame11')">GRANULES</a></li>
+            <div class="iframeContainer" id ='frame11'>
+            <iframe id="embeddedPage" src="/mcdonalds/inventory/granules.php"> </iframe>
+            </div>
+
+            <li><a onclick="toggleIframe('#frame12')">DRINKS</a></li>
+            <div class="iframeContainer" id ='frame12'>
+            <iframe id="embeddedPage" src="/mcdonalds/inventory/drinks.php"> </iframe>
+            </div>            </ul>
 
 
             </div>

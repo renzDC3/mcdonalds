@@ -19,10 +19,10 @@
         <ul>
             <li><a class="btn-warning" href="index.php">Home</a></li>
             <li><a class="btn-warning" href="inventory.php">Inventory</a></li>
-            <li><a class="btn-warning" href="#">Ordered Details</a></li>
-            <li><a class="btn-warning" href="#">Products Available</a></li>
-            <li><a class="btn-warning" href="#">History</a></li>
-            <li><a class="btn-warning" href="#">Feedback</a></li>
+            <li><a class="btn-warning" href="products-update.php">Products update</a></li>
+            <li><a class="btn-warning" href="ordered-details.php">Ordered Details</a></li>
+            <li><a class="btn-warning" href="history.php">History</a></li>
+            <li><a class="btn-warning" href="feedback.php">Feedback</a></li>
             <li><a class="btn-warning" href="account.php">Account</a></li>
         </ul>
     </nav>

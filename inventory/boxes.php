@@ -15,41 +15,50 @@ if (!isset($_SESSION["user"])) {
     <meta http-equiv="X-UA-Compatible" content="IE=edge">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
     <link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/bootstrap@5.2.2/dist/css/bootstrap.min.css" integrity="sha384-Zenh87qX5JnK2Jl0vWa8Ck2rdkQ2Bzep5IDxbcnCeuOxjzrPF/et3URy9Bv1WTRi" crossorigin="anonymous">
-    <link rel="stylesheet" href="inventory-design.css">
-
-    <script src="/mcdonalds/loadLayout.js" defer></script>
+    <link rel="stylesheet" href="table.css">
     
-    <title>Boxes</title>
 
 </head>
 <h1>Boxes</h1>
 <body>
-    <table class="table">
-  <thead>
-    <tr>
-      <th scope="col">ID#</th>
-      <th scope="col">Productname>
-      <th scope="col">Quantity</th>
+<table>
+  <tr>
+    <th>Product Name</th>
+    <th>Boxes Get</th>
+    <th>Code</th>
+  </tr>
+  <tr>
+
+    <td>name</td>
+     <td>
+        <input type="number" name="quantity" min="1" max="200" step="1"></input>
+    </td>
+    <td>Code</td>
     </tr>
-  </thead>
-  <tbody class="table-group-divider">
-    <tr>
-      <th scope="row">1</th>
-      <td>Small</td>
-      <td>123</td>
-    </tr>
-    <tr>
-      <th scope="row">2</th>
-      <td>Meduim</td>
-      <td>342</td>
-    </tr>
-    <tr>
-      <th scope="row">3</th>
-      <td>Large</td>
-      <td>765</td>
-    </tr>
-  </tbody>
+  <td>name</td>
+     <td>
+        <input type="number" name="quantity" min="1" max="200" step="1"></input>
+   
+    </td>
+    <td>Code</td>
+  </tr>
+
+  <td>name</td>
+     <td>
+        <input type="number" name="quantity" min="1" max="200" step="1"></input>
+    </td>
+    <td>Code</td>
+  </tr>
+
+  <td>name</td>
+     <td>
+        <input type="number" name="quantity" min="1" max="200" step="1"></input>
+       </div>
+    </td>
+    <td>Code</td>
+  </tr>
 </table>
+    
         
 
 </body>
