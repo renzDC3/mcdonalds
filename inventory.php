@@ -93,42 +93,14 @@ if (!isset($_SESSION["user"])) {
 
             </div>
             <div class="bottom-buttons">
-    <form action="receiving.php" method="post">
-        <button type="submit" class="btn btn-primary" id="receiving-btn">Receiving</button>
-    </form>
-    <form action="movingout.php" method="post">
-        <button type="submit" class="btn btn-danger" id="movingout-btn">Moving Out</button>
-    </form>
+    
+
 </div>
+
+
 
 </body>
 </html>
 
-
-
-
-
-
-        
-
-
-        
-    
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-        
-    
 </body>
 </html>
