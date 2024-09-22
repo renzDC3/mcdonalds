@@ -26,6 +26,7 @@ if (!isset($_SESSION["user"])) {
 
 
 <body>
+<<<<<<< HEAD
 
     <div class ="history">
         <br>
@@ -49,6 +50,10 @@ if (!isset($_SESSION["user"])) {
     </div>
 
 
+=======
+    <h1>History</h1>
+    
+>>>>>>> e0694a150b920f99c1be508f496973539fac58f4
 </body>
 </html>
 
