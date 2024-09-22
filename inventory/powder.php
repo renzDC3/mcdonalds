@@ -27,21 +27,21 @@ if (!isset($_SESSION["user"])) {
      <td>
         <input type="number" name="quantity" min="1" max="200" step="1"></input>
     </td>
-    <td>Code</td>
+    <td>7890</td>
     </tr>
   <td>name</td>
      <td>
         <input type="number" name="quantity" min="1" max="200" step="1"></input>
    
     </td>
-    <td>Code</td>
+    <td>7653</td>
   </tr>
 
   <td>name</td>
      <td>
         <input type="number" name="quantity" min="1" max="200" step="1"></input>
     </td>
-    <td>Code</td>
+    <td>7554</td>
   </tr>
 
   <td>name</td>
@@ -49,7 +49,7 @@ if (!isset($_SESSION["user"])) {
         <input type="number" name="quantity" min="1" max="200" step="1"></input>
        </div>
     </td>
-    <td>Code</td>
+    <td>7542</td>
   </tr>
 </table>
 

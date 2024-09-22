@@ -30,15 +30,17 @@
     
     
     <section></section>
-     <!--
+     
    <footer class="border-top footer text-muted ">
        <div class="bottom fontc-black">
         
 
-            &copy; 2024 - Data5 -<a href="/Privacy">Privacy</a>
+            <p>&copy; MCFOOD / Quezon City / 09912328099 /<br>
+            &copy; MCDONALDS RIZAL/ MALABON CITY /6065-84664</p>
+
             
        
     </footer>
-     </div> -->
+     </div>
 </body>
 </html>

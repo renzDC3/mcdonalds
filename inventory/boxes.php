@@ -40,7 +40,7 @@ if (!isset($_SESSION["user"])) {
         <input type="number" name="quantity" min="1" max="200" step="1"></input>
    
     </td>
-    <td>Code</td>
+    <td>6503</td>
   </tr>
 
   <td>name</td>
