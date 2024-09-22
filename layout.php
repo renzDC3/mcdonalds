@@ -31,13 +31,13 @@
     
     <section></section>
      
-   <footer class="border-top footer text-muted ">
+  <!-- <footer class="border-top footer text-muted ">
        <div class="bottom fontc-black">
         
 
             <p>&copy; MCFOOD / Quezon City / 09912328099 /<br>
             &copy; MCDONALDS RIZAL/ MALABON CITY /6065-84664</p>
-
+-->
             
        
     </footer>

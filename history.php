@@ -26,34 +26,30 @@ if (!isset($_SESSION["user"])) {
 
 
 <body>
-<<<<<<< HEAD
 
     <div class ="history">
         <br>
-    <li><a onclick="toggleIframe('#frame20')">Order Received</a></li>
+    <li><a class="table-d" onclick="toggleIframe('#frame20')">Order Received</a></li>
             <div class="iframeContainer" id ='frame20'>
             <iframe class="framesize" id="embeddedPage" src="/mcdonalds/order-received.php"> </iframe>
             </div>
 
     
     
-            <li><a onclick="toggleIframe('#frame21')">User Log</a></li>
+            <li><a class="table-d" onclick="toggleIframe('#frame21')">User Log</a></li>
             <div class="iframeContainer" id ='frame21'>
             <iframe class="framesize" id="embeddedPage" src="/mcdonalds/user-log.php"> </iframe>
             </div>   
 
 
-            <li><a onclick="toggleIframe('#frame22')">Product History</a></li>
+            <li><a class="table-d" onclick="toggleIframe('#frame22')">Product History</a></li>
             <div class="iframeContainer" id ='frame22'>
             <iframe class="framesize" id="embeddedPage" src="/mcdonalds/Product-History.php"> </iframe>
             </div>
     </div>
 
 
-=======
-    <h1>History</h1>
-    
->>>>>>> e0694a150b920f99c1be508f496973539fac58f4
+
 </body>
 </html>
 
