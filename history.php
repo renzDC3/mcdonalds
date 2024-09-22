@@ -19,10 +19,13 @@ if (!isset($_SESSION["user"])) {
 h1{text-align:center;
 
 }
+
+
 </style>
 
 <body>
     <h1>History</h1>
+    
 </body>
 </html>
 
