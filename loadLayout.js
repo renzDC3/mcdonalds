@@ -1,4 +1,3 @@
-// loadLayout.js
 document.addEventListener('DOMContentLoaded', () => {
     fetch('layout.php')
         .then(response => response.text())
