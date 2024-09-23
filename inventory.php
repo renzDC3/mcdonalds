@@ -93,8 +93,6 @@ if (!isset($_SESSION["user"])) {
 
             </div>
             <div class="bottom-buttons">
-    
-
 </div>
 
 
