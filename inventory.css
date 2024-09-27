@@ -55,6 +55,13 @@ button{
     color: white;
     background-color: black;
 }
+#history {
+    margin-left: 50px;
+    margin-top: 200px;
+    position:absolute;
+    width: 200px;
+
+}
 
 
 
