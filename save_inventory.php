@@ -56,6 +56,29 @@ $products = [
         ["name" => "sweet", "code" => 8322, "quantity" => isset($_POST["sauces"]["quantity_sweet"]) ? $_POST["sauces"]["quantity_sweet"] : 0],
         ["name" => "maple", "code" => 8463, "quantity" => isset($_POST["sauces"]["quantity_maple"]) ? $_POST["sauces"]["quantity_maple"] : 0],
         ["name" => "syrups", "code" => 8657, "quantity" => isset($_POST["sauces"]["quantity_syrups"]) ? $_POST["sauces"]["quantity_syrups"] : 0],
+    ],
+    "paperbag" => [
+        ["name" => "A", "code" => 8092, "quantity" => isset($_POST["paperbag"]["quantity_A"]) ? $_POST["paperbag"]["quantity_A"] : 0],
+        ["name" => "B", "code" => 8322, "quantity" => isset($_POST["paperbag"]["quantity_B"]) ? $_POST["paperbag"]["quantity_B"] : 0],
+        ["name" => "C", "code" => 8463, "quantity" => isset($_POST["paperbag"]["quantity_C"]) ? $_POST["paperbag"]["quantity_C"] : 0],
+        ["name" => "D", "code" => 8657, "quantity" => isset($_POST["paperbag"]["quantity_D"]) ? $_POST["paperbag"]["quantity_D"] : 0],
+    ],
+    "lids" => [
+        ["name" => "12oz", "code" => 9542, "quantity" => isset($_POST["lids"]["quantity_12oz"]) ? $_POST["lids"]["quantity_12oz"] : 0],
+        ["name" => "16oz", "code" => 9422, "quantity" => isset($_POST["lids"]["quantity_6oz"]) ? $_POST["lids"]["quantity_6oz"] : 0],
+        ["name" => "dome", "code" => 9533, "quantity" => isset($_POST["lids"]["quantity_dome"]) ? $_POST["lids"]["quantity_dome"] : 0],
+        ["name" => "coffee", "code" => 9267, "quantity" => isset($_POST["lids"]["quantity_coffee"]) ? $_POST["lids"]["quantity_coffee"] : 0],
+    ],
+    "utensil" => [
+        ["name" => "spoon", "code" => 3992, "quantity" => isset($_POST["utensil"]["quantity_spoon"]) ? $_POST["utensil"]["quantity_spoon"] : 0],
+        ["name" => "knife", "code" => 3998, "quantity" => isset($_POST["utensil"]["quantity_knife"]) ? $_POST["utensil"]["quantity_knife"] : 0],
+        ["name" => "teaspoon", "code" => 2712, "quantity" => isset($_POST["utensil"]["quantity_teaspoon"]) ? $_POST["utensil"]["quantity_teaspoon"] : 0],
+        ["name" => "fork", "code" => 3532, "quantity" => isset($_POST["utensil"]["quantity_fork"]) ? $_POST["utensil"]["quantity_fork"] : 0],
+    ],
+    "boxes" => [
+        ["name" => "Happy meal Box", "code" => 6434, "quantity" => isset($_POST["boxes"]["quantity_happymeal"]) ? $_POST["boxes"]["quantity_happymeal"] : 0],
+        ["name" => "Mcshare box", "code" => 6534, "quantity" => isset($_POST["boxes"]["quantity_mcsharebox"]) ? $_POST["boxes"]["quantity_mcsharebox"] : 0],
+       
     ]
     
 ];
@@ -133,7 +156,7 @@ if (!empty($alerts)) {
 
 // Fetch the latest data for both tables
 $latest_data = [];
-foreach (['clamshell', 'can', 'powder', 'cups','sauces'] as $table) {
+foreach (['clamshell', 'can', 'powder', 'cups','sauces','paperbag','lids','utensil','boxes'] as $table) {
     $result = $conn->query("SELECT product_name, SUM(quantity) as total_quantity, code FROM $table GROUP BY product_name, code");
 
     while ($row = $result->fetch_assoc()) {
