@@ -19,7 +19,7 @@
 h1{ text-align:center ;
     border: black solid 1px;
     cursor: pointer;
-    background-color:rgb(160, 160, 0) !important;
+    background-color:rgb(112, 127, 0) !important;
     color:white;
     -webkit-text-stroke-width: 1px;
     -webkit-text-stroke-color: black;
@@ -61,6 +61,53 @@ button{
     position:absolute;
     width: 200px;
 
+}
+#productsLeft {
+    margin-left: 50px;
+    margin-top: 140px;
+    position:absolute;
+    width: 700px;
+    background-color: #f2f2f2;
+}
+#productsLeft caption{
+    color: black;
+    caption-side:top;
+    font-size: 30px;
+    font-weight: bold;
+}
+
+
+
+#box-get{
+    margin-left: 900px;
+    background-color: #f2f2f2;
+    margin-top: 140px;
+    position:absolute;
+    width: 300px;}
+
+#box-get .td1{
+    background-color:rgb(112, 127, 0) !important;
+    color: #f2f2f2;
+    font-weight: bold;
+}
+#history .td1{
+    background-color:rgb(112, 127, 0) !important;
+    color: #f2f2f2;
+    font-weight: bold;
+}
+#productsLeft .td1{
+    background-color:rgb(112, 127, 0) !important;
+    color: #f2f2f2;
+    font-weight: bold;
+}
+  
+
+
+#box-get caption{
+    color: black;
+    caption-side:top;
+    font-size: 30px;
+    font-weight: bold;
 }
 
 

@@ -79,12 +79,30 @@ $products = [
         ["name" => "Happy meal Box", "code" => 6434, "quantity" => isset($_POST["boxes"]["quantity_happymeal"]) ? $_POST["boxes"]["quantity_happymeal"] : 0],
         ["name" => "Mcshare box", "code" => 6534, "quantity" => isset($_POST["boxes"]["quantity_mcsharebox"]) ? $_POST["boxes"]["quantity_mcsharebox"] : 0],
        
+    ],
+    "granules" => [
+        ["name" => "ice coffee", "code" => 3993, "quantity" => isset($_POST["granules"]["quantity_iceCoffe"]) ? $_POST["granules"]["quantity_iceCoffe"] : 0],
+        ["name" => "brewed coffee", "code" => 3999, "quantity" => isset($_POST["granules"]["quantity_brewedCoffe"]) ? $_POST["granules"]["quantity_brewedCoffe"] : 0],
+       
+    ],
+    "tissues" => [
+        ["name" => "kitchen tissue", "code" => 7321, "quantity" => isset($_POST["tissues"]["quantity_kitchenTissues"]) ? $_POST["tissues"]["quantity_kitchenTissues"] : 0],
+        ["name" => "restroom tissue", "code" => 7753, "quantity" => isset($_POST["tissues"]["quantity_restroomTissues"]) ? $_POST["tissues"]["quantity_restroomTissues"] : 0],
+        ["name" => "serving tissue", "code" => 7231, "quantity" => isset($_POST["tissues"]["quantity_servingTissues"]) ? $_POST["tissues"]["quantity_servingTissues"] : 0],
+ 
+    ],
+    "drinks" => [
+        ["name" => "ice coffee", "code" => 7321, "quantity" => isset($_POST["drinks"]["quantity_iceCoffe"]) ? $_POST["drinks"]["quantity_iceCoffe"] : 0],
+        ["name" => "Sprite", "code" => 7753, "quantity" => isset($_POST["drinks"]["quantity_sprite"]) ? $_POST["drinks"]["quantity_sprite"] : 0],
+        ["name" => "CocaCola", "code" => 7231, "quantity" => isset($_POST["drinks"]["quantity_CocaCola"]) ? $_POST["drinks"]["quantity_CocaCola"] : 0],
+ 
     ]
     
 ];
 
 $alerts = []; // Initialize an array to hold alert messages
 
+// Process each product type
 // Process each product type
 foreach ($products as $table_name => $product_list) {
     foreach ($product_list as $product) {
@@ -117,9 +135,6 @@ foreach ($products as $table_name => $product_list) {
                     $stmt->bind_param("sii", $product_name, $quantity, $code);
                 }
             } elseif ($action === "remove") {
-                // Update session tracking for removed quantities
-                $_SESSION['removed_quantities'][$table_name][$product_name] = ($_SESSION['removed_quantities'][$table_name][$product_name] ?? 0) + intval($quantity);
-                
                 // Check current quantity before removing
                 $stmt = $conn->prepare("SELECT quantity FROM $table_name WHERE product_name = ? AND code = ?");
                 $stmt->bind_param("si", $product_name, $code);
@@ -134,6 +149,9 @@ foreach ($products as $table_name => $product_list) {
                     if ($current_quantity - $quantity < 0) {
                         $alerts[] = "Inefficient quantity of $product_name. Available: $current_quantity.";
                     } else {
+                        // Update session tracking for removed quantities only if the quantity is sufficient
+                        $_SESSION['removed_quantities'][$table_name][$product_name] = ($_SESSION['removed_quantities'][$table_name][$product_name] ?? 0) + intval($quantity);
+
                         $stmt = $conn->prepare("UPDATE $table_name SET quantity = quantity - ? WHERE product_name = ? AND code = ?");
                         $stmt->bind_param("isi", $quantity, $product_name, $code);
                     }
@@ -149,6 +167,7 @@ foreach ($products as $table_name => $product_list) {
     }
 }
 
+
 // Store alerts in the session if there are any
 if (!empty($alerts)) {
     $_SESSION['alerts'] = $alerts;
@@ -156,7 +175,7 @@ if (!empty($alerts)) {
 
 // Fetch the latest data for both tables
 $latest_data = [];
-foreach (['clamshell', 'can', 'powder', 'cups','sauces','paperbag','lids','utensil','boxes'] as $table) {
+foreach (['clamshell', 'can', 'powder', 'cups','sauces','paperbag','lids','utensil','boxes','granules','tissues','drinks'] as $table) {
     $result = $conn->query("SELECT product_name, SUM(quantity) as total_quantity, code FROM $table GROUP BY product_name, code");
 
     while ($row = $result->fetch_assoc()) {

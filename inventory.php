@@ -1,16 +1,13 @@
 <?php
 session_start(); 
 if (!isset($_SESSION["user"])) {
-   header("Location:index.php");
+   header("Location: index.php");
    exit();
-
-
 }
+
 $latest_data = isset($_SESSION['latest_data']) ? $_SESSION['latest_data'] : [];
 $alerts = isset($_SESSION['alerts']) ? $_SESSION['alerts'] : [];
 unset($_SESSION['alerts']); // Clear alerts after displaying
-
-
 ?>
 
 <!DOCTYPE html>
@@ -36,27 +33,36 @@ unset($_SESSION['alerts']); // Clear alerts after displaying
     <?php endif; ?>
 
     <table class="table table-striped" id="history">
-    <tr>
-        <td>Product Name</td>
-        <td>Received</td>
-        <td>Out</td>
+    <tr class="tr1">
+        <td class="td1">Product Name</td>
+        <td class="td1">Received</td>
+        <td class="td1">Out</td>
     </tr>
     <?php 
-    $categories = ['clamshell', 'can', 'powder', 'cups','sauces','paperbag','lids','utensil','boxes','granules','tissues','liquid-drinks'];
+    $categories = ['clamshell', 'can', 'powder', 'cups', 'sauces', 'paperbag', 'lids', 'utensil', 'boxes', 'granules', 'tissues', 'drinks'];
 
-    // Loop through each category
     foreach ($categories as $category) {
-        
-        foreach ($_SESSION['added_quantities'][$category] ?? [] as $key => $added) {
+        // Combine both added and removed quantities into a single array of product names
+        $product_names = array_unique(
+            array_merge(
+                array_keys($_SESSION['added_quantities'][$category] ?? []),
+                array_keys($_SESSION['removed_quantities'][$category] ?? [])
+            )
+        );
+
+        foreach ($product_names as $product_name) {
+            $added = $_SESSION['added_quantities'][$category][$product_name] ?? 0;
+            $removed = $_SESSION['removed_quantities'][$category][$product_name] ?? 0;
+            
             echo '<tr>';
-            echo '<td>' . htmlspecialchars($key) . '</td>';
+            echo '<td>' . htmlspecialchars($product_name) . '</td>';
             echo '<td>' . htmlspecialchars($added) . '</td>';
-            echo '<td>' . htmlspecialchars($_SESSION['removed_quantities'][$category][$key] ?? 0) . '</td>';
+            echo '<td>' . htmlspecialchars($removed) . '</td>';
             echo '</tr>';
         }
     }
     ?>
-</table>
+    </table>
 
 
 <form action="save_inventory.php" method="POST">
@@ -270,7 +276,7 @@ unset($_SESSION['alerts']); // Clear alerts after displaying
 <div class="container">
         
     <div class="box">
-        <h1>Sauces</h1>
+        <h1>SAUCES</h1>
         <table>
             <tr>
                 <th>Product Name</th>
@@ -372,7 +378,7 @@ unset($_SESSION['alerts']); // Clear alerts after displaying
     <div class="container">
         
         <div class="box">
-            <h1>Lids</h1>
+            <h1>LIDS</h1>
             <table>
                 <tr>
                     <th>Product Name</th>
@@ -422,7 +428,7 @@ unset($_SESSION['alerts']); // Clear alerts after displaying
     
     
     <div class="box">
-            <h1>Utensil</h1>
+            <h1>UTENSIL</h1>
             <table>
                 <tr>
                     <th>Product Name</th>
@@ -474,57 +480,7 @@ unset($_SESSION['alerts']); // Clear alerts after displaying
         <div class="container">
         
         <div class="box">
-            <h1>Lids</h1>
-            <table>
-                <tr>
-                    <th>Product Name</th>
-                    <th>Boxes Get</th>
-                    <th>Code</th>
-                </tr>
-                <tr>
-                    <td>12oz</td>
-                    <td><input type="number" name="lids[quantity_12oz]" min="0" max="200" step="1"></td>
-                    <td>9542</td>
-                </tr>
-                <tr>
-                    <td>16oz</td>
-                    <td><input type="number" name="lids[quantity_6oz]" min="0" max="200" step="1"></td>
-                    <td>9422</td>
-                </tr>
-                <tr>
-                    <td>dome</td>
-                    <td><input type="number" name="lids[quantity_dome]" min="0" max="200" step="1"></td>
-                    <td>9533</td>
-                </tr>
-                <tr>
-                    <td>coffee</td>
-                    <td><input type="number" name="lids[quantity_coffee]" min="0" max="200" step="1"></td>
-                    <td>9267</td>
-                </tr>
-            </table>
-    
-            <h2>Stock</h2>
-            <table>
-                <tr>
-                    <th>Product Name</th>
-                    <th>Total Quantity</th>
-                    <th>Code</th>
-                </tr>
-                <?php if (isset($latest_data['lids'])): ?>
-                    <?php foreach ($latest_data['lids'] as $data) : ?>
-                    <tr>
-                        <td><?php echo htmlspecialchars($data['product_name']); ?></td>
-                        <td><?php echo htmlspecialchars($data['total_quantity']); ?></td>
-                        <td><?php echo htmlspecialchars($data['code']); ?></td>
-                    </tr>
-                    <?php endforeach; ?>
-                <?php endif; ?>
-            </table>
-        </div>
-    
-    
-    <div class="box">
-            <h1>Boxes</h1>
+            <h1>BOXES</h1>
             <table>
                 <tr>
                     <th>Product Name</th>
@@ -562,7 +518,146 @@ unset($_SESSION['alerts']); // Clear alerts after displaying
                 <?php endif; ?>
             </table>
         </div>
+        
+    
+    
+    <div class="box">
+            <h1>GRANULES</h1>
+            <table>
+                <tr>
+                    <th>Product Name</th>
+                    <th>Boxes Get</th>
+                    <th>Code</th>
+                </tr>
+                <tr>
+                    <td>ice coffee</td>
+                    <td><input type="number" name="granules[quantity_iceCoffe]" min="0" max="200" step="1"></td>
+                    <td>3993</td>
+                </tr>
+                <tr>
+                    <td>brewed coffee</td>
+                    <td><input type="number" name="granules[quantity_brewedCoffe]" min="0" max="200" step="1"></td>
+                    <td>3999</td>
+                </tr>
+              
+            </table>
+    
+            <h2>Stock</h2>
+            <table>
+                <tr>
+                    <th>Product Name</th>
+                    <th>Total Quantity</th>
+                    <th>Code</th>
+                </tr>
+                <?php if (isset($latest_data['granules'])): ?>
+                    <?php foreach ($latest_data['granules'] as $data) : ?>
+                    <tr>
+                        <td><?php echo htmlspecialchars($data['product_name']); ?></td>
+                        <td><?php echo htmlspecialchars($data['total_quantity']); ?></td>
+                        <td><?php echo htmlspecialchars($data['code']); ?></td>
+                    </tr>
+                    <?php endforeach; ?>
+                <?php endif; ?>
+            </table>
         </div>
+        </div>
+
+        <div class="container">
+        
+        <div class="box">
+            <h1>TISSUES</h1>
+            <table>
+                <tr>
+                    <th>Product Name</th>
+                    <th>Boxes Get</th>
+                    <th>Code</th>
+                </tr>
+                <tr>
+                    <td>kitchen tissue</td>
+                    <td><input type="number" name="tissue[quantity_kitchenTissues]" min="0" max="200" step="1"></td>
+                    <td>7321</td>
+                </tr>
+                <tr>
+                    <td>restroom tissue</td>
+                    <td><input type="number" name="tissues[quantity_restroomTissues]" min="0" max="200" step="1"></td>
+                    <td>7753</td>
+                </tr>
+                <tr>
+                    <td>serving tissue</td>
+                    <td><input type="number" name="tissues[quantity_servingTissues]" min="0" max="200" step="1"></td>
+                    <td>7231</td>
+                </tr>
+                
+            </table>
+    
+            <h2>Stock</h2>
+            <table>
+                <tr>
+                    <th>Product Name</th>
+                    <th>Total Quantity</th>
+                    <th>Code</th>
+                </tr>
+                <?php if (isset($latest_data['tissues'])): ?>
+                    <?php foreach ($latest_data['tissues'] as $data) : ?>
+                    <tr>
+                        <td><?php echo htmlspecialchars($data['product_name']); ?></td>
+                        <td><?php echo htmlspecialchars($data['total_quantity']); ?></td>
+                        <td><?php echo htmlspecialchars($data['code']); ?></td>
+                    </tr>
+                    <?php endforeach; ?>
+                <?php endif; ?>
+            </table>
+        </div>
+        
+    
+    
+    <div class="box">
+            <h1>DRINKS</h1>
+            <table>
+                <tr>
+                    <th>Product Name</th>
+                    <th>Boxes Get</th>
+                    <th>Code</th>
+                </tr>
+                <tr>
+                    <td>ice coffee</td>
+                    <td><input type="number" name="drinks[quantity_iceCoffe]" min="0" max="200" step="1"></td>
+                    <td>6260</td>
+                </tr>
+                <tr>
+                    <td>Sprite</td>
+                    <td><input type="number" name="drinks[quantity_sprite]" min="0" max="200" step="1"></td>
+                    <td>6259</td>
+                </tr>
+                <tr>
+                    <td>CocaCola</td>
+                    <td><input type="number" name="drinks[quantity_CocaCola]" min="0" max="200" step="1"></td>
+                    <td>6257</td>
+                </tr>
+              
+            </table>
+    
+            <h2>Stock</h2>
+            <table>
+                <tr>
+                    <th>Product Name</th>
+                    <th>Total Quantity</th>
+                    <th>Code</th>
+                </tr>
+                <?php if (isset($latest_data['drinks'])): ?>
+                    <?php foreach ($latest_data['drinks'] as $data) : ?>
+                    <tr>
+                        <td><?php echo htmlspecialchars($data['product_name']); ?></td>
+                        <td><?php echo htmlspecialchars($data['total_quantity']); ?></td>
+                        <td><?php echo htmlspecialchars($data['code']); ?></td>
+                    </tr>
+                    <?php endforeach; ?>
+                <?php endif; ?>
+            </table>
+        </div>
+        </div>
+
+        
 
 
 <footer>
