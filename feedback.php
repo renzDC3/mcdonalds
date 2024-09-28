@@ -76,7 +76,7 @@ form.on('submit', function(e) {
 <style>
 
 
-}
+
 html {
     font: 300 100%/1.5 Ubuntu, sans-serif;
     color: #333;

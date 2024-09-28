@@ -51,7 +51,7 @@ $conn->close();
             <tr>
                 <th class="td1">Category</th>
                 <th class="td1">Product Name</th>
-                <th class="td1">Total Quantity</th>
+                <th class="td1">Available</th>
                 <th class="td1">Code</th>
                
             </tr>
@@ -72,12 +72,15 @@ $conn->close();
             <?php endforeach; ?>
         </tbody>
     </table>
+    
 
-     <table class="table table-striped" id="box-get">
-    <tr>  <caption>Box you get</caption>
+
+
+    <table class="table table-striped" id="box-get2">
+    <tr>  <caption>Products Received</caption>
         <td class="td1">Category</td>
         <td class="td1">Product Name</td>
-        <td class="td1">Out</td>
+        <td class="td1">Received</td>
         
     </tr>
     <?php 
@@ -88,12 +91,46 @@ $conn->close();
         $product_names = array_unique(
             array_merge(
                 array_keys($_SESSION['added_quantities'][$category] ?? []),
-                array_keys($_SESSION['removed_quantities'][$category] ?? [])
+            
             )
         );
 
         foreach ($product_names as $product_name) {
             $added = $_SESSION['added_quantities'][$category][$product_name] ?? 0;
+            
+
+            echo '<tr>';
+            echo '<td>' . ucfirst($category) . '</td>';
+            echo '<td>' . htmlspecialchars($product_name) . '</td>';
+            echo '<td>' . htmlspecialchars($added) . '</td>';
+            echo '</tr>';
+        }
+    }
+    ?>
+    </table>
+
+
+     <table class="table table-striped" id="box-get">
+    <tr>  <caption>Products Get</caption>
+        <td class="td1">Category</td>
+        <td class="td1">Product Name</td>
+        <td class="td1">Get</td>
+        
+    </tr>
+    <?php 
+    $categories = ['clamshell', 'can', 'powder', 'cups', 'sauces', 'paperbag', 'lids', 'utensil', 'boxes', 'granules', 'tissues', 'drinks'];
+
+    foreach ($categories as $category) {
+        // Combine both added and removed quantities into a single array of product names
+        $product_names = array_unique(
+            array_merge(
+        
+                array_keys($_SESSION['removed_quantities'][$category] ?? [])
+            )
+        );
+
+        foreach ($product_names as $product_name) {
+        
             $removed = $_SESSION['removed_quantities'][$category][$product_name] ?? 0;
 
             echo '<tr>';
@@ -105,6 +142,10 @@ $conn->close();
     }
     ?>
     </table>
+    
+
+
+    
 </table>
 </body>
 </html>

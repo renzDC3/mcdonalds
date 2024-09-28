@@ -36,7 +36,7 @@ unset($_SESSION['alerts']); // Clear alerts after displaying
     <tr class="tr1">
         <td class="td1">Product Name</td>
         <td class="td1">Received</td>
-        <td class="td1">Out</td>
+        <td class="td1">Get</td>
     </tr>
     <?php 
     $categories = ['clamshell', 'can', 'powder', 'cups', 'sauces', 'paperbag', 'lids', 'utensil', 'boxes', 'granules', 'tissues', 'drinks'];
@@ -662,7 +662,7 @@ unset($_SESSION['alerts']); // Clear alerts after displaying
 
 <footer>
     <button type="submit" name="action" value="add">Received</button>
-    <button type="submit" name="action" value="remove">Out</button>
+    <button type="submit" name="action" value="remove">Get</button>
 </footer>
 </form>
 </body>
