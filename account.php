@@ -17,17 +17,33 @@ if (!isset($_SESSION["user"])) {
     <script src="loadLayout.js" defer></script>
 
     <title>Account</title>
+    <style>
+        .logout-box {
+            display: flex;
+            justify-content: center; /* Centers the content horizontally */
+            align-items: center; /* Centers the content vertically */
+            height: 100vh; /* Takes the full height of the viewport */
+        }
+        
+        .logoutButton {
+            color: aliceblue;
+            background-color: black;
+            border: 2px white;
+            width: 220px;
+            height: 80px;
+            font-size: 45px;
+            text-align: center;
+            padding: auto;
+            cursor: pointer;
+            display: block;
+        }
+    </style>
 </head>
 <body>
-<div calss="logout-box">
-    
-
-    <!-- Display User Info-->
-
-
-    <a href="logout.php" class="logoutButton btn btn-warning">Logout</a>
-    
-</div>
+    <div class="logout-box">
+        <!-- Display User Info-->
+        <a href="logout.php" class="logoutButton btn btn-warning">Logout</a>
+    </div>
 </body>
 </html>
 
