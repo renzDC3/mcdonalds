@@ -1,4 +1,4 @@
-// loadLayout.js
+
 document.addEventListener('DOMContentLoaded', () => {
     fetch('layout.php')
         .then(response => response.text())
@@ -8,12 +8,15 @@ document.addEventListener('DOMContentLoaded', () => {
         .catch(error => console.error('Error loading layout:', error));
 });
 
-function toggleIframe(iframeId) {
-    const iframeContainer = document.querySelector(iframeId);
-    if (iframeContainer.style.display === 'none' || iframeContainer.style.display === '') {
-        iframeContainer.style.display = 'block'; // Show the iframe
+
+
+
+function toggleIframe() {
+    const iframeContainer = document.getElementById('iframeContainer');
+    if (iframeContainer.style.display === 'flex') {
+        iframeContainer.style.display = 'none';
     } else {
-        iframeContainer.style.display = 'none'; // Hide the iframe
+        iframeContainer.style.display = 'flex';
     }
 }
 

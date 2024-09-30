@@ -8,6 +8,8 @@ if (!isset($_SESSION["user"])) {
 $latest_data = isset($_SESSION['latest_data']) ? $_SESSION['latest_data'] : [];
 $alerts = isset($_SESSION['alerts']) ? $_SESSION['alerts'] : [];
 unset($_SESSION['alerts']); // Clear alerts after displaying
+
+
 ?>
 
 <!DOCTYPE html>
@@ -131,7 +133,7 @@ unset($_SESSION['alerts']); // Clear alerts after displaying
             </tr>
             <tr>
                 <td>Fizz</td>
-                <td><input type="number" name="can[quantity_mcfizz]" min="0" max="200" step="1"></td>
+                <td><input type="number" name="can[quantity_fizz]" min="0" max="200" step="1"></td>
                 <td>5924</td>
             </tr>
             <tr>
@@ -141,7 +143,7 @@ unset($_SESSION['alerts']); // Clear alerts after displaying
             </tr>
             <tr>
                 <td>Cola</td>
-                <td><input type="number" name="can[quantity_mccola]" min="0" max="200" step="1"></td>
+                <td><input type="number" name="can[quantity_cola]" min="0" max="200" step="1"></td>
                 <td>5482</td>
             </tr>
             <tr>
@@ -609,8 +611,6 @@ unset($_SESSION['alerts']); // Clear alerts after displaying
             </table>
         </div>
         
-    
-    
     <div class="box">
             <h1>DRINKS</h1>
             <table>
@@ -656,10 +656,6 @@ unset($_SESSION['alerts']); // Clear alerts after displaying
             </table>
         </div>
         </div>
-
-        
-
-
 <footer>
     <button type="submit" name="action" value="add">Received</button>
     <button type="submit" name="action" value="remove">Get</button>

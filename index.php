@@ -18,8 +18,8 @@ $crew_name = $_SESSION["crew_name"];
     <title>Home</title>
 </head>
 <body>
+
     <div class="container">
-        <h2>Welcome <?php echo htmlspecialchars($crew_name); ?></h2>
         <h1>Inventory System</h1>
     </div>
 </body>

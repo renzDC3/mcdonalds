@@ -20,7 +20,7 @@ if ($conn->connect_error) {
 // Fetch the latest data for all product categories
 $latest_data = [];
 foreach (['clamshell', 'can', 'powder', 'cups','sauces','paperbag','lids','utensil','boxes','granules','tissues','drinks'] as $table) {
-    $result = $conn->query("SELECT product_name, SUM(quantity) as total_quantity, code FROM $table GROUP BY product_name, code");
+    $result = $conn->query("SELECT product_name, SUM(quantity) as total_quantity, code, location FROM $table GROUP BY product_name, code, location");
 
     while ($row = $result->fetch_assoc()) {
         $latest_data[$table][] = $row;
@@ -40,20 +40,18 @@ $conn->close();
     <link rel="stylesheet" href="inventory.css">
     <script src="loadLayout.js" defer></script>
     
-    <title>Inventory</title>
+    <title>Products Update</title>
 </head>
 <body>
-
-
     <table class="table table-striped" id="productsLeft">
-    <caption>Products Left</caption>
+        <caption>Products Update</caption>
         <thead>
             <tr>
                 <th class="td1">Category</th>
                 <th class="td1">Product Name</th>
                 <th class="td1">Available</th>
                 <th class="td1">Code</th>
-               
+                <th class="td1">Location</th>
             </tr>
         </thead>
         <tbody>
@@ -65,83 +63,70 @@ $conn->close();
                             <td><?php echo htmlspecialchars($data['product_name']); ?></td>
                             <td><?php echo htmlspecialchars($data['total_quantity']); ?></td>
                             <td><?php echo htmlspecialchars($data['code']); ?></td>
-                           
+                            <td><?php echo htmlspecialchars($data['location']); ?></td>
+                            
                         </tr>
                     <?php endforeach; ?>
                 <?php endif; ?>
             <?php endforeach; ?>
         </tbody>
     </table>
+
+
     
 
 
 
-    <table class="table table-striped" id="box-get2">
-    <tr>  <caption>Products Received</caption>
-        <td class="td1">Category</td>
-        <td class="td1">Product Name</td>
-        <td class="td1">Received</td>
-        
-    </tr>
-    <?php 
-    $categories = ['clamshell', 'can', 'powder', 'cups', 'sauces', 'paperbag', 'lids', 'utensil', 'boxes', 'granules', 'tissues', 'drinks'];
 
-    foreach ($categories as $category) {
-        // Combine both added and removed quantities into a single array of product names
-        $product_names = array_unique(
-            array_merge(
-                array_keys($_SESSION['added_quantities'][$category] ?? []),
-            
-            )
-        );
 
-        foreach ($product_names as $product_name) {
-            $added = $_SESSION['added_quantities'][$category][$product_name] ?? 0;
-            
+    <table class="table table-striped" id="box-get">
+    <caption>Products Get</caption>
+    <thead>
+        <tr>
+            <td class="td1">Category</td>
+            <td class="td1">Product Name</td>
+            <td class="td1">code</td>
+            <td class="td1">Get</td>
+            <td class="td1">Products Available</td>
+           
+        </tr>
+    </thead>
+    <tbody>
+        <?php 
+        $categories = ['clamshell', 'can', 'powder', 'cups', 'sauces', 'paperbag', 'lids', 'utensil', 'boxes', 'granules', 'tissues', 'drinks'];
 
-            echo '<tr>';
-            echo '<td>' . ucfirst($category) . '</td>';
-            echo '<td>' . htmlspecialchars($product_name) . '</td>';
-            echo '<td>' . htmlspecialchars($added) . '</td>';
-            echo '</tr>';
+        foreach ($categories as $category) {
+            if (!empty($_SESSION['removed_quantities'][$category])) {
+                foreach ($_SESSION['removed_quantities'][$category] as $product_name => $removed) {
+                    
+                    $total_quantity = 0;
+
+                   
+                    if (isset($latest_data[$category])) {
+                        foreach ($latest_data[$category] as $data) {
+                            if ($data['product_name'] === $product_name) {
+                                $total_quantity = $data['total_quantity'];
+                                break; 
+                            }
+                        }
+                    }
+
+                    echo '<tr>';
+                    echo '<td>' . ucfirst($category) . '</td>';
+                    echo '<td>' . htmlspecialchars($product_name) . '</td>';
+                    echo '<td>' . htmlspecialchars($data['code']);
+                    echo '<td>' . htmlspecialchars($removed) . '</td>';
+                    echo '<td>' . htmlspecialchars($total_quantity) . '</td>'; 
+                    
+                    echo '</tr>';
+                }
+            }
         }
-    }
-    ?>
-    </table>
+        ?>
+    </tbody>
+</table>
 
 
-     <table class="table table-striped" id="box-get">
-    <tr>  <caption>Products Get</caption>
-        <td class="td1">Category</td>
-        <td class="td1">Product Name</td>
-        <td class="td1">Get</td>
-        
-    </tr>
-    <?php 
-    $categories = ['clamshell', 'can', 'powder', 'cups', 'sauces', 'paperbag', 'lids', 'utensil', 'boxes', 'granules', 'tissues', 'drinks'];
-
-    foreach ($categories as $category) {
-        // Combine both added and removed quantities into a single array of product names
-        $product_names = array_unique(
-            array_merge(
-        
-                array_keys($_SESSION['removed_quantities'][$category] ?? [])
-            )
-        );
-
-        foreach ($product_names as $product_name) {
-        
-            $removed = $_SESSION['removed_quantities'][$category][$product_name] ?? 0;
-
-            echo '<tr>';
-            echo '<td>' . ucfirst($category) . '</td>';
-            echo '<td>' . htmlspecialchars($product_name) . '</td>';
-            echo '<td>' . htmlspecialchars($removed) . '</td>';
-            echo '</tr>';
-        }
-    }
-    ?>
-    </table>
     
 
 

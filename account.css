@@ -1,21 +1,34 @@
-    
-    
-    
-  
-
-    
-    
+body{
+    background-color: rgb(140, 140, 140);
+}
 
 
 
+.logoutbox{
+position: absolute;
+margin-top:100px;   
+margin-left: 60px;
+
+
+
+}
 
 
 .logoutButton{
-    float:right;
+   
     color: aliceblue;
     background-color: black;
     border: black 2px solid;
     width: 70px;
+}
 
+#infoAccount h2{
+    padding: 7px;
+    text-align: center;
+    color: rgb(245, 245, 245);
+    font-size: 20px;
+    height: 20px;
+    height:40px;
+    background-color: rgb(26, 26, 26);
 
 }

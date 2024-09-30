@@ -69,7 +69,7 @@ button{
 }
 #productsLeft {
     margin-left: 50px;
-    margin-top: 140px;
+    margin-top: 100px;
     position:absolute;
     width: 700px;
     background-color: #f2f2f2;
@@ -90,13 +90,14 @@ button{
 
 #box-get{
 
-    margin-left: 1080px;
+    margin-left: 800px;
     background-color: #d0d0d0;
     margin-top: 150px;
     position:absolute;
-    width: 200px;}
+    width: 500px;}
 
 #box-get .td1{
+    width: 0% auto;
     background-color:rgb(69, 69, 69) !important;
     color: #ffffff;
     font-weight: bold;
@@ -128,8 +129,10 @@ button{
     color: black;
     caption-side:top;
     font-size: 20px;
-
- 
 }
+ 
+h2{
+    color: beige;
 
+}
 

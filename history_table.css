@@ -1,0 +1,48 @@
+.history{
+    margin-left: 50px;
+    margin-top: 90px;
+    padding:1px;
+    
+}
+
+li{
+    padding-bottom:20px;
+    list-style-type: none;
+}
+
+.table-d{
+    position: absolute;
+    top: 180px;
+    margin-left: 300px;
+  
+    border: 3px solid #910000;
+    width:800px ;
+   
+    
+}
+.table-d .td1{
+    color: black;
+    background-color: rgb(205, 114, 114);
+}
+.table-d td{
+   
+    background-color: white;
+    border: 1px black solid;
+}
+
+.abox{
+    padding: 10px;
+    background-color: aliceblue;
+    color: black;
+    text-decoration: none;
+    padding-bottom:10pxpx;
+    border:2px black solid;
+    width: 100;
+    cursor: pointer;
+}
+
+
+
+h1{text-align:center;}
+
+

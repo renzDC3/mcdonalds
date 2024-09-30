@@ -77,11 +77,7 @@ form.on('submit', function(e) {
 
 
 
-html {
-    font: 300 100%/1.5 Ubuntu, sans-serif;
-    color: #333;
-    overflow-x: hidden;
-}
+
 h1{text-align:center;
   margin:auto;
   font-size:large;
@@ -109,7 +105,7 @@ label > span, input, textarea, button {
 }
 
 label {
-    display: block;
+    display:inline;
 }
 
 label > span {
@@ -146,12 +142,6 @@ input[type="submit"]:hover, button:hover {
     background: #91b36f;
 }
 
-@media screen and (min-width: 30em) {
-    #contact-form h2 {
-        margin-left: 26.3736%;
-        font-size: 2em;
-        line-height: 1.5;
-    }
 
     label > span {
         vertical-align: top;
@@ -163,7 +153,7 @@ input[type="submit"]:hover, button:hover {
     }
 
     input, textarea, button {
-        width: 73.6263%;
+        width: 53.6263%;
         line-height: 1.5;
     }
 
@@ -174,19 +164,11 @@ input[type="submit"]:hover, button:hover {
     input[type="submit"], button {
         margin-left: 26.3736%;
     }
-}
 
-@media screen and (min-width: 48em) {
-    #contact-form {
-        text-align: justify;
-        line-height: 0;
-    }
 
-    #contact-form:after {
-        content: '';
-        display: inline-block;
-        width: 100%;
-    }
+
+
+ 
 
     #contact-form h2 {
         margin-left: 17.2661%;
@@ -195,15 +177,12 @@ input[type="submit"]:hover, button:hover {
     #contact-form form, #contact-form aside {
         vertical-align: top;
         display: inline-block;
-        width: 65.4676%;
+        
         text-align: left;
         line-height: 1.5;
     }
 
-    #contact-form aside {
-        width: 30.9353%;
-    }
-}
+
 
 </style>
 
@@ -217,7 +196,7 @@ input[type="submit"]:hover, button:hover {
             <input name="submit" type="submit" value="Send"/>
         </form>
         <aside>
-            <p>give us a feedback.</p>
+          
             <p></p>
         </aside>
     </section>
