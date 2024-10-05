@@ -15,7 +15,8 @@ if ($conn->connect_error) {
     die("Connection failed: " . $conn->connect_error);
 }
 
-$sql = "SELECT * FROM received_history ORDER BY date_time DESC";
+// Updated query to filter only added actions
+$sql = "SELECT * FROM received_history WHERE action = 'added' ORDER BY date_time DESC";
 $result = $conn->query($sql);
 ?>
 
@@ -30,49 +31,45 @@ $result = $conn->query($sql);
     <script src="loadLayout.js" defer></script>
     <title>Received History</title>
 </head>
-<body>
-    <table class="table-d">
-        <tr>
-            <td class="td1">Product Name</td>
-            <td class="td1">Code</td>
-            <td class="td1">Boxes</td>
-            <td class="td1">Date&Time</td>
-            <td class="td1">Category</td>
-        </tr>
-        <?php 
-        if ($result->num_rows > 0) {
-            while($row = $result->fetch_assoc()) {
-                echo '<tr>';
-                echo '<td>' . htmlspecialchars($row['product_name']) . '</td>';
-                echo '<td>' . htmlspecialchars($row['code']) . '</td>';
-                echo '<td>' . htmlspecialchars($row['quantity']) . '</td>';
-                echo '<td>' . htmlspecialchars($row['date_time']) . '</td>';
-                echo '<td>' . htmlspecialchars($row['category']) . '</td>';
-                echo '</tr>';
+<body><h1 class="my-4">Received History</h1>
+    <div>
+        
+        <table class="table-d">
+            <thead>
+                <tr>
+                    <th class="td1">Product Name</th>
+                    <th class="td1">Code</th>
+                    <th class="td1">Boxes</th>
+                    <th class="td1">Date & Time</th>
+                </tr>
+            </thead>
+            <tbody>
+            <?php 
+            if ($result->num_rows > 0) {
+                while($row = $result->fetch_assoc()) {
+                    echo '<tr>';
+                    echo '<td>' . htmlspecialchars($row['product_name']) . '</td>';
+                    echo '<td>' . htmlspecialchars($row['code']) . '</td>';
+                    echo '<td>' . htmlspecialchars($row['quantity']) . '</td>';
+                    echo '<td>' . htmlspecialchars($row['date_time']) . '</td>';
+                    echo '</tr>';
+                }
+            } else {
+                echo '<tr><td colspan="4">No records found</td></tr>';
             }
-        } else {
-            echo '<tr><td colspan="5">No records found</td></tr>';
-        }
-        ?>
-    </table>
-
-
-    <div class ="history">
-            <li><a href="history.php"class="abox">Order Received</a></li>
-    </div>
-    <div class ="history">
-            <li><a href="user_log.php"class="abox">User Log</a></li>
+            ?>
+            </tbody>
+        </table>
     </div>
 
-    <div class ="history">
-            <li><a href="crew_got.php"class="abox">Crew Got</a></li>
+    <div class="history">
+        <li><a href="history.php" class="abox">Order Received</a></li>
     </div>
-
-
-
+    <div class="history">
+        <li><a href="user_log.php" class="abox">User Log</a></li>
+    </div>
+    <div class="history">
+        <li><a href="crew_got.php" class="abox">Crew Got</a></li>
+    </div>
 </body>
 </html>
-
-
-
-

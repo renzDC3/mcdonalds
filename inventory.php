@@ -532,12 +532,12 @@ unset($_SESSION['alerts']); // Clear alerts after displaying
                     <th>Code</th>
                 </tr>
                 <tr>
-                    <td>ice coffee</td>
+                    <td>coffee granules</td>
                     <td><input type="number" name="granules[quantity_iceCoffe]" min="0" max="200" step="1"></td>
                     <td>3993</td>
                 </tr>
                 <tr>
-                    <td>brewed coffee</td>
+                    <td>brewed coffee granules</td>
                     <td><input type="number" name="granules[quantity_brewedCoffe]" min="0" max="200" step="1"></td>
                     <td>3999</td>
                 </tr>

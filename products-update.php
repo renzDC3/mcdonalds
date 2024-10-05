@@ -20,7 +20,7 @@ if ($conn->connect_error) {
 // Fetch the latest data for all product categories
 $latest_data = [];
 foreach (['clamshell', 'can', 'powder', 'cups','sauces','paperbag','lids','utensil','boxes','granules','tissues','drinks'] as $table) {
-    $result = $conn->query("SELECT product_name, SUM(quantity) as total_quantity, code, location FROM $table GROUP BY product_name, code, location");
+    $result = $conn->query("SELECT product_name, SUM(quantity) as total_quantity, code FROM $table GROUP BY product_name, code");
 
     while ($row = $result->fetch_assoc()) {
         $latest_data[$table][] = $row;
@@ -51,7 +51,6 @@ $conn->close();
                 <th class="td1">Product Name</th>
                 <th class="td1">Available</th>
                 <th class="td1">Code</th>
-                <th class="td1">Location</th>
             </tr>
         </thead>
         <tbody>
@@ -63,8 +62,6 @@ $conn->close();
                             <td><?php echo htmlspecialchars($data['product_name']); ?></td>
                             <td><?php echo htmlspecialchars($data['total_quantity']); ?></td>
                             <td><?php echo htmlspecialchars($data['code']); ?></td>
-                            <td><?php echo htmlspecialchars($data['location']); ?></td>
-                            
                         </tr>
                     <?php endforeach; ?>
                 <?php endif; ?>
@@ -72,65 +69,47 @@ $conn->close();
         </tbody>
     </table>
 
-
-    
-
-
-
-
-
     <table class="table table-striped" id="box-get">
-    <caption>Products Get</caption>
-    <thead>
-        <tr>
-            <td class="td1">Category</td>
-            <td class="td1">Product Name</td>
-            <td class="td1">code</td>
-            <td class="td1">Get</td>
-            <td class="td1">Products Available</td>
-           
-        </tr>
-    </thead>
-    <tbody>
-        <?php 
-        $categories = ['clamshell', 'can', 'powder', 'cups', 'sauces', 'paperbag', 'lids', 'utensil', 'boxes', 'granules', 'tissues', 'drinks'];
+        <caption>Products Get</caption>
+        <thead>
+            <tr>
+                <td class="td1">Category</td>
+                <td class="td1">Product Name</td>
+                <td class="td1">Code</td>
+                <td class="td1">Get</td>
+                <td class="td1">Products Available</td>
+            </tr>
+        </thead>
+        <tbody>
+            <?php 
+            $categories = ['clamshell', 'can', 'powder', 'cups', 'sauces', 'paperbag', 'lids', 'utensil', 'boxes', 'granules', 'tissues', 'drinks'];
 
-        foreach ($categories as $category) {
-            if (!empty($_SESSION['removed_quantities'][$category])) {
-                foreach ($_SESSION['removed_quantities'][$category] as $product_name => $removed) {
-                    
-                    $total_quantity = 0;
+            foreach ($categories as $category) {
+                if (!empty($_SESSION['removed_quantities'][$category])) {
+                    foreach ($_SESSION['removed_quantities'][$category] as $product_name => $removed) {
+                        $total_quantity = 0;
 
-                   
-                    if (isset($latest_data[$category])) {
-                        foreach ($latest_data[$category] as $data) {
-                            if ($data['product_name'] === $product_name) {
-                                $total_quantity = $data['total_quantity'];
-                                break; 
+                        if (isset($latest_data[$category])) {
+                            foreach ($latest_data[$category] as $data) {
+                                if ($data['product_name'] === $product_name) {
+                                    $total_quantity = $data['total_quantity'];
+                                    break; 
+                                }
                             }
                         }
-                    }
 
-                    echo '<tr>';
-                    echo '<td>' . ucfirst($category) . '</td>';
-                    echo '<td>' . htmlspecialchars($product_name) . '</td>';
-                    echo '<td>' . htmlspecialchars($data['code']);
-                    echo '<td>' . htmlspecialchars($removed) . '</td>';
-                    echo '<td>' . htmlspecialchars($total_quantity) . '</td>'; 
-                    
-                    echo '</tr>';
+                        echo '<tr>';
+                        echo '<td>' . ucfirst($category) . '</td>';
+                        echo '<td>' . htmlspecialchars($product_name) . '</td>';
+                        echo '<td>' . (isset($data['code']) ? htmlspecialchars($data['code']) : 'N/A') . '</td>';
+                        echo '<td>' . htmlspecialchars($removed) . '</td>';
+                        echo '<td>' . htmlspecialchars($total_quantity) . '</td>'; 
+                        echo '</tr>';
+                    }
                 }
             }
-        }
-        ?>
-    </tbody>
-</table>
-
-
-    
-
-
-    
-</table>
+            ?>
+        </tbody>
+    </table>
 </body>
 </html>

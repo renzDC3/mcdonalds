@@ -25,6 +25,7 @@ if (!isset($_SESSION['removed_quantities'])) {
     $_SESSION['removed_quantities'] = [];
 }
 
+
 // Define products for both tables with locations
 $products = [
     "clamshell" => [
@@ -76,30 +77,30 @@ $products = [
         ["name" => "fork", "code" => 3532, "quantity" => isset($_POST["utensil"]["quantity_fork"]) ? $_POST["utensil"]["quantity_fork"] : 0, "location" => "Row 4,Slot8"],
     ],
     "boxes" => [
-        ["name" => "small", "code" => 7473, "quantity" => isset($_POST["boxes"]["quantity_small"]) ? $_POST["boxes"]["quantity_small"] : 0, "location" => "Row 1,Slot9"],
-        ["name" => "large", "code" => 7534, "quantity" => isset($_POST["boxes"]["quantity_large"]) ? $_POST["boxes"]["quantity_large"] : 0, "location" => "Row 2,Slot9"],
-        ["name" => "extra large", "code" => 7543, "quantity" => isset($_POST["boxes"]["quantity_extra_large"]) ? $_POST["boxes"]["quantity_extra_large"] : 0, "location" => "Row 3,Slot9"],
-        ["name" => "family pack", "code" => 7549, "quantity" => isset($_POST["boxes"]["quantity_family_pack"]) ? $_POST["boxes"]["quantity_family_pack"] : 0, "location" => "Row 4,Slot9"],
+        ["name" => "Happy meal Box", "code" => 6434, "quantity" => isset($_POST["boxes"]["quantity_happymeal"]) ? $_POST["boxes"]["quantity_happymeal"] : 0, "location" => "Row 1,Slot9"],
+        ["name" => "Mcshare box", "code" => 6534, "quantity" => isset($_POST["boxes"]["quantity_mcsharebox"]) ? $_POST["boxes"]["quantity_mcsharebox"] : 0, "location" => "Row 2,Slot9"],
     ],
     "granules" => [
-        ["name" => "sugar", "code" => 7589, "quantity" => isset($_POST["granules"]["quantity_sugar"]) ? $_POST["granules"]["quantity_sugar"] : 0, "location" => "Row 3,Slot9"],
-        ["name" => "salt", "code" => 7590, "quantity" => isset($_POST["granules"]["quantity_salt"]) ? $_POST["granules"]["quantity_salt"] : 0, "location" => "Row 4,Slot9"],
+        ["name" => "coffee granules	", "code" => 3993, "quantity" => isset($_POST["granules"]["quantity_iceCoffe"]) ? $_POST["granules"]["quantity_iceCoffe"] : 0, "location" => "Row 3,Slot9"],
+        ["name" => "brewed coffee granules", "code" => 3999, "quantity" => isset($_POST["granules"]["quantity_brewedCoffe"]) ? $_POST["granules"]["quantity_brewedCoffe"] : 0, "location" => "Row 4,Slot9"],
     ],
     "tissues" => [
-        ["name" => "tissue", "code" => 9153, "quantity" => isset($_POST["tissues"]["quantity_tissue"]) ? $_POST["tissues"]["quantity_tissue"] : 0, "location" => "Row 1,Slot10"],
-        ["name" => "napkin", "code" => 9154, "quantity" => isset($_POST["tissues"]["quantity_napkin"]) ? $_POST["tissues"]["quantity_napkin"] : 0, "location" => "Row 2,Slot10"],
+        ["name" => "kitchen tissue", "code" => 7321, "quantity" => isset($_POST["tissues"]["quantity_kitchenTissues"]) ? $_POST["tissues"]["quantity_kitchenTissues"] : 0, "location" => "Row 1,Slot10"],
+        ["name" => "restroom tissue", "code" => 7753, "quantity" => isset($_POST["tissues"]["quantity_restroomTissues"]) ? $_POST["tissues"]["quantity_restroomTissues"] : 0, "location" => "Row 2,Slot10"],
+        ["name" => "serving tissue", "code" => 7231, "quantity" => isset($_POST["tissues"]["quantity_servingTissues"]) ? $_POST["tissues"]["quantity_servingTissues"] : 0, "location" => "Row 2,Slot10"],
+
     ],
     "drinks" => [
-        ["name" => "soda", "code" => 9155, "quantity" => isset($_POST["drinks"]["quantity_soda"]) ? $_POST["drinks"]["quantity_soda"] : 0, "location" => "Row 3,Slot10"],
-        ["name" => "juice", "code" => 9156, "quantity" => isset($_POST["drinks"]["quantity_juice"]) ? $_POST["drinks"]["quantity_juice"] : 0, "location" => "Row 4,Slot10"],
-        ["name" => "water", "code" => 9157, "quantity" => isset($_POST["drinks"]["quantity_water"]) ? $_POST["drinks"]["quantity_water"] : 0, "location" => "Row 5,Slot10"],
+        ["name" => "ice coffee", "code" => 6260, "quantity" => isset($_POST["drinks"]["quantity_iceCoffe"]) ? $_POST["drinks"]["quantity_iceCoffe"] : 0, "location" => "Row 3,Slot10"],
+        ["name" => "Sprite", "code" => 6259, "quantity" => isset($_POST["drinks"]["quantity_sprite"]) ? $_POST["drinks"]["quantity_sprite"] : 0, "location" => "Row 4,Slot10"],
+        ["name" => "CocaCola", "code" => 6257, "quantity" => isset($_POST["drinks"]["quantity_CocaCola"]) ? $_POST["drinks"]["quantity_CocaCola"] : 0, "location" => "Row 5,Slot10"],
     ],
 ];
 
-// Continue with saving the inventory as before...
 
 
-// Process each product and perform the required actions
+
+
 foreach ($products as $table_name => $items) {
     foreach ($items as $item) {
         $product_name = $item['name'];
@@ -107,71 +108,49 @@ foreach ($products as $table_name => $items) {
         $quantity = isset($item['quantity']) ? intval($item['quantity']) : 0; // Ensure quantity is an integer
 
         if ($quantity > 0) {
-            // Handle the action for added quantities
+            date_default_timezone_set('Asia/Manila');
+            $date_time = date('Y-m-d H:i:s'); // Ensure date and time is correctly formatted
+
             if ($action === "add") {
+                // Handle adding quantities
                 $stmt = $conn->prepare("INSERT INTO $table_name (product_name, quantity, code) VALUES (?, ?, ?) ON DUPLICATE KEY UPDATE quantity = quantity + VALUES(quantity)");
                 $stmt->bind_param("sii", $product_name, $quantity, $code);
                 $stmt->execute();
                 $stmt->close();
-
+                
                 // Track added quantities
                 $_SESSION['added_quantities'][$table_name][$product_name] = ($_SESSION['added_quantities'][$table_name][$product_name] ?? 0) + $quantity;
-                
-                // Insert into received_history
-                date_default_timezone_set('Asia/Manila');
-                $date_time = date('Y-m-d H:i:sa');
-                $category = $table_name;
 
-                $stmt = $conn->prepare("INSERT INTO received_history (product_name, code, quantity, date_time, category) VALUES (?, ?, ?, ?, ?)");
-                $stmt->bind_param("siiss", $product_name, $code, $quantity, $date_time, $category);
+                // Insert into received_history
+                $stmt = $conn->prepare("INSERT INTO received_history (product_name, code, quantity, date_time, action) VALUES (?, ?, ?, ?, 'added')");
+                $stmt->bind_param("ssds", $product_name, $code, $quantity, $date_time); // Ensure quantity is float if needed
                 $stmt->execute();
                 $stmt->close();
-            } 
-            // Handle the action for removed quantities
-            elseif ($action === "remove") {
-                // Check current quantity before removing
-                $stmt = $conn->prepare("SELECT quantity FROM $table_name WHERE product_name = ? AND code = ?");
-                $stmt->bind_param("si", $product_name, $code);
+            } elseif ($action === "remove") {
+                // Handle removing quantities
+                $stmt = $conn->prepare("UPDATE $table_name SET quantity = GREATEST(quantity - ?, 0) WHERE product_name = ? AND code = ?");
+                $stmt->bind_param("isi", $quantity, $product_name, $code);
                 $stmt->execute();
-                $result = $stmt->get_result();
+                $stmt->close();
 
-                if ($result->num_rows > 0) {
-                    $row = $result->fetch_assoc();
-                    $current_quantity = intval($row['quantity']); // Ensure current_quantity is an integer
+                // Track removed quantities
+                $_SESSION['removed_quantities'][$table_name][$product_name] = ($_SESSION['removed_quantities'][$table_name][$product_name] ?? 0) + $quantity;
 
-                    // Prevent negative quantity
-                    if ($current_quantity - $quantity < 0) {
-                        $alerts[] = "Inefficient quantity of $product_name. Available: $current_quantity.";
-                    } else {
-                        // Update session tracking for removed quantities only if the quantity is sufficient
-                        $_SESSION['removed_quantities'][$table_name][$product_name] = ($_SESSION['removed_quantities'][$table_name][$product_name] ?? 0) + $quantity;
-
-                        // Update the inventory
-                        $stmt = $conn->prepare("UPDATE $table_name SET quantity = quantity - ? WHERE product_name = ? AND code = ?");
-                        $stmt->bind_param("isi", $quantity, $product_name, $code);
-                        $stmt->execute(); // Execute the update statement
-                        $stmt->close();
-
-                        // Log the product removal in product_history
-                        date_default_timezone_set('Asia/Manila');
-                        $date_time = date('Y-m-d H:i:sa'); // Get current date and time
-                        $category = $table_name; // Set category to the current table name
-
-                        // Insert the product getting record into product_history
-                        $stmt = $conn->prepare("INSERT INTO product_history (product_name, quantity, date_time, category) VALUES (?, ?, ?, ?)");
-                        $stmt->bind_param("siss", $product_name, $quantity, $date_time, $category);
-                        $stmt->execute();
-                        $stmt->close();
-                    }
-                } else {
-                    $alerts[] = "Product not found in $table_name.";
-                }
+                // Insert into received_history for removal
+                $stmt = $conn->prepare("INSERT INTO received_history (product_name, code, quantity, date_time, action) VALUES (?, ?, ?, ?, 'removed')");
+                $stmt->bind_param("ssds", $product_name, $code, $quantity, $date_time); // Ensure quantity is float if needed
+                $stmt->execute();
+                $stmt->close();
             }
         }
     }
 }
 
-// Redirect back to inventory page after processing
-header("Location:/mcdonalds/inventory.php");
+
+
+// Close the database connection
+$conn->close();
+
+// Redirect or show success message
+header("Location: inventory.php");
 exit();
-?>
