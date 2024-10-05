@@ -61,7 +61,7 @@ if (!isset($_SESSION["user"])) {
         <li><a class="btn-warning" href="products-update.php">Products update</a></li>
         <li><a class="btn-warning" href="ordered-details.php">Ordered Details</a></li>
         <li><a class="btn-warning" href="history.php">History</a></li>
-       
+        <li><a class="btn-warning" href="feedback.php">Feedback</a></li>
         
         <li class="log_out"><a id="account" onclick="toggleIframe()">Account</button></a></li>
      
@@ -77,16 +77,16 @@ if (!isset($_SESSION["user"])) {
     
    
      
-  <footer class="border-top footer text-muted ">
+  <!-- <footer class="border-top footer text-muted ">
        <div class="bottom fontc-black">
         
 
-            <!--<p>&copy; MCFOOD / Quezon City / 09912328099 /<br>
-            &copy; MCDONALDS RIZAL/ MALABON CITY /6065-84664</p>-->
-            <li><a class="btn-warning" href="feedback.php">Feedback</a></li>
+            <p>&copy; MCFOOD / Quezon City / 09912328099 /<br>
+            &copy; MCDONALDS RIZAL/ MALABON CITY /6065-84664</p>
+
             
        
     </footer>
-     </div>
+     </div>-->
 </body>
 </html>
