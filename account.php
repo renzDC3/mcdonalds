@@ -21,7 +21,7 @@ $user = $_SESSION["user"];
 <body>
     <div id="infoAccount">
 <h2><?php echo htmlspecialchars($crew_name); ?></h2>
-<h2><?php echo htmlspecialchars($user); ?></h2>
+
 </div>
 <div class="logoutbox">
     <a href="login.php" class="logoutButton btn btn-warning" onclick="parent.location.href='logout.php'; return false;">Logout</a>

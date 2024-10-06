@@ -34,7 +34,7 @@ unset($_SESSION['alerts']); // Clear alerts after displaying
         </div>
     <?php endif; ?>
 
-    <table class="table table-striped" id="history">
+    <table class="table table-striped"id="history">
     <tr class="tr1">
         <td class="td1">Product Name</td>
         <td class="td1">Received</td>
@@ -66,10 +66,8 @@ unset($_SESSION['alerts']); // Clear alerts after displaying
     ?>
     </table>
 
-
 <form action="save_inventory.php" method="POST">
-
-          
+    <div><intput></input></div>
 <div class="container">
     <div class="box">
         <h1>CLAMSHELL</h1>
@@ -103,24 +101,7 @@ unset($_SESSION['alerts']); // Clear alerts after displaying
             </tr>
         </table>
         
-        <h2>Stock</h2>
-        <table>
-            <tr>
-                <th>Product Name</th>
-                <th>Total Quantity</th>
-                <th>Code</th>
-            </tr>
-          
-            <?php if (isset($latest_data['clamshell'])): ?>
-                <?php foreach ($latest_data['clamshell'] as $data) : ?>
-                <tr>
-                    <td><?php echo htmlspecialchars($data['product_name']); ?></td>
-                    <td><?php echo htmlspecialchars($data['total_quantity']); ?></td>
-                    <td><?php echo htmlspecialchars($data['code']); ?></td>
-                </tr>
-                <?php endforeach; ?>
-            <?php endif; ?> </table>
-       
+      
     </div>
 
     <div class="box">

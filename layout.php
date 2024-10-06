@@ -9,9 +9,9 @@ if (!isset($_SESSION["user"])) {
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <link rel="stylesheet" href="layout.css">
+    <link rel="stylesheet" href="layout1.css">
     <script src="loadLayout.js" defer></script>
-    <link rel="stylesheet" href="account.css">
+    <link rel="stylesheet" href="account1.css">
     <title>Inventory System</title>
 </head>
 <style>
@@ -35,6 +35,7 @@ if (!isset($_SESSION["user"])) {
     
 }
 #iframeContainer{
+    
     position:absolute;
     margin-left:1340px;
     justify-content: flex-end;
@@ -56,23 +57,40 @@ if (!isset($_SESSION["user"])) {
     <label class="logo">Inventory System</label>
     <img src="topicon.png" alt="McDo Icon" class="top-icon">
     <ul>
-        <li><a class="btn-warning" href="index.php">Home</a></li>
-        <li><a class="btn-warning" href="inventory.php">Inventory</a></li>
-        <li><a class="btn-warning" href="products-update.php">Products update</a></li>
-        <li><a class="btn-warning" href="ordered-details.php">Ordered Details</a></li>
-        <li><a class="btn-warning" href="history.php">History</a></li>
-        <li><a class="btn-warning" href="feedback.php">Feedback</a></li>
-        
-        <li class="log_out"><a id="account" onclick="toggleIframe()">Account</button></a></li>
-     
-    </ul> 
+    <li><a class="btn-warning" href="index.php">Home</a></li>
+    <li><a class="btn-warning" href="inventory.php">Inventory</a></li>
+    <li><a class="btn-warning" href="products-update.php">Products</a></li>
+    <li><a class="btn-warning" href="ordered-details.php">Reorder</a></li>
+    <li><a class="btn-warning" href="history.php">History</a></li>
+    <li><a class="btn-warning" href="feedback.php">Feedback</a></li>
+    <li class="log_out"><a id="account" onclick="toggleIframe()">Account</a></li>
+    </ul>
+
     
 </nav>
 <div id="iframeContainer">
     <iframe class="framesize" id="embeddedPage" src="/mcdonalds/account.php"></iframe>
 </div>
 
-    
+<script>
+    function toggleIframe() {
+        const iframeContainer = document.getElementById('iframeContainer');
+        iframeContainer.style.display = iframeContainer.style.display === 'none' ? 'block' : 'none';
+    }
+
+    function toggleActive(event) {
+        const buttons = document.querySelectorAll('.btn-warning');
+        buttons.forEach(button => {
+            button.classList.remove('active');
+        });
+        event.target.classList.add('active');
+    }
+
+    document.querySelectorAll('.btn-warning').forEach(button => {
+        button.addEventListener('click', toggleActive);
+    });
+</script>
+
     
     
    

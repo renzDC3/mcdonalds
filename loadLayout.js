@@ -20,6 +20,20 @@ function toggleIframe() {
     }
 }
 
+ // Add active class to the current button (highlight it)
+ var navList = document.getElementById("nav-list");
+ var btns = navList.getElementsByClassName("btn");
+
+ for (var i = 0; i < btns.length; i++) {
+     btns[i].addEventListener("click", function() {
+         var current = navList.getElementsByClassName("active");
+         if (current.length > 0) {
+             current[0].classList.remove("active");
+         }
+         this.classList.add("active");
+     });
+ }
+
 
 
 

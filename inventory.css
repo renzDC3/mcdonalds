@@ -81,7 +81,7 @@ button{
     font-weight: bold;
 }
 #productsLeft .td1{
-    background-color:rgb(112, 127, 0) !important;
+    background-color:rgb(68, 68, 68)!important;
     color: #f2f2f2;
     font-weight: bold;
 }
@@ -134,5 +134,8 @@ button{
 h2{
     color: beige;
 
+}
+.divframe{
+    height: 500px;
 }
 

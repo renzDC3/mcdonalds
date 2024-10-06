@@ -17,14 +17,12 @@ if ($conn->connect_error) {
 
 $action = $_POST['action'];
 
-// Initialize session variables for tracking quantities if not already set
 if (!isset($_SESSION['added_quantities'])) {
     $_SESSION['added_quantities'] = [];
 }
 if (!isset($_SESSION['removed_quantities'])) {
     $_SESSION['removed_quantities'] = [];
 }
-
 
 // Define products for both tables with locations
 $products = [
@@ -97,60 +95,79 @@ $products = [
     ],
 ];
 
+$conn->autocommit(FALSE); // Start transaction
 
+try {
+    foreach ($products as $table_name => $items) {
+        foreach ($items as $item) {
+            $product_name = $item['name'];
+            $code = $item['code'];
+            $quantity = isset($item['quantity']) ? intval($item['quantity']) : 0;
 
+            if ($quantity > 0) {
+                date_default_timezone_set('Asia/Manila');   
+                $date_time = date('Y-m-d H:i:s');
 
+                if ($action === "add") {
+                    // Remove zero quantity rows before adding
+                    $stmt = $conn->prepare("DELETE FROM $table_name WHERE code = ? AND quantity = 0");
+                    $stmt->bind_param("i", $code);
+                    $stmt->execute();
+                    $stmt->close();
 
-foreach ($products as $table_name => $items) {
-    foreach ($items as $item) {
-        $product_name = $item['name'];
-        $code = $item['code'];
-        $quantity = isset($item['quantity']) ? intval($item['quantity']) : 0; // Ensure quantity is an integer
+                    // Add new quantity
+                    $stmt = $conn->prepare("INSERT INTO $table_name (product_name, quantity, code) VALUES (?, ?, ?) ON DUPLICATE KEY UPDATE quantity = quantity + VALUES(quantity)");
+                    $stmt->bind_param("sii", $product_name, $quantity, $code);
+                    $stmt->execute();
+                    $stmt->close();
 
-        if ($quantity > 0) {
-            date_default_timezone_set('Asia/Manila');
-            $date_time = date('Y-m-d H:i:s'); // Ensure date and time is correctly formatted
+                    $_SESSION['added_quantities'][$table_name][$product_name] = ($_SESSION['added_quantities'][$table_name][$product_name] ?? 0) + $quantity;
 
-            if ($action === "add") {
-                // Handle adding quantities
-                $stmt = $conn->prepare("INSERT INTO $table_name (product_name, quantity, code) VALUES (?, ?, ?) ON DUPLICATE KEY UPDATE quantity = quantity + VALUES(quantity)");
-                $stmt->bind_param("sii", $product_name, $quantity, $code);
-                $stmt->execute();
-                $stmt->close();
-                
-                // Track added quantities
-                $_SESSION['added_quantities'][$table_name][$product_name] = ($_SESSION['added_quantities'][$table_name][$product_name] ?? 0) + $quantity;
+                    $stmt = $conn->prepare("INSERT INTO received_history (product_name, code, quantity, date_time, action) VALUES (?, ?, ?, ?, 'added')");
+                    $stmt->bind_param("ssds", $product_name, $code, $quantity, $date_time);
+                    $stmt->execute();
+                    $stmt->close();
+                } elseif ($action === "remove") {
+                    // Check current quantity
+                    $stmt = $conn->prepare("SELECT quantity FROM $table_name WHERE product_name = ? AND code = ?");
+                    $stmt->bind_param("si", $product_name, $code);
+                    $stmt->execute();
+                    $stmt->bind_result($current_quantity);
+                    $stmt->fetch();
+                    $stmt->close();
 
-                // Insert into received_history
-                $stmt = $conn->prepare("INSERT INTO received_history (product_name, code, quantity, date_time, action) VALUES (?, ?, ?, ?, 'added')");
-                $stmt->bind_param("ssds", $product_name, $code, $quantity, $date_time); // Ensure quantity is float if needed
-                $stmt->execute();
-                $stmt->close();
-            } elseif ($action === "remove") {
-                // Handle removing quantities
-                $stmt = $conn->prepare("UPDATE $table_name SET quantity = GREATEST(quantity - ?, 0) WHERE product_name = ? AND code = ?");
-                $stmt->bind_param("isi", $quantity, $product_name, $code);
-                $stmt->execute();
-                $stmt->close();
+                    if ($current_quantity !== null) { // Ensure product exists
+                        if ($current_quantity >= $quantity) {
+                            // Update the quantity
+                            $stmt = $conn->prepare("UPDATE $table_name SET quantity = quantity - ? WHERE product_name = ? AND code = ?");
+                            $stmt->bind_param("isi", $quantity, $product_name, $code);
+                            $stmt->execute();
+                            $stmt->close();
 
-                // Track removed quantities
-                $_SESSION['removed_quantities'][$table_name][$product_name] = ($_SESSION['removed_quantities'][$table_name][$product_name] ?? 0) + $quantity;
+                            $_SESSION['removed_quantities'][$table_name][$product_name] = ($_SESSION['removed_quantities'][$table_name][$product_name] ?? 0) + $quantity;
 
-                // Insert into received_history for removal
-                $stmt = $conn->prepare("INSERT INTO received_history (product_name, code, quantity, date_time, action) VALUES (?, ?, ?, ?, 'removed')");
-                $stmt->bind_param("ssds", $product_name, $code, $quantity, $date_time); // Ensure quantity is float if needed
-                $stmt->execute();
-                $stmt->close();
+                            $stmt = $conn->prepare("INSERT INTO received_history (product_name, code, quantity, date_time, action) VALUES (?, ?, ?, ?, 'removed')");
+                            $stmt->bind_param("ssds", $product_name, $code, $quantity, $date_time);
+                            $stmt->execute();
+                            $stmt->close();
+                        } else {
+                            throw new Exception("Not enough quantity to remove for product $product_name with code $code.");
+                        }
+                    } else {
+                        throw new Exception("Product $product_name with code $code does not exist.");
+                    }
+                }
             }
         }
     }
+    $conn->commit(); // Commit transaction
+} catch (Exception $e) {
+    $conn->rollback(); // Rollback transaction if something went wrong
+    echo "Error: " . $e->getMessage();
 }
 
-
-
-// Close the database connection
 $conn->close();
 
-// Redirect or show success message
 header("Location: inventory.php");
 exit();
+?>

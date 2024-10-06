@@ -40,11 +40,11 @@ $conn->close();
     <link rel="stylesheet" href="inventory.css">
     <script src="loadLayout.js" defer></script>
     
-    <title>Products Update</title>
+    <title>Products</title>
 </head>
 <body>
     <table class="table table-striped" id="productsLeft">
-        <caption>Products Update</caption>
+        <caption>Products</caption>
         <thead>
             <tr>
                 <th class="td1">Category</th>
