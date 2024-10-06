@@ -39,12 +39,18 @@ if (!isset($_SESSION["user"])) {
     position:absolute;
     margin-left:1340px;
     justify-content: flex-end;
-    display: none;
+    display: none;}
    
-    
-   
-   
+
+ #accounticon{
+height:40px;
+width: 50px;
+
+  
 }
+   
+   
+
 
 </style>
 <body>
@@ -63,7 +69,7 @@ if (!isset($_SESSION["user"])) {
     <li><a class="btn-warning" href="ordered-details.php">Reorder</a></li>
     <li><a class="btn-warning" href="history.php">History</a></li>
     <li><a class="btn-warning" href="feedback.php">Feedback</a></li>
-    <li class="log_out"><a id="account" onclick="toggleIframe()">Account</a></li>
+    <li class="log_out"><a id="account" onclick="toggleIframe()"> <img src="accountIcon.png" id="accounticon"></a></li>
     </ul>
 
     

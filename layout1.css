@@ -81,7 +81,7 @@ nav ul li a {
 
 a.active, a:hover {
     
-    background:black;
+    background:rgba(197, 219, 0, 0.741);
     transition: .5s;
 }
 
