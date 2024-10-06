@@ -67,7 +67,11 @@ unset($_SESSION['alerts']); // Clear alerts after displaying
     </table>
 
 <form action="save_inventory.php" method="POST">
-    <div><intput></input></div>
+<div class="mb-3">
+            <label for="barcode" class="form-label">Scan Barcode</label>
+            <input type="text" class="form-control" id="barcode" name="barcode" autofocus>
+        </div>
+    
 <div class="container">
     <div class="box">
         <h1>CLAMSHELL</h1>
