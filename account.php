@@ -19,6 +19,8 @@ $user = $_SESSION["user"];
     <title>Account</title>
 </head>
 <body>
+
+<p style="color:rgb(189, 189, 189); text-align:center;">Account</p>
     <div id="infoAccount">
 <h2><?php echo htmlspecialchars($crew_name); ?></h2>
 

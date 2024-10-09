@@ -1,5 +1,5 @@
 .container{
-
+   
     justify-content: center;
     display: flex;
     padding:10px;
@@ -8,10 +8,11 @@
 
 }
 .box{
+    margin-left:100px ;
     width: 280px;
     border: 1px black solid;
     height: 330px;
-    overflow: scroll;
+    
     padding: 20px;
     background-color: #f2f2f2;
 }
@@ -138,4 +139,32 @@ h2{
 .divframe{
     height: 500px;
 }
-
+.expirelink{
+   
+    margin-left: 1168px;
+    border: 1px solid rgb(0, 0, 0);
+    text-decoration: none;
+    color: white;
+    background-color: rgb(99, 99, 99);
+    width: 130px;
+}
+#scanRG{
+    
+    height: 40px;
+    width:700px;
+    display: flex;
+    justify-content: space-between;
+    margin: 0% auto;
+    font-size: 12px;
+    font-weight: bold;
+}
+#scanR{
+    display: flex;
+    justify-content: flex-start;
+ 
+}
+#scanG{
+    display: flex;
+    justify-content: flex-end;
+ 
+}

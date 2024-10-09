@@ -30,7 +30,7 @@ $result = $conn->query($sql);
     <script src="loadLayout.js" defer></script>
     <title>User Log</title>
 </head>
-<body><h1 class="my-4">User Log</h1>
+<body><h3 class="my-4">User Log</h3>
     <table class="table-d" id="user_log">
         
         <thead>

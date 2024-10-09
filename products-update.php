@@ -43,6 +43,7 @@ $conn->close();
     <title>Products</title>
 </head>
 <body>
+<a class="expirelink" href="product_expiring.php">product expiring</a>
     <table class="table table-striped" id="productsLeft">
         <caption>Products</caption>
         <thead>

@@ -31,3 +31,11 @@ h1 {
     padding: 10px;
     background-color: white;
 }
+caption {
+    font-size: 20px;
+    color: rgb(59, 59, 59);
+    caption-side: top;
+    text-align: left;
+    padding-bottom: 10px;
+    font-weight: bold;
+  }

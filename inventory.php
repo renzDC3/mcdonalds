@@ -4,12 +4,9 @@ if (!isset($_SESSION["user"])) {
    header("Location: index.php");
    exit();
 }
-
 $latest_data = isset($_SESSION['latest_data']) ? $_SESSION['latest_data'] : [];
 $alerts = isset($_SESSION['alerts']) ? $_SESSION['alerts'] : [];
 unset($_SESSION['alerts']); // Clear alerts after displaying
-
-
 ?>
 
 <!DOCTYPE html>
@@ -20,9 +17,45 @@ unset($_SESSION['alerts']); // Clear alerts after displaying
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
     <link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/bootstrap@5.2.2/dist/css/bootstrap.min.css">
     <link rel="stylesheet" href="inventory.css">
+    <script src="https://unpkg.com/html5-qrcode/minified/html5-qrcode.min.js"></script>
     <script src="loadLayout.js" defer></script>
-    
     <title>Inventory</title>
+    <script>
+        function onScanSuccess(decodedText, decodedResult) {
+            // Handle the scanned QR code
+            const action = document.querySelector('input[name="action"]:checked').value;
+            fetch('save_inventory.php', {
+                method: 'POST',
+                headers: {
+                    'Content-Type': 'application/json'
+                },
+                body: JSON.stringify({ code: decodedText, action: action })
+            })
+            .then(response => response.json())
+            .then(data => {
+                if (data.success) {
+                    // Update the table with the latest data
+                    const table = document.getElementById('history');
+                    const newRow = table.insertRow();
+                    newRow.insertCell(0).innerText = data.product_name;
+                    newRow.insertCell(1).innerText = data.added;
+                    newRow.insertCell(2).innerText = data.removed;
+                } else {
+                    alert(data.message);
+                }
+            })
+            .catch(error => console.error('Error:', error));
+        }
+
+        function startQRScanner() {
+            const html5QrCode = new Html5Qrcode("qr-reader");
+            html5QrCode.start({ facingMode: "environment" }, { fps: 10, qrbox: 250 }, onScanSuccess);
+        }
+
+        document.addEventListener('DOMContentLoaded', (event) => {
+            startQRScanner();
+        });
+    </script>
 </head>
 <body>
     <!-- Display alerts if any -->
@@ -67,11 +100,20 @@ unset($_SESSION['alerts']); // Clear alerts after displaying
     </table>
 
 <form action="save_inventory.php" method="POST">
-<div class="mb-3">
-            <label for="barcode" class="form-label">Scan Barcode</label>
-            <input type="text" class="form-control" id="barcode" name="barcode" autofocus>
+    <br>
+        <div id="scanRG">
+            <div id="scanR">
+                <label for="qrcode" class="form-label">Scan Received</label>
+                <input type="radio" id="received" name="action" value="add" checked>
+            </div>
+            <div id="scanG">
+                <label for="qrcode" class="form-label">Scan Get</label>
+                <input type="radio" id="get" name="action" value="remove">
+            </div>
         </div>
-    
+        <br>
+    </form>
+
 <div class="container">
     <div class="box">
         <h1>CLAMSHELL</h1>
@@ -138,23 +180,7 @@ unset($_SESSION['alerts']); // Clear alerts after displaying
             </tr>
         </table>
 
-        <h2>Stock</h2>
-        <table>
-            <tr>
-                <th>Product Name</th>
-                <th>Total Quantity</th>
-                <th>Code</th>
-            </tr>
-            <?php if (isset($latest_data['can'])): ?>
-                <?php foreach ($latest_data['can'] as $data) : ?>
-                <tr>
-                    <td><?php echo htmlspecialchars($data['product_name']); ?></td>
-                    <td><?php echo htmlspecialchars($data['total_quantity']); ?></td>
-                    <td><?php echo htmlspecialchars($data['code']); ?></td>
-                </tr>
-                <?php endforeach; ?>
-            <?php endif; ?>
-        </table>
+       
     </div></div>
 
     <div class="container">
@@ -189,23 +215,7 @@ unset($_SESSION['alerts']); // Clear alerts after displaying
             </tr>
         </table>
 
-        <h2>Stock</h2>
-        <table>
-            <tr>
-                <th>Product Name</th>
-                <th>Total Quantity</th>
-                <th>Code</th>
-            </tr>
-            <?php if (isset($latest_data['powder'])): ?>
-                <?php foreach ($latest_data['powder'] as $data) : ?>
-                <tr>
-                    <td><?php echo htmlspecialchars($data['product_name']); ?></td>
-                    <td><?php echo htmlspecialchars($data['total_quantity']); ?></td>
-                    <td><?php echo htmlspecialchars($data['code']); ?></td>
-                </tr>
-                <?php endforeach; ?>
-            <?php endif; ?>
-        </table>
+        
     </div>
 
 
@@ -239,23 +249,7 @@ unset($_SESSION['alerts']); // Clear alerts after displaying
             </tr>
         </table>
 
-        <h2>Stock</h2>
-        <table>
-            <tr>
-                <th>Product Name</th>
-                <th>Total Quantity</th>
-                <th>Code</th>
-            </tr>
-            <?php if (isset($latest_data['cups'])): ?>
-                <?php foreach ($latest_data['cups'] as $data) : ?>
-                <tr>
-                    <td><?php echo htmlspecialchars($data['product_name']); ?></td>
-                    <td><?php echo htmlspecialchars($data['total_quantity']); ?></td>
-                    <td><?php echo htmlspecialchars($data['code']); ?></td>
-                </tr>
-                <?php endforeach; ?>
-            <?php endif; ?>
-        </table>
+        
     </div>
     </div>
 
@@ -291,24 +285,6 @@ unset($_SESSION['alerts']); // Clear alerts after displaying
                 <td>8657</td>
             </tr>
         </table>
-
-        <h2>Stock</h2>
-        <table>
-            <tr>
-                <th>Product Name</th>
-                <th>Total Quantity</th>
-                <th>Code</th>
-            </tr>
-            <?php if (isset($latest_data['sauces'])): ?>
-                <?php foreach ($latest_data['sauces'] as $data) : ?>
-                <tr>
-                    <td><?php echo htmlspecialchars($data['product_name']); ?></td>
-                    <td><?php echo htmlspecialchars($data['total_quantity']); ?></td>
-                    <td><?php echo htmlspecialchars($data['code']); ?></td>
-                </tr>
-                <?php endforeach; ?>
-            <?php endif; ?>
-        </table>
     </div>
 
 
@@ -340,24 +316,6 @@ unset($_SESSION['alerts']); // Clear alerts after displaying
                 <td><input type="number" name="paperbag[quantity_D]" min="0" max="200" step="1"></td>
                 <td>6698</td>
             </tr>
-        </table>
-
-        <h2>Stock</h2>
-        <table>
-            <tr>
-                <th>Product Name</th>
-                <th>Total Quantity</th>
-                <th>Code</th>
-            </tr>
-            <?php if (isset($latest_data['paperbag'])): ?>
-                <?php foreach ($latest_data['paperbag'] as $data) : ?>
-                <tr>
-                    <td><?php echo htmlspecialchars($data['product_name']); ?></td>
-                    <td><?php echo htmlspecialchars($data['total_quantity']); ?></td>
-                    <td><?php echo htmlspecialchars($data['code']); ?></td>
-                </tr>
-                <?php endforeach; ?>
-            <?php endif; ?>
         </table>
     </div>
     </div>
@@ -393,24 +351,6 @@ unset($_SESSION['alerts']); // Clear alerts after displaying
                     <td>9267</td>
                 </tr>
             </table>
-    
-            <h2>Stock</h2>
-            <table>
-                <tr>
-                    <th>Product Name</th>
-                    <th>Total Quantity</th>
-                    <th>Code</th>
-                </tr>
-                <?php if (isset($latest_data['lids'])): ?>
-                    <?php foreach ($latest_data['lids'] as $data) : ?>
-                    <tr>
-                        <td><?php echo htmlspecialchars($data['product_name']); ?></td>
-                        <td><?php echo htmlspecialchars($data['total_quantity']); ?></td>
-                        <td><?php echo htmlspecialchars($data['code']); ?></td>
-                    </tr>
-                    <?php endforeach; ?>
-                <?php endif; ?>
-            </table>
         </div>
     
     
@@ -443,24 +383,6 @@ unset($_SESSION['alerts']); // Clear alerts after displaying
                     <td>3532</td>
                 </tr>
             </table>
-    
-            <h2>Stock</h2>
-            <table>
-                <tr>
-                    <th>Product Name</th>
-                    <th>Total Quantity</th>
-                    <th>Code</th>
-                </tr>
-                <?php if (isset($latest_data['utensil'])): ?>
-                    <?php foreach ($latest_data['utensil'] as $data) : ?>
-                    <tr>
-                        <td><?php echo htmlspecialchars($data['product_name']); ?></td>
-                        <td><?php echo htmlspecialchars($data['total_quantity']); ?></td>
-                        <td><?php echo htmlspecialchars($data['code']); ?></td>
-                    </tr>
-                    <?php endforeach; ?>
-                <?php endif; ?>
-            </table>
         </div>
         </div>
 
@@ -483,30 +405,9 @@ unset($_SESSION['alerts']); // Clear alerts after displaying
                     <td>Mcshare box</td>
                     <td><input type="number" name="boxes[quantity_mcsharebox]" min="0" max="200" step="1"></td>
                     <td>6534</td>
-                </tr>
-                
-            </table>
-    
-            <h2>Stock</h2>
-            <table>
-                <tr>
-                    <th>Product Name</th>
-                    <th>Total Quantity</th>
-                    <th>Code</th>
-                </tr>
-                <?php if (isset($latest_data['boxes'])): ?>
-                    <?php foreach ($latest_data['boxes'] as $data) : ?>
-                    <tr>
-                        <td><?php echo htmlspecialchars($data['product_name']); ?></td>
-                        <td><?php echo htmlspecialchars($data['total_quantity']); ?></td>
-                        <td><?php echo htmlspecialchars($data['code']); ?></td>
-                    </tr>
-                    <?php endforeach; ?>
-                <?php endif; ?>
+                </tr>      
             </table>
         </div>
-        
-    
     
     <div class="box">
             <h1>GRANULES</h1>
@@ -527,24 +428,6 @@ unset($_SESSION['alerts']); // Clear alerts after displaying
                     <td>3999</td>
                 </tr>
               
-            </table>
-    
-            <h2>Stock</h2>
-            <table>
-                <tr>
-                    <th>Product Name</th>
-                    <th>Total Quantity</th>
-                    <th>Code</th>
-                </tr>
-                <?php if (isset($latest_data['granules'])): ?>
-                    <?php foreach ($latest_data['granules'] as $data) : ?>
-                    <tr>
-                        <td><?php echo htmlspecialchars($data['product_name']); ?></td>
-                        <td><?php echo htmlspecialchars($data['total_quantity']); ?></td>
-                        <td><?php echo htmlspecialchars($data['code']); ?></td>
-                    </tr>
-                    <?php endforeach; ?>
-                <?php endif; ?>
             </table>
         </div>
         </div>
@@ -576,24 +459,6 @@ unset($_SESSION['alerts']); // Clear alerts after displaying
                 </tr>
                 
             </table>
-    
-            <h2>Stock</h2>
-            <table>
-                <tr>
-                    <th>Product Name</th>
-                    <th>Total Quantity</th>
-                    <th>Code</th>
-                </tr>
-                <?php if (isset($latest_data['tissues'])): ?>
-                    <?php foreach ($latest_data['tissues'] as $data) : ?>
-                    <tr>
-                        <td><?php echo htmlspecialchars($data['product_name']); ?></td>
-                        <td><?php echo htmlspecialchars($data['total_quantity']); ?></td>
-                        <td><?php echo htmlspecialchars($data['code']); ?></td>
-                    </tr>
-                    <?php endforeach; ?>
-                <?php endif; ?>
-            </table>
         </div>
         
     <div class="box">
@@ -620,24 +485,6 @@ unset($_SESSION['alerts']); // Clear alerts after displaying
                     <td>6257</td>
                 </tr>
               
-            </table>
-    
-            <h2>Stock</h2>
-            <table>
-                <tr>
-                    <th>Product Name</th>
-                    <th>Total Quantity</th>
-                    <th>Code</th>
-                </tr>
-                <?php if (isset($latest_data['drinks'])): ?>
-                    <?php foreach ($latest_data['drinks'] as $data) : ?>
-                    <tr>
-                        <td><?php echo htmlspecialchars($data['product_name']); ?></td>
-                        <td><?php echo htmlspecialchars($data['total_quantity']); ?></td>
-                        <td><?php echo htmlspecialchars($data['code']); ?></td>
-                    </tr>
-                    <?php endforeach; ?>
-                <?php endif; ?>
             </table>
         </div>
         </div>

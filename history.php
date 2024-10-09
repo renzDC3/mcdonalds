@@ -31,7 +31,7 @@ $result = $conn->query($sql);
     <script src="loadLayout.js" defer></script>
     <title>Received History</title>
 </head>
-<body><h1 class="my-4">Received History</h1>
+<body><h3 class="my-4">Received History</h3>
     <div>
         
         <table class="table-d">

@@ -37,13 +37,13 @@ foreach (['clamshell', 'can', 'powder', 'cups', 'sauces', 'paperbag', 'lids', 'u
 </head>
 <body>
 
-    <a href="product_expiring.php">product expiring</a>
+   
 
     <div class="orderD">
         
         <table class="table-bordered" class="orderT">
-        <caption>Products Low Stock</caption>
-        <thead>
+        <caption style="text-align:center;">Order List</caption>
+       
             <tr>
                 <th class="td1">Category</th>
                 <th class="td1">Product Name</th>
@@ -51,14 +51,14 @@ foreach (['clamshell', 'can', 'powder', 'cups', 'sauces', 'paperbag', 'lids', 'u
                 <th class="td1">Available Boxes</th>
                 
             </tr>
-        </thead>
+        
         <tbody>
             <?php 
             // Iterate through each category and check for low quantity
             foreach (['clamshell', 'can', 'powder', 'cups', 'sauces', 'paperbag', 'lids', 'utensil', 'boxes', 'granules', 'tissues', 'drinks'] as $category): ?>
                 <?php if (isset($latest_data[$category])): ?>
                     <?php foreach ($latest_data[$category] as $data): ?>
-                        <?php if ($data['total_quantity'] <= 3): // Check if total_quantity is less than or equal to 5 ?>
+                        <?php if ($data['total_quantity'] <= 2): // Check if total_quantity is less than or equal to 5 ?>
                             <tr>
                             <td><?php echo htmlspecialchars($category); ?>
                                 <td><?php echo htmlspecialchars($data['product_name']); ?></td>

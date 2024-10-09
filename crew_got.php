@@ -43,7 +43,7 @@ $conn->close();
 
     <title>Crew Got</title>
 </head>
-<body><h1 class="my-4">Crew Got History</h1>
+<body><h3 class="my-4">Crew Got History</h3>
 <div class ="history">
     <li><a href="history.php" class="abox">Order Received</a></li>
 </div>
