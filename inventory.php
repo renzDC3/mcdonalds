@@ -20,42 +20,7 @@ unset($_SESSION['alerts']); // Clear alerts after displaying
     <script src="https://unpkg.com/html5-qrcode/minified/html5-qrcode.min.js"></script>
     <script src="loadLayout.js" defer></script>
     <title>Inventory</title>
-    <script>
-        function onScanSuccess(decodedText, decodedResult) {
-            // Handle the scanned QR code
-            const action = document.querySelector('input[name="action"]:checked').value;
-            fetch('save_inventory.php', {
-                method: 'POST',
-                headers: {
-                    'Content-Type': 'application/json'
-                },
-                body: JSON.stringify({ code: decodedText, action: action })
-            })
-            .then(response => response.json())
-            .then(data => {
-                if (data.success) {
-                    // Update the table with the latest data
-                    const table = document.getElementById('history');
-                    const newRow = table.insertRow();
-                    newRow.insertCell(0).innerText = data.product_name;
-                    newRow.insertCell(1).innerText = data.added;
-                    newRow.insertCell(2).innerText = data.removed;
-                } else {
-                    alert(data.message);
-                }
-            })
-            .catch(error => console.error('Error:', error));
-        }
-
-        function startQRScanner() {
-            const html5QrCode = new Html5Qrcode("qr-reader");
-            html5QrCode.start({ facingMode: "environment" }, { fps: 10, qrbox: 250 }, onScanSuccess);
-        }
-
-        document.addEventListener('DOMContentLoaded', (event) => {
-            startQRScanner();
-        });
-    </script>
+    
 </head>
 <body>
     <!-- Display alerts if any -->
@@ -67,7 +32,7 @@ unset($_SESSION['alerts']); // Clear alerts after displaying
         </div>
     <?php endif; ?>
 
-    <table class="table table-striped"id="history">
+    <table class="table table-striped" id="history">
     <tr class="tr1">
         <td class="td1">Product Name</td>
         <td class="td1">Received</td>
@@ -98,21 +63,18 @@ unset($_SESSION['alerts']); // Clear alerts after displaying
     }
     ?>
     </table>
+    
+   
+    
+    
+    <input type="text" id="scannerInput" autofocus placeholder="SCAN QR CODE HERE TO INPUT">
+    
+    <br>
+
+
 
 <form action="save_inventory.php" method="POST">
-    <br>
-        <div id="scanRG">
-            <div id="scanR">
-                <label for="qrcode" class="form-label">Scan Received</label>
-                <input type="radio" id="received" name="action" value="add" checked>
-            </div>
-            <div id="scanG">
-                <label for="qrcode" class="form-label">Scan Get</label>
-                <input type="radio" id="get" name="action" value="remove">
-            </div>
-        </div>
-        <br>
-    </form>
+
 
 <div class="container">
     <div class="box">
@@ -126,8 +88,8 @@ unset($_SESSION['alerts']); // Clear alerts after displaying
                 <th>Code</th>
             </tr>
             <tr>
-                <td>1PC</td>
-                <td><input type="number" name="clamshell[quantity_1pc]" min="0" max="200" step="1"></td>
+            <td>1PC</td>
+                <td><input type="number" id="quantity_2967" name="clamshell[quantity_1pc]" min="0" max="200" step="1"></td>
                 <td>2967</td>
             </tr>
             <tr>
@@ -493,5 +455,47 @@ unset($_SESSION['alerts']); // Clear alerts after displaying
     <button type="submit" name="action" value="remove">Get</button>
 </footer>
 </form>
+
+<button onclick="simulateScan('2967')">Simulate Scan Code 2967</button>
+
+
+     <!-- QR Code Scanner Section -->
+     <div id="reader" style="width: 300px;"></div>
+    <div id="reader-results"></div>
+
+    
+    <script>
+    document.addEventListener("DOMContentLoaded", function() {
+        document.addEventListener('keydown', function(event) {
+            // Assuming the scanner inputs all the text in one go and ends with an Enter key
+            if (event.key === 'Enter') {
+                const inputField = document.getElementById('scannerInput'); // Input field where scanner inputs the QR code
+                const scannedCode = inputField.value.trim(); // Get the scanned code
+                inputField.value = ''; // Clear the input field for the next scan
+                
+                console.log(`Scanned code: ${scannedCode}`);
+
+                const targetField = document.getElementById('quantity_' + scannedCode);
+                if (targetField) {
+                    console.log(`Input field found for code: ${scannedCode}`);
+                    targetField.value = (parseInt(targetField.value) || 0) + 1; // Increment the current value
+                } else {
+                    console.log(`No matching input field found for code: ${scannedCode}`);
+                }
+            }
+        });
+    });
+</script>
+
+</body>
+</html>
+
+
+</body>
+</html>
+
+
+
+
 </body>
 </html>
