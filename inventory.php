@@ -94,17 +94,17 @@ unset($_SESSION['alerts']); // Clear alerts after displaying
             </tr>
             <tr>
                 <td>2PC</td>
-                <td><input type="number" name="clamshell[quantity_2pc]" min="0" max="200" step="1"></td>
+                <td><input type="number" id="quantity_2987" name="clamshell[quantity_2pc]" min="0" max="200" step="1"></td>
                 <td>2987</td>
             </tr>
             <tr>
                 <td>Spaghetti</td>
-                <td><input type="number" name="clamshell[quantity_spaghetti]" min="0" max="200" step="1"></td>
+                <td><input type="number" id="quantity_2968" name="clamshell[quantity_spaghetti]" min="0" max="200" step="1"></td>
                 <td>2968</td>
             </tr>
             <tr>
                 <td>Fillet</td>
-                <td><input type="number" name="clamshell[quantity_fillet]" min="0" max="200" step="1"></td>
+                <td><input type="number" id="quantity_2957" name="clamshell[quantity_fillet]" min="0" max="200" step="1"></td>
                 <td>2957</td>
             </tr>
         </table>
@@ -122,22 +122,22 @@ unset($_SESSION['alerts']); // Clear alerts after displaying
             </tr>
             <tr>
                 <td>Fizz</td>
-                <td><input type="number" name="can[quantity_fizz]" min="0" max="200" step="1"></td>
+                <td><input type="number"  id="quantity_5924" name="can[quantity_fizz]" min="0" max="200" step="1"></td>
                 <td>5924</td>
             </tr>
             <tr>
                 <td>Soda</td>
-                <td><input type="number" name="can[quantity_soda]" min="0" max="200" step="1"></td>
+                <td><input type="number"  id="quantity_5479" name="can[quantity_soda]" min="0" max="200" step="1"></td>
                 <td>5479</td>
             </tr>
             <tr>
                 <td>Cola</td>
-                <td><input type="number" name="can[quantity_cola]" min="0" max="200" step="1"></td>
+                <td><input type="number"  id="quantity_5482"name="can[quantity_cola]" min="0" max="200" step="1"></td>
                 <td>5482</td>
             </tr>
             <tr>
                 <td>Sprite</td>
-                <td><input type="number" name="can[quantity_sprite]" min="0" max="200" step="1"></td>
+                <td><input type="number"  id="quantity_5447" name="can[quantity_sprite]" min="0" max="200" step="1"></td>
                 <td>5447</td>
             </tr>
         </table>
@@ -157,22 +157,22 @@ unset($_SESSION['alerts']); // Clear alerts after displaying
             </tr>
             <tr>
                 <td>BBQ</td>
-                <td><input type="number" name="powder[quantity_BBQ]" min="0" max="200" step="1"></td>
+                <td><input type="number" id="quantity_7890" name="powder[quantity_BBQ]" min="0" max="200" step="1"></td>
                 <td>7890</td>
             </tr>
             <tr>
                 <td>Cheese</td>
-                <td><input type="number" name="powder[quantity_chess]" min="0" max="200" step="1"></td>
+                <td><input type="number" id="quantity_7653" name="powder[quantity_chess]" min="0" max="200" step="1"></td>
                 <td>7653</td>
             </tr>
             <tr>
                 <td>Breader</td>
-                <td><input type="number" name="powder[quantity_breader]" min="0" max="200" step="1"></td>
+                <td><input type="number" id="quantity_7554" name="powder[quantity_breader]" min="0" max="200" step="1"></td>
                 <td>7554</td>
             </tr>
             <tr>
                 <td>coating</td>
-                <td><input type="number" name="powder[quantity_coating]" min="0" max="200" step="1"></td>
+                <td><input type="number" id="quantity_7542" name="powder[quantity_coating]" min="0" max="200" step="1"></td>
                 <td>7542</td>
             </tr>
         </table>
@@ -191,22 +191,22 @@ unset($_SESSION['alerts']); // Clear alerts after displaying
             </tr>
             <tr>
                 <td>Mcflurry</td>
-                <td><input type="number" name="cups[quantity_Mcflurry]" min="0" max="200" step="1"></td>
+                <td><input type="number" id="quantity_5799" name="cups[quantity_Mcflurry]" min="0" max="200" step="1"></td>
                 <td>5799</td>
             </tr>
             <tr>
                 <td>Sundae</td>
-                <td><input type="number" name="cups[quantity_Sundae]" min="0" max="200" step="1"></td>
+                <td><input type="number" id="quantity_5435" name="cups[quantity_Sundae]" min="0" max="200" step="1"></td>
                 <td>5435</td>
             </tr>
             <tr>
                 <td>12oz</td>
-                <td><input type="number" name="cups[quantity_12oz]" min="0" max="200" step="1"></td>
+                <td><input type="number" id="quantity_5684" name="cups[quantity_12oz]" min="0" max="200" step="1"></td>
                 <td>5684</td>
             </tr>
             <tr>
                 <td>16oz</td>
-                <td><input type="number" name="cups[quantity_16oz]" min="0" max="200" step="1"></td>
+                <td><input type="number" id="quantity_5788" name="cups[quantity_16oz]" min="0" max="200" step="1"></td>
                 <td>5788</td>
             </tr>
         </table>
@@ -228,22 +228,22 @@ unset($_SESSION['alerts']); // Clear alerts after displaying
             </tr>
             <tr>
                 <td>BBQs</td>
-                <td><input type="number" name="sauces[quantity_bbqs]" min="0" max="200" step="1"></td>
+                <td><input type="number" id="quantity_8092" name="sauces[quantity_bbqs]" min="0" max="200" step="1"></td>
                 <td>8092</td>
             </tr>
             <tr>
                 <td>sweet</td>
-                <td><input type="number" name="sauces[quantity_sweet]" min="0" max="200" step="1"></td>
+                <td><input type="number" id="quantity_8322" name="sauces[quantity_sweet]" min="0" max="200" step="1"></td>
                 <td>8322</td>
             </tr>
             <tr>
                 <td>maple</td>
-                <td><input type="number" name="sauces[quantity_maple]" min="0" max="200" step="1"></td>
+                <td><input type="number" id="quantity_8463" name="sauces[quantity_maple]" min="0" max="200" step="1"></td>
                 <td>8463</td>
             </tr>
             <tr>
                 <td>syrups</td>
-                <td><input type="number" name="sauces[quantity_syrups]" min="0" max="200" step="1"></td>
+                <td><input type="number" id="quantity_8657" name="sauces[quantity_syrups]" min="0" max="200" step="1"></td>
                 <td>8657</td>
             </tr>
         </table>
@@ -260,22 +260,22 @@ unset($_SESSION['alerts']); // Clear alerts after displaying
             </tr>
             <tr>
                 <td>A</td>
-                <td><input type="number" name="paperbag[quantity_A]" min="0" max="200" step="1"></td>
+                <td><input type="number" id="quantity_6623" name="paperbag[quantity_A]" min="0" max="200" step="1"></td>
                 <td>6623</td>
             </tr>
             <tr>
                 <td>B</td>
-                <td><input type="number" name="paperbag[quantity_B]" min="0" max="200" step="1"></td>
+                <td><input type="number" id="quantity_6621" name="paperbag[quantity_B]" min="0" max="200" step="1"></td>
                 <td>6621</td>
             </tr>
             <tr>
                 <td>C</td>
-                <td><input type="number" name="paperbag[quantity_C]" min="0" max="200" step="1"></td>
+                <td><input type="number" id="quantity_6624" name="paperbag[quantity_C]" min="0" max="200" step="1"></td>
                 <td>6624</td>
             </tr>
             <tr>
                 <td>D</td>
-                <td><input type="number" name="paperbag[quantity_D]" min="0" max="200" step="1"></td>
+                <td><input type="number" id="quantity_6698" name="paperbag[quantity_D]" min="0" max="200" step="1"></td>
                 <td>6698</td>
             </tr>
         </table>
@@ -294,22 +294,22 @@ unset($_SESSION['alerts']); // Clear alerts after displaying
                 </tr>
                 <tr>
                     <td>12oz</td>
-                    <td><input type="number" name="lids[quantity_12oz]" min="0" max="200" step="1"></td>
+                    <td><input type="number" id="quantity_9542" name="lids[quantity_12oz]" min="0" max="200" step="1"></td>
                     <td>9542</td>
                 </tr>
                 <tr>
                     <td>16oz</td>
-                    <td><input type="number" name="lids[quantity_6oz]" min="0" max="200" step="1"></td>
+                    <td><input type="number" id="quantity_9422" name="lids[quantity_6oz]" min="0" max="200" step="1"></td>
                     <td>9422</td>
                 </tr>
                 <tr>
                     <td>dome</td>
-                    <td><input type="number" name="lids[quantity_dome]" min="0" max="200" step="1"></td>
+                    <td><input type="number" id="quantity_9533" name="lids[quantity_dome]" min="0" max="200" step="1"></td>
                     <td>9533</td>
                 </tr>
                 <tr>
                     <td>coffee</td>
-                    <td><input type="number" name="lids[quantity_coffee]" min="0" max="200" step="1"></td>
+                    <td><input type="number" id="quantity_9267" name="lids[quantity_coffee]" min="0" max="200" step="1"></td>
                     <td>9267</td>
                 </tr>
             </table>
@@ -326,22 +326,22 @@ unset($_SESSION['alerts']); // Clear alerts after displaying
                 </tr>
                 <tr>
                     <td>spoon</td>
-                    <td><input type="number" name="utensil[quantity_spoon]" min="0" max="200" step="1"></td>
+                    <td><input type="number" id="quantity_3992" name="utensil[quantity_spoon]" min="0" max="200" step="1"></td>
                     <td>3992</td>
                 </tr>
                 <tr>
                     <td>knife</td>
-                    <td><input type="number" name="utensil[quantity_knife]" min="0" max="200" step="1"></td>
+                    <td><input type="number" id="quantity_3998" name="utensil[quantity_knife]" min="0" max="200" step="1"></td>
                     <td>3998</td>
                 </tr>
                 <tr>
                     <td>teaspoon</td>
-                    <td><input type="number" name="utensil[quantity_teaspoon]" min="0" max="200" step="1"></td>
+                    <td><input type="number" id="quantity_2712" name="utensil[quantity_teaspoon]" min="0" max="200" step="1"></td>
                     <td>2712</td>
                 </tr>
                 <tr>
                     <td>fork</td>
-                    <td><input type="number" name="utensil[quantity_fork]" min="0" max="200" step="1"></td>
+                    <td><input type="number" id="quantity_3532" name="utensil[quantity_fork]" min="0" max="200" step="1"></td>
                     <td>3532</td>
                 </tr>
             </table>
@@ -360,12 +360,12 @@ unset($_SESSION['alerts']); // Clear alerts after displaying
                 </tr>
                 <tr>
                     <td>Happy meal Box</td>
-                    <td><input type="number" name="boxes[quantity_happymeal]" min="0" max="200" step="1"></td>
+                    <td><input type="number" id="quantity_6434" name="boxes[quantity_happymeal]" min="0" max="200" step="1"></td>
                     <td>6434</td>
                 </tr>
                 <tr>
                     <td>Mcshare box</td>
-                    <td><input type="number" name="boxes[quantity_mcsharebox]" min="0" max="200" step="1"></td>
+                    <td><input type="number" id="quantity_6534" name="boxes[quantity_mcsharebox]" min="0" max="200" step="1"></td>
                     <td>6534</td>
                 </tr>      
             </table>
@@ -381,12 +381,12 @@ unset($_SESSION['alerts']); // Clear alerts after displaying
                 </tr>
                 <tr>
                     <td>coffee granules</td>
-                    <td><input type="number" name="granules[quantity_iceCoffe]" min="0" max="200" step="1"></td>
+                    <td><input type="number" id="quantity_3993" name="granules[quantity_iceCoffe]" min="0" max="200" step="1"></td>
                     <td>3993</td>
                 </tr>
                 <tr>
                     <td>brewed coffee granules</td>
-                    <td><input type="number" name="granules[quantity_brewedCoffe]" min="0" max="200" step="1"></td>
+                    <td><input type="number" id="quantity_3999" name="granules[quantity_brewedCoffe]" min="0" max="200" step="1"></td>
                     <td>3999</td>
                 </tr>
               
@@ -406,17 +406,17 @@ unset($_SESSION['alerts']); // Clear alerts after displaying
                 </tr>
                 <tr>
                     <td>kitchen tissue</td>
-                    <td><input type="number" name="tissue[quantity_kitchenTissues]" min="0" max="200" step="1"></td>
+                    <td><input type="number" id="quantity_7321" name="tissue[quantity_kitchenTissues]" min="0" max="200" step="1"></td>
                     <td>7321</td>
                 </tr>
                 <tr>
                     <td>restroom tissue</td>
-                    <td><input type="number" name="tissues[quantity_restroomTissues]" min="0" max="200" step="1"></td>
+                    <td><input type="number" id="quantity_7753" name="tissues[quantity_restroomTissues]" min="0" max="200" step="1"></td>
                     <td>7753</td>
                 </tr>
                 <tr>
                     <td>serving tissue</td>
-                    <td><input type="number" name="tissues[quantity_servingTissues]" min="0" max="200" step="1"></td>
+                    <td><input type="number" id="quantity_7231" name="tissues[quantity_servingTissues]" min="0" max="200" step="1"></td>
                     <td>7231</td>
                 </tr>
                 
@@ -433,17 +433,17 @@ unset($_SESSION['alerts']); // Clear alerts after displaying
                 </tr>
                 <tr>
                     <td>ice coffee</td>
-                    <td><input type="number" name="drinks[quantity_iceCoffe]" min="0" max="200" step="1"></td>
+                    <td><input type="number" id="quantity_6260" name="drinks[quantity_iceCoffe]" min="0" max="200" step="1"></td>
                     <td>6260</td>
                 </tr>
                 <tr>
                     <td>Sprite</td>
-                    <td><input type="number" name="drinks[quantity_sprite]" min="0" max="200" step="1"></td>
+                    <td><input type="number" id="quantity_6259" name="drinks[quantity_sprite]" min="0" max="200" step="1"></td>
                     <td>6259</td>
                 </tr>
                 <tr>
                     <td>CocaCola</td>
-                    <td><input type="number" name="drinks[quantity_CocaCola]" min="0" max="200" step="1"></td>
+                    <td><input type="number" id="quantity_6257" name="drinks[quantity_CocaCola]" min="0" max="200" step="1"></td>
                     <td>6257</td>
                 </tr>
               
@@ -456,7 +456,7 @@ unset($_SESSION['alerts']); // Clear alerts after displaying
 </footer>
 </form>
 
-<button onclick="simulateScan('2967')">Simulate Scan Code 2967</button>
+
 
 
      <!-- QR Code Scanner Section -->
