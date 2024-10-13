@@ -1,9 +1,22 @@
-.history{
+.history1{
     margin-left: 50px;
-    margin-top: 90px;
+    margin-top: 290px;
     padding:1px;
-    
+    position:absolute;
 }
+.history2{
+    margin-left: 50px;
+    margin-top: 350px;
+    padding:1px;
+    position:absolute;
+}
+.history3{
+    margin-left: 50px;
+    margin-top: 420px;
+    padding:1px;
+    position:absolute;
+}
+
 
 li{
     padding-bottom:20px;
@@ -32,12 +45,14 @@ li{
 
 .abox{
     padding: 10px;
-    background-color: aliceblue;
+    background-color: rgb(207, 217, 226);
     color: black;
-    text-decoration: none;
+    
     padding-bottom:10pxpx;
-    border:2px black solid;
+    border-radius: 20px;
     width: 100;
+    font-size: 15px;
+    font-weight: 500;
     cursor: pointer;
 }
 

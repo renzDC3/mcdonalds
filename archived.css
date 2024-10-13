@@ -1,0 +1,25 @@
+body{
+    width: 600px;
+    background-color: rgb(0, 0, 0);
+}
+h3{
+    color: aliceblue;
+
+}
+
+table{
+    
+    background-color: rgb(138, 36, 36);
+    color: rgb(255, 240, 240);
+    border: 1px black solid;
+}
+th{
+    
+    
+    background-color: rgb(0, 0, 0);
+    border: 1px rgb(255, 255, 255) solid;
+}
+td{
+    padding: 4px;
+    border: 1px rgb(174, 174, 174) solid;
+}

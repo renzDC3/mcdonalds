@@ -1,10 +1,9 @@
 <?php
 session_start();
 if (!isset($_SESSION["user"])) {
-   header("Location: login.php");
-   exit();
+    header("Location: login.php");
+    exit();
 }
-$crew_name = $_SESSION["crew_name"];
 
 // Set the timezone
 date_default_timezone_set('Asia/Manila');
@@ -17,15 +16,6 @@ $dbname = "mcdonalds_inventory";
 $conn = new mysqli($servername, $username, $password, $dbname);
 if ($conn->connect_error) {
     die("Connection failed: " . $conn->connect_error);
-}
-
-$latest_data = [];
-foreach (['clamshell', 'can', 'powder', 'cups', 'sauces', 'paperbag', 'lids', 'utensil', 'boxes', 'granules', 'tissues', 'drinks'] as $table) {
-    $result = $conn->query("SELECT product_name, SUM(quantity) as total_quantity, code FROM $table GROUP BY product_name, code");
-
-    while ($row = $result->fetch_assoc()) {
-        $latest_data[$table][] = $row;
-    }
 }
 $query = "
     SELECT 
@@ -60,21 +50,46 @@ if ($result->num_rows > 0) {
                 'quantity' => $row['quantity']  // Include quantity in the expired products array
             ];
         }
-        
-        // Check if the product is out of stock
-        if ($row['quantity'] <= 0) {
-            // Insert into out_of_stock table
-            $stmt = $conn->prepare("INSERT INTO out_of_stock (product_name, code, quantity) VALUES (?, ?, ?)");
-            $stmt->bind_param("ssi", $row['product_name'], $row['code'], $row['quantity']);
-            $stmt->execute();
-            $stmt->close();
-            
-            $outOfStockProducts[] = $row['product_name'] . " (Code: " . $row['code'] . ")";
-        }
+
+    }}
+// List of all product names
+$allProducts = [
+    ['1PC', 2967, 'Clamshell'], ['2PC', 2987, 'Clamshell'], ['Fillet', 2957, 'Clamshell'],
+    ['Spaghetti', 2968, 'Clamshell'], ['Cola', 5482, 'Can'], ['Fizz', 5924, 'Can'],
+    ['Soda', 5479, 'Can'], ['Sprite can', 5447, 'Can'], ['BBQ powder', 7890, 'Powder'],
+    ['Breader', 7554, 'Powder'], ['Cheese', 7653, 'Powder'], ['coating', 7542, 'Powder'],
+    ['12oz cups', 5684, 'Cups'], ['16oz cups', 5788, 'Cups'], ['Mcflurry', 5799, 'Cups'],
+    ['Sundae', 5435, 'Cups'], ['BBQ sauce', 8092, 'Sauces'], ['maple', 8463, 'Sauces'],
+    ['sweet', 8322, 'Sauces'], ['syrups', 8657, 'Sauces'], ['A', 8092, 'Paperbag'],
+    ['B', 8322, 'Paperbag'], ['C', 8463, 'Paperbag'], ['D', 8657, 'Paperbag'],
+    ['12oz lids', 9542, 'Lids'], ['16oz lids', 9422, 'Lids'], ['coffee', 9267, 'Lids'],
+    ['dome', 9533, 'Lids'], ['fork', 3532, 'Utensil'], ['knife', 3998, 'Utensil'],
+    ['spoon', 3992, 'Utensil'], ['teaspoon', 2712, 'Utensil'], ['Happy meal Box', 6434, 'Boxes'],
+    ['Mcshare box', 6534, 'Boxes'], ['brewed coffee granules', 3999, 'Granules'],
+    ['coffee granules', 3993, 'Granules'], ['kitchen tissue', 7321, 'Tissues'],
+    ['restroom tissue', 7753, 'Tissues'], ['serving tissue', 7231, 'Tissues'],
+    ['CocaCola', 6257, 'Drinks'], ['ice coffee', 6260, 'Drinks'], ['Sprite', 6259, 'Drinks']
+];
+
+$foundProducts = [];
+
+// Check each table for product quantities
+foreach (['clamshell', 'can', 'powder', 'cups', 'sauces', 'paperbag', 'lids', 'utensil', 'boxes', 'granules', 'tissues', 'drinks'] as $table) {
+    $result = $conn->query("SELECT product_name FROM $table");
+    while ($row = $result->fetch_assoc()) {
+        $foundProducts[] = $row['product_name'];
     }
 }
 
-$conn->close();?>
+$outOfStockProducts = [];
+foreach ($allProducts as $product) {
+    if (!in_array($product[0], $foundProducts)) {
+        $outOfStockProducts[] = $product[0] . " (Code: " . $product[1] . ")";
+    }
+}
+
+$conn->close();
+?>
 
 <!DOCTYPE html>
 <html lang="en">
@@ -90,7 +105,7 @@ $conn->close();?>
 <body>
 
     <div class="messageExpired">
-        <?php if (!empty($expiredProducts)): ?>
+    <?php if (!empty($expiredProducts)): ?>
             <div class="alert alert-danger" role="alert">
                 The following products are expired:
                 <ul>
@@ -110,19 +125,18 @@ $conn->close();?>
             </div>
         <?php endif; ?>
 
-        
-        <?php   // Iterate through each category and check for low quantity
-            foreach (['clamshell', 'can', 'powder', 'cups', 'sauces', 'paperbag', 'lids', 'utensil', 'boxes', 'granules', 'tissues', 'drinks'] as $category): ?>
-                <?php if (isset($latest_data[$category])): ?>
-                    <?php foreach ($latest_data[$category] as $data): ?>
-                        <?php if ($data['total_quantity'] <= 0):?>
+
+
+        <?php if (!empty($outOfStockProducts)): ?>
             <div class="alert alert-danger" role="alert">
-                The product: <td><?php echo htmlspecialchars($data['product_name']); ?></td> are out of stock Please restock.
+                The following products are out of stock:
+                <ul>
+                <?php foreach ($outOfStockProducts as $product): ?>
+                    <li><?php echo htmlspecialchars($product); ?></li>
+                <?php endforeach; ?>
+                </ul>
             </div>
-            <?php endif; ?>
-                    <?php endforeach; ?>
-                <?php endif; ?>
-            <?php endforeach; ?>
+        <?php endif; ?>
     </div>
 
     <h1>Inventory System</h1>

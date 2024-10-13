@@ -59,8 +59,8 @@ $conn->close();
     <table id="history">
     <tr class="tr1">
         <td class="td1">Product Name</td>
-        <td class="td1">Received</td>
-        <td class="td1">Get</td>
+        <td class="td1">Restock</td>
+        <td class="td1">Deduct</td>
         <td class="td1">Available Products</td>
     </tr>
     <?php 
@@ -109,7 +109,7 @@ $conn->close();
             
             <tr>
                 <th>Product Name</th>
-                <th>Boxes Get</th>
+                <th>Boxes</th>
                 <th>Code</th>
             </tr>
             <tr>
@@ -142,7 +142,7 @@ $conn->close();
         <table>
             <tr>
                 <th>Product Name</th>
-                <th>Boxes Get</th>
+                <th>Boxes</th>
                 <th>Code</th>
             </tr>
             <tr>
@@ -161,7 +161,7 @@ $conn->close();
                 <td>5482</td>
             </tr>
             <tr>
-                <td>Sprite</td>
+                <td>Sprite can</td>
                 <td><input type="number"  id="quantity_5447" name="can[quantity_sprite]" min="0" max="200" step="1"></td>
                 <td>5447</td>
             </tr>
@@ -177,7 +177,7 @@ $conn->close();
         <table>
             <tr>
                 <th>Product Name</th>
-                <th>Boxes Get</th>
+                <th>Boxes</th>
                 <th>Code</th>
             </tr>
             <tr>
@@ -211,7 +211,7 @@ $conn->close();
         <table>
             <tr>
                 <th>Product Name</th>
-                <th>Boxes Get</th>
+                <th>Boxes</th>
                 <th>Code</th>
             </tr>
             <tr>
@@ -248,7 +248,7 @@ $conn->close();
         <table>
             <tr>
                 <th>Product Name</th>
-                <th>Boxes Get</th>
+                <th>Boxes</th>
                 <th>Code</th>
             </tr>
             <tr>
@@ -280,7 +280,7 @@ $conn->close();
         <table>
             <tr>
                 <th>Product Name</th>
-                <th>Boxes Get</th>
+                <th>Boxes</th>
                 <th>Code</th>
             </tr>
             <tr>
@@ -314,7 +314,7 @@ $conn->close();
             <table>
                 <tr>
                     <th>Product Name</th>
-                    <th>Boxes Get</th>
+                    <th>Boxes</th>
                     <th>Code</th>
                 </tr>
                 <tr>
@@ -346,7 +346,7 @@ $conn->close();
             <table>
                 <tr>
                     <th>Product Name</th>
-                    <th>Boxes Get</th>
+                    <th>Boxes</th>
                     <th>Code</th>
                 </tr>
                 <tr>
@@ -380,7 +380,7 @@ $conn->close();
             <table>
                 <tr>
                     <th>Product Name</th>
-                    <th>Boxes Get</th>
+                    <th>Boxes</th>
                     <th>Code</th>
                 </tr>
                 <tr>
@@ -401,12 +401,12 @@ $conn->close();
             <table>
                 <tr>
                     <th>Product Name</th>
-                    <th>Boxes Get</th>
+                    <th>Boxes</th>
                     <th>Code</th>
                 </tr>
                 <tr>
                     <td>coffee granules</td>
-                    <td><input type="number" id="quantity_3993" name="granules[quantity_iceCoffe]" min="0" max="200" step="1"></td>
+                    <td><input type="number" id="quantity_3993" name="granules[quantity_coffeg]" min="0" max="200" step="1"></td>
                     <td>3993</td>
                 </tr>
                 <tr>
@@ -426,12 +426,12 @@ $conn->close();
             <table>
                 <tr>
                     <th>Product Name</th>
-                    <th>Boxes Get</th>
+                    <th>Boxes</th>
                     <th>Code</th>
                 </tr>
                 <tr>
                     <td>kitchen tissue</td>
-                    <td><input type="number" id="quantity_7321" name="tissue[quantity_kitchenTissues]" min="0" max="200" step="1"></td>
+                    <td><input type="number" id="quantity_7321" name="tissues[quantity_kitchenTissues]" min="0" max="200" step="1"></td>
                     <td>7321</td>
                 </tr>
                 <tr>
@@ -453,7 +453,7 @@ $conn->close();
             <table>
                 <tr>
                     <th>Product Name</th>
-                    <th>Boxes Get</th>
+                    <th>Boxes</th>
                     <th>Code</th>
                 </tr>
                 <tr>
@@ -476,8 +476,8 @@ $conn->close();
         </div>
         </div> 
 <footer>
-    <button type="submit" name="action" value="add">Add Product</button>
-    <button type="submit" name="action" value="remove">Get Product</button>
+    <button type="submit" name="action" value="add">Restock product</button>
+    <button type="submit" name="action" value="remove">Deduct Product</button>
 </footer>
 </form>
 

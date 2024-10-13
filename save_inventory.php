@@ -35,7 +35,7 @@ $products = [
         ["name" => "Fizz", "code" => 5924, "quantity" => isset($_POST["can"]["quantity_fizz"]) ? $_POST["can"]["quantity_fizz"] : 0, "location" => "Row 1,Slot2"],
         ["name" => "Soda", "code" => 5479, "quantity" => isset($_POST["can"]["quantity_soda"]) ? $_POST["can"]["quantity_soda"] : 0, "location" => "Row 2,Slot2"],
         ["name" => "Cola", "code" => 5482, "quantity" => isset($_POST["can"]["quantity_cola"]) ? $_POST["can"]["quantity_cola"] : 0, "location" => "Row 3,Slot2"],
-        ["name" => "Sprite", "code" => 5447, "quantity" => isset($_POST["can"]["quantity_sprite"]) ? $_POST["can"]["quantity_sprite"] : 0, "location" => "Row 4,Slot2"],
+        ["name" => "Sprite can", "code" => 5447, "quantity" => isset($_POST["can"]["quantity_sprite"]) ? $_POST["can"]["quantity_sprite"] : 0, "location" => "Row 4,Slot2"],
     ],
     "powder" => [
         ["name" => "BBQ", "code" => 7890, "quantity" => isset($_POST["powder"]["quantity_BBQ"]) ? $_POST["powder"]["quantity_BBQ"] : 0, "location" => "Row 1,Slot3"],
@@ -78,7 +78,7 @@ $products = [
         ["name" => "Mcshare box", "code" => 6534, "quantity" => isset($_POST["boxes"]["quantity_mcsharebox"]) ? $_POST["boxes"]["quantity_mcsharebox"] : 0, "location" => "Row 2,Slot9"],
     ],
     "granules" => [
-        ["name" => "coffee granules	", "code" => 3993, "quantity" => isset($_POST["granules"]["quantity_iceCoffe"]) ? $_POST["granules"]["quantity_iceCoffe"] : 0, "location" => "Row 3,Slot9"],
+        ["name" => "coffee granules", "code" => 3993, "quantity" => isset($_POST["granules"]["quantity_coffeg"]) ? $_POST["granules"]["quantity_coffeg"] : 0, "location" => "Row 3,Slot9"],
         ["name" => "brewed coffee granules", "code" => 3999, "quantity" => isset($_POST["granules"]["quantity_brewedCoffe"]) ? $_POST["granules"]["quantity_brewedCoffe"] : 0, "location" => "Row 4,Slot9"],
     ],
     "tissues" => [
@@ -96,7 +96,18 @@ $products = [
 
 $conn->autocommit(FALSE); // Start transaction
 
+function getNextBatch($conn, $productName) {
+    $sql = "SELECT COUNT(*) as count FROM received_history WHERE product_name = ? AND action = 'added'";
+    $stmt = $conn->prepare($sql);
+    $stmt->bind_param("s", $productName);
+    $stmt->execute();
+    $result = $stmt->get_result();
+    $row = $result->fetch_assoc();
+    return $row['count'] + 1; // Incrementing the count gives the next batch number
+}
+
 try {
+    // Assuming $products and $action are defined elsewhere in your code
     foreach ($products as $table_name => $items) {
         foreach ($items as $item) {
             $product_name = $item['name'];
@@ -114,16 +125,21 @@ try {
                     $stmt->execute();
                     $stmt->close();
 
+                    // Get the next batch number for the product
+                    $batch = getNextBatch($conn, $product_name);
+
                     // Add new quantity
-                    $stmt = $conn->prepare("INSERT INTO $table_name (product_name, quantity, code) VALUES (?, ?, ?) ON DUPLICATE KEY UPDATE quantity = quantity + VALUES(quantity)");
+                    $stmt = $conn->prepare("INSERT INTO $table_name (product_name, quantity, code) VALUES (?, ?, ?) 
+                         ON DUPLICATE KEY UPDATE quantity = quantity + VALUES(quantity)");
                     $stmt->bind_param("sii", $product_name, $quantity, $code);
                     $stmt->execute();
                     $stmt->close();
 
                     $_SESSION['added_quantities'][$table_name][$product_name] = ($_SESSION['added_quantities'][$table_name][$product_name] ?? 0) + $quantity;
 
-                    $stmt = $conn->prepare("INSERT INTO received_history (product_name, code, quantity, date_time, action) VALUES (?, ?, ?, ?, 'added')");
-                    $stmt->bind_param("ssds", $product_name, $code, $quantity, $date_time);
+                    // Insert into received_history with batch
+                    $stmt = $conn->prepare("INSERT INTO received_history (product_name, code, quantity, date_time, action, batch) VALUES (?, ?, ?, ?, 'added', ?)");
+                    $stmt->bind_param("ssisi", $product_name, $code, $quantity, $date_time, $batch);
                     $stmt->execute();
                     $stmt->close();
                 } elseif ($action === "remove") {

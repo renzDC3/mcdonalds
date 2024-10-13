@@ -1,8 +1,8 @@
 <?php
 session_start();
 if (!isset($_SESSION["user"])) {
-   header("Location: login.php");
-   exit();
+    header("Location: login.php");
+    exit();
 }
 
 $servername = "localhost";
@@ -14,14 +14,52 @@ $conn = new mysqli($servername, $username, $password, $dbname);
 if ($conn->connect_error) {
     die("Connection failed: " . $conn->connect_error);
 }
+
+$allProducts = [
+    ['1PC', 2967, 'Clamshell'], ['2PC', 2987, 'Clamshell'], ['Fillet', 2957, 'Clamshell'],
+    ['Spaghetti', 2968, 'Clamshell'], ['Cola', 5482, 'Can'], ['Fizz', 5924, 'Can'],
+    ['Soda', 5479, 'Can'], ['Sprite can', 5447, 'Can'], ['BBQ powder', 7890, 'Powder'],
+    ['Breader', 7554, 'Powder'], ['Cheese', 7653, 'Powder'], ['coating', 7542, 'Powder'],
+    ['12oz cups', 5684, 'Cups'], ['16oz cups', 5788, 'Cups'], ['Mcflurry', 5799, 'Cups'],
+    ['Sundae', 5435, 'Cups'], ['BBQ sauce', 8092, 'Sauces'], ['maple', 8463, 'Sauces'],
+    ['sweet', 8322, 'Sauces'], ['syrups', 8657, 'Sauces'], ['A', 8092, 'Paperbag'],
+    ['B', 8322, 'Paperbag'], ['C', 8463, 'Paperbag'], ['D', 8657, 'Paperbag'],
+    ['12oz lids', 9542, 'Lids'], ['16oz lids', 9422, 'Lids'], ['coffee', 9267, 'Lids'],
+    ['dome', 9533, 'Lids'], ['fork', 3532, 'Utensil'], ['knife', 3998, 'Utensil'],
+    ['spoon', 3992, 'Utensil'], ['teaspoon', 2712, 'Utensil'], ['Happy meal Box', 6434, 'Boxes'],
+    ['Mcshare box', 6534, 'Boxes'], ['brewed coffee granules', 3999, 'Granules'],
+    ['coffee granules', 3993, 'Granules'], ['kitchen tissue', 7321, 'Tissues'],
+    ['restroom tissue', 7753, 'Tissues'], ['serving tissue', 7231, 'Tissues'],
+    ['CocaCola', 6257, 'Drinks'], ['ice coffee', 6260, 'Drinks'], ['Sprite', 6259, 'Drinks']
+];
+
 $latest_data = [];
+$foundProducts = [];
+
 foreach (['clamshell', 'can', 'powder', 'cups', 'sauces', 'paperbag', 'lids', 'utensil', 'boxes', 'granules', 'tissues', 'drinks'] as $table) {
     $result = $conn->query("SELECT product_name, SUM(quantity) as total_quantity, code FROM $table GROUP BY product_name, code");
-
     while ($row = $result->fetch_assoc()) {
         $latest_data[$table][] = $row;
+        $foundProducts[$row['product_name']] = $row['total_quantity'];
     }
 }
+
+$outOfStockProducts = [];
+$lowQuantityProducts = [];
+
+foreach ($allProducts as $product) {
+    $productName = $product[0];
+    $productCode = $product[1];
+    $productCategory = $product[2];
+
+    if (!isset($foundProducts[$productName])) {
+        $outOfStockProducts[] = ['category' => $productCategory, 'product_name' => $productName, 'code' => $productCode, 'total_quantity' => 0];
+    } else if ($foundProducts[$productName] <= 1) {
+        $lowQuantityProducts[] = ['category' => $productCategory, 'product_name' => $productName, 'code' => $productCode, 'total_quantity' => $foundProducts[$productName]];
+    }
+}
+
+$conn->close();
 ?>
 
 <!DOCTYPE html>
@@ -36,62 +74,45 @@ foreach (['clamshell', 'can', 'powder', 'cups', 'sauces', 'paperbag', 'lids', 'u
     <title>Ordered Details</title>
 </head>
 <body>
-
-   
-
     <div class="orderD">
-        
         <table class="table-bordered" class="orderT">
-        <caption style="text-align:center;">Order List</caption>
-       
+            <caption style="text-align:center;">Order List</caption>
             <tr>
                 <th class="td1">Category</th>
                 <th class="td1">Product Name</th>
                 <th class="td1">Code</th>
                 <th class="td1">Available Boxes</th>
-                
             </tr>
+            <tbody>
+                <?php foreach ($outOfStockProducts as $product): ?>
+                    <tr>
+                        <td><?php echo htmlspecialchars($product['category']); ?></td>
+                        <td><?php echo htmlspecialchars($product['product_name']); ?></td>
+                        <td><?php echo htmlspecialchars($product['code']); ?></td>
+                        <td>0</td>
+                    </tr>
+                <?php endforeach; ?>
+                <?php foreach ($lowQuantityProducts as $product): ?>
+                    <tr>
+                        <td><?php echo htmlspecialchars($product['category']); ?></td>
+                        <td><?php echo htmlspecialchars($product['product_name']); ?></td>
+                        <td><?php echo htmlspecialchars($product['code']); ?></td>
+                        <td><?php echo htmlspecialchars($product['total_quantity']); ?></td>
+                    </tr>
+                <?php endforeach; ?>
+            </tbody>
+        </table>
+    </div>
+
+ 
         
-        <tbody>
-            <?php 
-            // Iterate through each category and check for low quantity
-            foreach (['clamshell', 'can', 'powder', 'cups', 'sauces', 'paperbag', 'lids', 'utensil', 'boxes', 'granules', 'tissues', 'drinks'] as $category): ?>
-                <?php if (isset($latest_data[$category])): ?>
-                    <?php foreach ($latest_data[$category] as $data): ?>
-                        <?php if ($data['total_quantity'] <= 2): // Check if total_quantity is less than or equal to 5 ?>
-                            <tr>
-                            <td><?php echo htmlspecialchars($category); ?>
-                                <td><?php echo htmlspecialchars($data['product_name']); ?></td>
-                                <td><?php echo htmlspecialchars($data['code']); ?></td>
-                                <td><?php echo htmlspecialchars($data['total_quantity']); ?></td>
-                              
-                            </tr>
-                        <?php endif; ?>
-                    <?php endforeach; ?>
-                <?php endif; ?>
-            <?php endforeach; ?>
-        </tbody>
-    </table>
-    </div>
-
-
-    <div class="messageExpired">
-        <?php if (!empty($expiredProducts)): ?>
-            <div class="alert alert-danger" role="alert">
-                The following products are expired: <?php echo implode(', ', $expiredProducts); ?>. Please reorder.
-            </div>
-        <?php else: ?>
-            <div>
-           
-            </div>
-        <?php endif; ?>
-    </div>
-
-
-
 </body>
 </html>
-
-<?php
-$conn->close();
-?>
+<?php   /* if (!empty($outOfStockProducts)): ?>
+            <div class="alert alert-danger" role="alert">
+                The following products are out of stock: <?php echo implode(', ', array_map(function($product) {
+                    return htmlspecialchars($product['product_name']);
+                }, $outOfStockProducts)); ?>. Please reorder.
+            </div>
+        <?php endif; ?>
+    </div>*/

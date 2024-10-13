@@ -36,9 +36,9 @@ h1{ text-align:center ;
 }
 
 
-th{
+table tr th{ text-align: center;
     font-size: 15px;
-    border: 1px rgb(138, 138, 138) solid;
+   
 
 }
 td input{
@@ -50,7 +50,7 @@ td input{
 }
 
 th, td {
-   
+  
     border: 1px rgb(157, 157, 157) solid;
     text-align: left;
     
@@ -105,17 +105,18 @@ button{
 
 #productsLeft {
     
-    margin-left: 50px;
+    margin-left: 300px;
     margin-top: 100px;
     position:absolute;
     width: 700px;
     background-color: #f2f2f2;
 }
 #productsLeft caption{
-    color: black;
+    color: rgb(86, 86, 86);
     caption-side:top;
     font-size: 30px;
     font-weight: bold;
+    
 }
 #productsLeft .td1{
     background-color:rgb(68, 68, 68)!important;
@@ -176,13 +177,13 @@ h2{
     height: 500px;
 }
 .expirelink{
-   
-    margin-left: 1168px;
-    border: 1px solid rgb(0, 0, 0);
+    margin-left: 1100px;
+    width: 120px;
+    background-color: #000000;
     text-decoration: none;
-    color: white;
-    background-color: rgb(99, 99, 99);
-    width: 130px;
+    color: rgb(137, 137, 137);
+   
+   
 }
 .inputwidth{
     position:sticky;top:0%;

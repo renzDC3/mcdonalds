@@ -5,6 +5,53 @@ if (isset($_SESSION["user"])) {
     exit();
 }
 
+if (isset($_POST["login"])) {
+    $crew_number = $_POST["crew_number"];
+    $password = $_POST["password"];
+
+    if (!preg_match('/^044\d{3}$/', $crew_number)) {
+        $error = "Crew number must be exactly 6 digits and start with '044'.";
+    } elseif (empty($password)) {
+        $error = "Please enter your password.";
+    } else {
+        require_once "database.php";
+        $sql = "SELECT * FROM users WHERE crew_number = ?";
+        $stmt = $conn->prepare($sql);
+        $stmt->bind_param("s", $crew_number);
+        $stmt->execute();
+        $result = $stmt->get_result();
+
+        if ($result->num_rows > 0) {
+            $user = $result->fetch_assoc();
+
+            if (password_verify($password, $user["password"])) {
+                $_SESSION["user"] = $user["crew_number"];
+                $_SESSION["full_name"] = $user["full_name"]; // Store full name in session
+                
+                // Log the login time
+                date_default_timezone_set('Asia/Manila');
+                $date_time = date('Y-m-d H:i:s');
+                $full_name = $user["full_name"]; // Assign full name to the variable
+
+                $stmt_log = $conn->prepare("INSERT INTO mcdonalds_inventory.user_log (full_name, crew_number, date_time) VALUES (?, ?, ?)");
+                $stmt_log->bind_param("sss", $full_name, $crew_number, $date_time);
+                $stmt_log->execute();
+                $stmt_log->close();
+                
+                // Redirect with JavaScript to set the active link
+                echo "<script>
+                        localStorage.setItem('activeLink', 'index.php');
+                        window.location.href = 'index.php';
+                      </script>";
+                exit();
+            } else {
+                $error = "Password does not match";
+            }
+        } else {
+            $error = "No account found with this crew number.";
+        }
+    }
+}
 ?>
 
 <!DOCTYPE html>
@@ -24,54 +71,19 @@ if (isset($_SESSION["user"])) {
     <form action="login.php" method="post">
         <div class="form-group">
             <h1 style="color: white; text-align:center;">Login</h1><br>
-            <input placeholder="Enter Your Password:" name="crew_number" class="form-control" required>
-        
-        <div class="form-btn"><br>
-            <input type="submit" value="Login" name="login" class="btn btn-primary" id="loginbtn">
-        </div><br>
-    </form></div></div>
-    <div class="message">
-        <?php
-        if (isset($_POST["login"])) {
-            $crew_number = $_POST["crew_number"];
-            
-            if (empty($crew_number)) {
-                echo "<div class='alert alert-danger'>Please enter your crew number</div>";
-            } else {
-                require_once "database.php";
-                $sql = "SELECT * FROM users WHERE crew_number = ?";
-                $stmt = $conn->prepare($sql);
-                $stmt->bind_param("s", $crew_number);
-                $stmt->execute();
-                $result = $stmt->get_result();
-
-                if ($result->num_rows > 0) {
-                    $user = $result->fetch_assoc();
-                    $_SESSION["user"] = $user["crew_number"];
-                    $_SESSION["crew_name"] = $user["crew_name"];
-                   
-                    
-
-                    // Log the login time
-                    date_default_timezone_set('Asia/Manila');
-                    $date_time = date('Y-m-d H:i:s');
-                    $crew_name = $user["crew_name"];
-                    $crew_number = $user["crew_number"];
-
-                    $stmt_log = $conn->prepare("INSERT INTO mcdonalds_inventory.user_log (crew_name, crew_number, date_time) VALUES (?, ?, ?)");
-                    $stmt_log->bind_param("sss", $crew_name, $crew_number, $date_time);
-                    $stmt_log->execute();
-                    $stmt_log->close();
-
-                    header("Location: index.php");
-                    exit();
-                } else {
-                    echo "<div class='alert alert-danger' id='alert'>Password does not match</div>";
-                }
-            }
-        }
-        ?>
-    </div>
+            <input placeholder="Enter Your Crew Number" name="crew_number" class="form-control" required><br>
+            <input type="password" placeholder="Enter Your Password" name="password" class="form-control" required><br>
+            <?php if (isset($error)): ?>
+                <div class="alert alert-danger"><?= $error ?></div>
+            <?php endif; ?>
+            <div class="form-btn"><br>
+                <input type="submit" value="Login" name="login" class="btn btn-primary" id="loginbtn">
+            </div>
+            <a href="sign_up.php" style=" text-align:center;color:white;margin-left:37px;">Create Account</a>
+            <br>
+        </div>
+    </form>
+</div>
 
 <br><br>
 </body>

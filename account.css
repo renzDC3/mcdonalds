@@ -28,13 +28,13 @@ margin-left: 52px;
     
     margin-top: 20px;
     margin-left: 10px;
-    
+    border: wheat 1px solid;
     border-radius: 10px;
     width: 160px;
-    padding: 17px;
+    padding-top: 15px;
     text-align: center;
     color: wheat;
-    font-size: 15px;
+    font-size: 14px;
     font-weight: bold;
     height:50px;
 

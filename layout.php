@@ -1,8 +1,10 @@
 <?php
 session_start();
 if (!isset($_SESSION["user"])) {
-   header("Location: login.php");
+   header("Location: logout.php");
+   exit();
 }
+
 ?>
 <!DOCTYPE html>
 <html lang="en">
@@ -21,6 +23,7 @@ if (!isset($_SESSION["user"])) {
     cursor: pointer;
 }
 .framesize{
+    margin-top:100px;
     position:absolute;
     border: 1px solid;
     border-radius: 10px;
@@ -37,7 +40,7 @@ if (!isset($_SESSION["user"])) {
 
 #iframeContainer{
     
-  
+    
     top: 0;
     justify-content: flex-end;
     display: none;}
@@ -68,7 +71,7 @@ width: 50px;}
     <ul>
         <li><a class="btn-warning" id="home-link" href="index.php">Home</a></li>
         <li><a class="btn-warning" href="inventory.php">Inventory</a></li>
-        <li><a class="btn-warning" href="products-update.php">Products</a></li>
+        <li><a class="btn-warning" href="products-update.php">Stocks</a></li>
         <li><a class="btn-warning" href="ordered-details.php">Reorder</a></li>
         <li><a class="btn-warning" href="history.php">History</a></li>
         <li class="log_out"><a id="account" onclick="toggleIframe()"> <img src="accountIcon.png" id="accounticon"></a></li>
@@ -78,17 +81,14 @@ width: 50px;}
 
 
 <div id="iframeContainer">
-    <li id="pos">
+    
     <iframe class="framesize" id="embeddedPage" src="/mcdonalds/account.php"></iframe></div>
-    </>
+    
 <script>
     function toggleIframe() {
         const iframeContainer = document.getElementById('iframeContainer');
         iframeContainer.style.display = iframeContainer.style.display === 'none' ? 'block' : 'none';
     }
-
-   
-  
 
 </script>
 

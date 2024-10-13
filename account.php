@@ -1,13 +1,12 @@
 <?php
 session_start();
 if (!isset($_SESSION["user"])) {
-   header("Location: login.php");
-   exit(); // Ensure that the script stops here
+    header("Location: login.php");
+    exit();
 }
-$crew_name = $_SESSION["crew_name"];
-$user = $_SESSION["user"];
-
+$full_name = $_SESSION["full_name"];
 ?>
+
 <!DOCTYPE html>
 <html lang="en">
 <head>
@@ -19,15 +18,14 @@ $user = $_SESSION["user"];
     <title>Account</title>
 </head>
 <body>
-
-
     <div id="infoAccount">
-<h2><?php echo htmlspecialchars($crew_name); ?></h2>
+        <h2><?php echo htmlspecialchars($full_name); ?></h2>
 
-<li><a class="btn-warning" onclick="parent.location.href='feedback.php'">Give feedback</a></li>
+        <li><a class="btn-warning" onclick="parent.location.href='feedback.php'">Give feedback</a></li>
 
-<div class="logoutbox">
-    <a href="login.php" class="logoutButton btn btn-warning" onclick="parent.location.href='logout.php'; return false;">Logout</a>
-</div>
+        <div class="logoutbox">
+            <a href="login.php" class="logoutButton btn btn-warning" onclick="parent.location.href='logout.php'; return false;">Logout</a>
+        </div>
+    </div>
 </body>
 </html>
