@@ -4,71 +4,107 @@
     display: flex;
     padding:10px;
     
+   
     
 
 }
 .box{
+    border-radius: 12px;
     margin-left:100px ;
     width: 280px;
-    border: 1px black solid;
-    height: 330px;
-    
+    box-shadow: 6px 6px; 
+    height: 260px;
+    border: rgb(151, 151, 151) solid 1px;
     padding: 20px;
-    background-color: #f2f2f2;
+    background: url('bginventory.jfif') center center;
 }
 
 
 h1{ text-align:center ;
-    font-size: 30px;
-    border: black solid 1px;
+    font-size: 20px;
+    
+    border: rgb(164, 164, 164) solid 1px;
+    border-radius: 12px;
     cursor: pointer;
-    background-color:rgb(112, 127, 0) !important;
-    color:white;
-    -webkit-text-stroke-width: 1px;
+    background-color:rgb(234, 213, 76) !important;
+    color: rgb(0, 0, 0) !important;
+    -webkit-text-stroke-width: 0.5px;
     -webkit-text-stroke-color: black;
     box-sizing: border-box; 
-    font-weight: 890;
+    font-weight: 400;
     -webkit-box-align: center;
 }
 
 
-
- th, td {
-    
-    border: 1px solid black;
-    padding: 8px;
-    text-align: left;
-    background-color: #f2f2f2;
+th{
+    font-size: 15px;
+    border: 1px rgb(138, 138, 138) solid;
 
 }
+td input{
+    
+    
+    border: 0.2px rgb(127, 127, 127) solid;
+    border-radius: 5px;
+    
+}
+
+th, td {
+   
+    border: 1px rgb(157, 157, 157) solid;
+    text-align: left;
+    
+    padding: 3px;
+    background-color: #ffffff;
+    
+}
+
+ th td table{
+    
+    
+    text-align: left;
+    background-color: #f2f2f2;
+  
+}
+
 
 footer {
     
     position: sticky;
     bottom: 0;
     display: flex;
-   justify-content: space-between;
+    justify-content: space-between;
     
 
 }
 button{
-    padding: 20px;
-    color: white;
+    border-radius: 20px;
+    padding: 10px;
+    color: rgb(222, 222, 222);
     background-color: black;
 }
 #history {
-    margin-left: 50px;
+    
+    margin-left: 30px;
     margin-top: 200px;
-    position:absolute;
-    width: 200px;
+    position: absolute;
+    
+    width: 330px;
+  
 
 }
 #history .td1{
-    background-color:rgb(112, 127, 0) !important;
-    color: #f2f2f2;
-    font-weight: bold;
+    
+    width: 50px;
+    font-size: 14px;
+    background-color:rgb(255, 255, 255) !important;
+    color: #000000;
+    font-weight: 500;
+    
 }
+
 #productsLeft {
+    
     margin-left: 50px;
     margin-top: 100px;
     position:absolute;
@@ -123,7 +159,7 @@ button{
 #box-get2 .td1{
     background-color:rgb(69, 69, 69) !important;
     color: #f6f6f6;
-    font-weight: bold;
+    font-weight: bold;  
     
 }
 #box-get2 caption{
@@ -148,23 +184,7 @@ h2{
     background-color: rgb(99, 99, 99);
     width: 130px;
 }
-#scanRG{
+.inputwidth{
+    position:sticky;top:0%;
     
-    height: 40px;
-    width:700px;
-    display: flex;
-    justify-content: space-between;
-    margin: 0% auto;
-    font-size: 12px;
-    font-weight: bold;
-}
-#scanR{
-    display: flex;
-    justify-content: flex-start;
- 
-}
-#scanG{
-    display: flex;
-    justify-content: flex-end;
- 
 }

@@ -15,8 +15,22 @@ if ($conn->connect_error) {
     die("Connection failed: " . $conn->connect_error);
 }
 
-// Updated query to filter only added actions
-$sql = "SELECT * FROM received_history WHERE action = 'added' ORDER BY date_time DESC";
+// Updated query to include batch numbers and sort by batch ascending
+$sql = "
+    SELECT 
+        rh.product_name, 
+        rh.code, 
+        rh.quantity, 
+        rh.date_time,
+        COUNT(*) OVER (PARTITION BY rh.product_name, rh.code ORDER BY rh.date_time) AS batch
+    FROM 
+        received_history rh 
+    WHERE 
+        rh.action = 'added' 
+    ORDER BY 
+        batch DESC,  -- Sort by batch in descending order
+        rh.date_time DESC"; 
+
 $result = $conn->query($sql);
 ?>
 
@@ -31,16 +45,18 @@ $result = $conn->query($sql);
     <script src="loadLayout.js" defer></script>
     <title>Received History</title>
 </head>
-<body><h3 class="my-4">Received History</h3>
+<body>
+    <h3 class="my-4">Received History</h3>
     <div>
-        
         <table class="table-d">
             <thead>
                 <tr>
+                   
                     <th class="td1">Product Name</th>
                     <th class="td1">Code</th>
-                    <th class="td1">Boxes</th>
+                    <th class="td1">Boxes Received</th>
                     <th class="td1">Date & Time</th>
+                    <th class="td1">Batch</th>
                 </tr>
             </thead>
             <tbody>
@@ -48,14 +64,17 @@ $result = $conn->query($sql);
             if ($result->num_rows > 0) {
                 while($row = $result->fetch_assoc()) {
                     echo '<tr>';
+                   
                     echo '<td>' . htmlspecialchars($row['product_name']) . '</td>';
                     echo '<td>' . htmlspecialchars($row['code']) . '</td>';
                     echo '<td>' . htmlspecialchars($row['quantity']) . '</td>';
+                  
                     echo '<td>' . htmlspecialchars($row['date_time']) . '</td>';
+                    echo '<td>' . htmlspecialchars($row['batch']) . '</td>'; // Displaying the batch number
                     echo '</tr>';
                 }
             } else {
-                echo '<tr><td colspan="4">No records found</td></tr>';
+                echo '<tr><td colspan="5">No records found</td></tr>'; // Updated colspan to 5
             }
             ?>
             </tbody>

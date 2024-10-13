@@ -24,9 +24,8 @@ if (!isset($_SESSION['removed_quantities'])) {
     $_SESSION['removed_quantities'] = [];
 }
 
-// Define products for both tables with locations
 $products = [
-    "clamshell" => [
+"clamshell" => [
         ["name" => "1PC", "code" => 2967, "quantity" => isset($_POST["clamshell"]["quantity_1pc"]) ? $_POST["clamshell"]["quantity_1pc"] : 0, "location" => "Row 1,Slot1"],
         ["name" => "2PC", "code" => 2987, "quantity" => isset($_POST["clamshell"]["quantity_2pc"]) ? $_POST["clamshell"]["quantity_2pc"] : 0, "location" => "Row 2,Slot1"],
         ["name" => "Spaghetti", "code" => 2968, "quantity" => isset($_POST["clamshell"]["quantity_spaghetti"]) ? $_POST["clamshell"]["quantity_spaghetti"] : 0, "location" => "Row 3,Slot1"],
@@ -47,11 +46,11 @@ $products = [
     "cups" => [
         ["name" => "Mcflurry", "code" => 5799, "quantity" => isset($_POST["cups"]["quantity_Mcflurry"]) ? $_POST["cups"]["quantity_Mcflurry"] : 0, "location" => "Row 1,Slot4"],
         ["name" => "Sundae", "code" => 5435, "quantity" => isset($_POST["cups"]["quantity_Sundae"]) ? $_POST["cups"]["quantity_Sundae"] : 0, "location" => "Row 2,Slot4"],
-        ["name" => "12oz", "code" => 5684, "quantity" => isset($_POST["cups"]["quantity_12oz"]) ? $_POST["cups"]["quantity_12oz"] : 0, "location" => "Row 3,Slot4"],
-        ["name" => "16oz", "code" => 5788, "quantity" => isset($_POST["cups"]["quantity_16oz"]) ? $_POST["cups"]["quantity_16oz"] : 0, "location" => "Row 4,Slot4"],
+        ["name" => "12oz cups", "code" => 5684, "quantity" => isset($_POST["cups"]["quantity_12oz"]) ? $_POST["cups"]["quantity_12oz"] : 0, "location" => "Row 3,Slot4"],
+        ["name" => "16oz cups", "code" => 5788, "quantity" => isset($_POST["cups"]["quantity_16oz"]) ? $_POST["cups"]["quantity_16oz"] : 0, "location" => "Row 4,Slot4"],
     ],
     "sauces" => [
-        ["name" => "BBQs", "code" => 8092, "quantity" => isset($_POST["sauces"]["quantity_bbqs"]) ? $_POST["sauces"]["quantity_bbqs"] : 0, "location" => "Row 1,Slot5"],
+        ["name" => "BBQ sauce", "code" => 8092, "quantity" => isset($_POST["sauces"]["quantity_bbqs"]) ? $_POST["sauces"]["quantity_bbqs"] : 0, "location" => "Row 1,Slot5"],
         ["name" => "sweet", "code" => 8322, "quantity" => isset($_POST["sauces"]["quantity_sweet"]) ? $_POST["sauces"]["quantity_sweet"] : 0, "location" => "Row 2,Slot5"],
         ["name" => "maple", "code" => 8463, "quantity" => isset($_POST["sauces"]["quantity_maple"]) ? $_POST["sauces"]["quantity_maple"] : 0, "location" => "Row 3,Slot5"],
         ["name" => "syrups", "code" => 8657, "quantity" => isset($_POST["sauces"]["quantity_syrups"]) ? $_POST["sauces"]["quantity_syrups"] : 0, "location" => "Row 4,Slot5"],
@@ -63,8 +62,8 @@ $products = [
         ["name" => "D", "code" => 8657, "quantity" => isset($_POST["paperbag"]["quantity_D"]) ? $_POST["paperbag"]["quantity_D"] : 0, "location" => "Row 4,Slot6"],
     ],
     "lids" => [
-        ["name" => "12oz", "code" => 9542, "quantity" => isset($_POST["lids"]["quantity_12oz"]) ? $_POST["lids"]["quantity_12oz"] : 0, "location" => "Row 1,Slot7"],
-        ["name" => "16oz", "code" => 9422, "quantity" => isset($_POST["lids"]["quantity_6oz"]) ? $_POST["lids"]["quantity_6oz"] : 0, "location" => "Row 2,Slot7"],
+        ["name" => "12oz lids", "code" => 9542, "quantity" => isset($_POST["lids"]["quantity_12oz"]) ? $_POST["lids"]["quantity_12oz"] : 0, "location" => "Row 1,Slot7"],
+        ["name" => "16oz lids", "code" => 9422, "quantity" => isset($_POST["lids"]["quantity_16oz"]) ? $_POST["lids"]["quantity_16oz"] : 0, "location" => "Row 2,Slot7"],
         ["name" => "dome", "code" => 9533, "quantity" => isset($_POST["lids"]["quantity_dome"]) ? $_POST["lids"]["quantity_dome"] : 0, "location" => "Row 3,Slot7"],
         ["name" => "coffee", "code" => 9267, "quantity" => isset($_POST["lids"]["quantity_coffee"]) ? $_POST["lids"]["quantity_coffee"] : 0, "location" => "Row 4,Slot7"],
     ],
@@ -105,7 +104,7 @@ try {
             $quantity = isset($item['quantity']) ? intval($item['quantity']) : 0;
 
             if ($quantity > 0) {
-                date_default_timezone_set('Asia/Manila');   
+                date_default_timezone_set('Asia/Manila');
                 $date_time = date('Y-m-d H:i:s');
 
                 if ($action === "add") {
@@ -128,33 +127,58 @@ try {
                     $stmt->execute();
                     $stmt->close();
                 } elseif ($action === "remove") {
-                    // Check current quantity
-                    $stmt = $conn->prepare("SELECT quantity FROM $table_name WHERE product_name = ? AND code = ?");
-                    $stmt->bind_param("si", $product_name, $code);
+                    // Check current total quantity
+                    $stmt = $conn->prepare("SELECT SUM(quantity) as total_quantity FROM $table_name WHERE code = ?");
+                    $stmt->bind_param("i", $code);
                     $stmt->execute();
-                    $stmt->bind_result($current_quantity);
+                    $stmt->bind_result($current_total_quantity);
                     $stmt->fetch();
                     $stmt->close();
 
-                    if ($current_quantity !== null) { // Ensure product exists
-                        if ($current_quantity >= $quantity) {
-                            // Update the quantity
-                            $stmt = $conn->prepare("UPDATE $table_name SET quantity = quantity - ? WHERE product_name = ? AND code = ?");
-                            $stmt->bind_param("isi", $quantity, $product_name, $code);
-                            $stmt->execute();
-                            $stmt->close();
+                    if ($current_total_quantity !== null && $current_total_quantity >= $quantity) {
+                        // Retrieve all rows with the given code, ordered by quantity
+                        $stmt = $conn->prepare("SELECT id, quantity FROM $table_name WHERE code = ? ORDER BY quantity DESC");
+                        $stmt->bind_param("i", $code);
+                        $stmt->execute();
+                        $result = $stmt->get_result();
 
-                            $_SESSION['removed_quantities'][$table_name][$product_name] = ($_SESSION['removed_quantities'][$table_name][$product_name] ?? 0) + $quantity;
+                        $remaining_quantity_to_remove = $quantity;
 
-                            $stmt = $conn->prepare("INSERT INTO received_history (product_name, code, quantity, date_time, action) VALUES (?, ?, ?, ?, 'removed')");
-                            $stmt->bind_param("ssds", $product_name, $code, $quantity, $date_time);
-                            $stmt->execute();
-                            $stmt->close();
-                        } else {
-                            throw new Exception("Not enough quantity to remove for product $product_name with code $code.");
+                        while ($row = $result->fetch_assoc()) {
+                            if ($remaining_quantity_to_remove <= 0) {
+                                break;
+                            }
+
+                            $row_id = $row['id'];
+                            $row_quantity = $row['quantity'];
+
+                            if ($row_quantity > $remaining_quantity_to_remove) {
+                                // Update the row quantity
+                                $stmt_update = $conn->prepare("UPDATE $table_name SET quantity = quantity - ? WHERE id = ?");
+                                $stmt_update->bind_param("ii", $remaining_quantity_to_remove, $row_id);
+                                $stmt_update->execute();
+                                $stmt_update->close();
+                                $remaining_quantity_to_remove = 0;
+                            } else {
+                                // Remove the entire row quantity
+                                $stmt_delete = $conn->prepare("DELETE FROM $table_name WHERE id = ?");
+                                $stmt_delete->bind_param("i", $row_id);
+                                $stmt_delete->execute();
+                                $stmt_delete->close();
+                                $remaining_quantity_to_remove -= $row_quantity;
+                            }
                         }
+
+                        $stmt->close();
+
+                        $_SESSION['removed_quantities'][$table_name][$product_name] = ($_SESSION['removed_quantities'][$table_name][$product_name] ?? 0) + $quantity;
+
+                        $stmt = $conn->prepare("INSERT INTO received_history (product_name, code, quantity, date_time, action) VALUES (?, ?, ?, ?, 'removed')");
+                        $stmt->bind_param("ssds", $product_name, $code, $quantity, $date_time);
+                        $stmt->execute();
+                        $stmt->close();
                     } else {
-                        throw new Exception("Product $product_name with code $code does not exist.");
+                        throw new Exception("Not enough quantity to remove for product $product_name with code $code.");
                     }
                 }
             }

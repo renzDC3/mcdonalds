@@ -3,7 +3,7 @@
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <link rel="stylesheet" href="layout1.css">
+    <link rel="stylesheet" href="layoutnav.css">
     <script src="loadLayout.js" defer></script>
     <title>Inventory System</title>
 </head>
@@ -30,7 +30,7 @@ width: 50px;
     <li><a class="btn-warning" href="products-update.php">Products</a></li>
     <li><a class="btn-warning" href="ordered-details.php">Reorder</a></li>
     <li><a class="btn-warning" href="history.php">History</a></li>
-    <li><a class="btn-warning" href="feedback.php">Feedback</a></li>
+   
     <li class="log_out"><a id="account" onclick="toggleIframe()"> <img src="accountIcon.png" id="accounticon"></a></li>
     </ul>
 

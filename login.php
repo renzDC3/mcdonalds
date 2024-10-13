@@ -24,7 +24,7 @@ if (isset($_SESSION["user"])) {
     <form action="login.php" method="post">
         <div class="form-group">
             <h1 style="color: white; text-align:center;">Login</h1><br>
-            <input type="password" placeholder="Enter Your Password:" name="crew_number" class="form-control" required>
+            <input placeholder="Enter Your Password:" name="crew_number" class="form-control" required>
         
         <div class="form-btn"><br>
             <input type="submit" value="Login" name="login" class="btn btn-primary" id="loginbtn">

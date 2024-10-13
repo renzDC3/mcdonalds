@@ -20,11 +20,12 @@ $user = $_SESSION["user"];
 </head>
 <body>
 
-<p style="color:rgb(189, 189, 189); text-align:center;">Account</p>
+
     <div id="infoAccount">
 <h2><?php echo htmlspecialchars($crew_name); ?></h2>
 
-</div>
+<li><a class="btn-warning" onclick="parent.location.href='feedback.php'">Give feedback</a></li>
+
 <div class="logoutbox">
     <a href="login.php" class="logoutButton btn btn-warning" onclick="parent.location.href='logout.php'; return false;">Logout</a>
 </div>

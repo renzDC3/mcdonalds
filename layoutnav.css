@@ -3,7 +3,6 @@ body {
     flex-direction: column;
     margin-bottom: 0;
     background: url('bg.jpeg') center center;
-    
     background-size: cover; 
     min-height: 200vh; 
     
@@ -32,6 +31,9 @@ body{
 
 nav {
     
+    
+    top: 0;
+    overflow: hidden;
     background-color: rgb(163, 0, 0) !important;
     border: 2px solid rgb(160, 160, 0) !important;
   
@@ -71,19 +73,32 @@ nav ul li {
 
 nav ul li a {
     
-    color: rgb(186, 182, 182) !important;
+    -webkit-text-stroke-width:0.2px;
+    -webkit-text-stroke-color: rgb(0, 0, 0);
+    text-decoration: none;
+    color: rgb(240, 240, 240) !important;
     font-size: 12px;
     padding: 7px 17px;
+    font-family:Verdana, Geneva, Tahoma, sans-serif;
     border-radius: 3px;
     text-transform: uppercase;
-    font-weight: 700;
+    font-weight:550;
 }
 
-a.active, a:hover {
-    
-    background:rgba(197, 219, 0, 0.741);
+a.btn-warning.active {
+    background: rgba(231, 235, 0, 0.738);
     transition: .1s;
+    color:  rgb(163, 0, 0) !important;
 }
+
+a.btn-warning:hover {
+    background: rgba(209, 211, 106, 0.738);
+    transition: .3s;
+    color:  rgb(163, 0, 0) !important;
+}
+
+
+
 
 
 

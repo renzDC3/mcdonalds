@@ -17,13 +17,24 @@ if ($conn->connect_error) {
     die("Connection failed: " . $conn->connect_error);
 }
 
+// Fetch all possible products from a master products table
+$master_products_query = "SELECT product_name, code, category FROM master_products"; 
+$master_products_result = $conn->query($master_products_query);
+
+$master_products = [];
+if ($master_products_result->num_rows > 0) {
+    while ($row = $master_products_result->fetch_assoc()) {
+        $master_products[$row['category']][] = $row; // Group by category
+    }
+}
+
 // Fetch the latest data for all product categories
 $latest_data = [];
-foreach (['clamshell', 'can', 'powder', 'cups','sauces','paperbag','lids','utensil','boxes','granules','tissues','drinks'] as $table) {
+foreach (['clamshell', 'can', 'powder', 'cups', 'sauces', 'paperbag', 'lids', 'utensil', 'boxes', 'granules', 'tissues', 'drinks'] as $table) {
     $result = $conn->query("SELECT product_name, SUM(quantity) as total_quantity, code FROM $table GROUP BY product_name, code");
 
     while ($row = $result->fetch_assoc()) {
-        $latest_data[$table][] = $row;
+        $latest_data[$table][$row['product_name']] = $row; // Use product_name as key for easy lookup
     }
 }
 
@@ -43,74 +54,42 @@ $conn->close();
     <title>Products</title>
 </head>
 <body>
-<a class="expirelink" href="product_expiring.php">product expiring</a>
-    <table class="table table-striped" id="productsLeft">
-        <caption>Products</caption>
-        <thead>
-            <tr>
-                <th class="td1">Category</th>
-                <th class="td1">Product Name</th>
-                <th class="td1">Available</th>
-                <th class="td1">Code</th>
-            </tr>
-        </thead>
-        <tbody>
-            <?php foreach (['clamshell', 'can', 'powder', 'cups','sauces','paperbag','lids','utensil','boxes','granules','tissues','drinks'] as $category): ?>
-                <?php if (isset($latest_data[$category])): ?>
-                    <?php foreach ($latest_data[$category] as $data): ?>
-                        <tr>
-                            <td><?php echo ucfirst($category); ?></td>
-                            <td><?php echo htmlspecialchars($data['product_name']); ?></td>
-                            <td><?php echo htmlspecialchars($data['total_quantity']); ?></td>
-                            <td><?php echo htmlspecialchars($data['code']); ?></td>
-                        </tr>
-                    <?php endforeach; ?>
-                <?php endif; ?>
-            <?php endforeach; ?>
-        </tbody>
-    </table>
-
-    <table class="table table-striped" id="box-get">
-        <caption>Products Get</caption>
-        <thead>
-            <tr>
-                <td class="td1">Category</td>
-                <td class="td1">Product Name</td>
-                <td class="td1">Code</td>
-                <td class="td1">Get</td>
-                <td class="td1">Products Available</td>
-            </tr>
-        </thead>
-        <tbody>
-            <?php 
-            $categories = ['clamshell', 'can', 'powder', 'cups', 'sauces', 'paperbag', 'lids', 'utensil', 'boxes', 'granules', 'tissues', 'drinks'];
-
-            foreach ($categories as $category) {
-                if (!empty($_SESSION['removed_quantities'][$category])) {
-                    foreach ($_SESSION['removed_quantities'][$category] as $product_name => $removed) {
-                        $total_quantity = 0;
-
-                        if (isset($latest_data[$category])) {
-                            foreach ($latest_data[$category] as $data) {
-                                if ($data['product_name'] === $product_name) {
-                                    $total_quantity = $data['total_quantity'];
-                                    break; 
-                                }
+<a class="expirelink" href="product_expiring.php">Product Expiring</a>
+<table class="table table-striped" id="productsLeft">
+    <caption>Products</caption>
+    <thead>
+        <tr>
+            <th class="td1">Category</th> 
+            <th class="td1">Product Name</th>
+            <th class="td1">Available</th>
+            <th class="td1">Code</th>
+        </tr>
+    </thead>
+    <tbody>
+        <?php foreach ($master_products as $category => $products): ?>
+            <?php foreach ($products as $product): ?>
+                <tr>
+                    <td><?php echo ucfirst($category); ?></td>
+                    <td><?php echo htmlspecialchars($product['product_name']); ?></td>
+                    <td>
+                        <?php
+                        // Check if the product has been recorded in the latest data
+                        $total_quantity = 0; // Initialize total quantity
+                        foreach ($latest_data as $table => $data) {
+                            if (isset($data[$product['product_name']])) {
+                                $total_quantity += $data[$product['product_name']]['total_quantity'];
                             }
                         }
+                        echo htmlspecialchars($total_quantity > 0 ? $total_quantity : "0"); // Display total quantity
+                        ?>
+                    </td>
+                    <td><?php echo htmlspecialchars($product['code']); ?></td>
+                </tr>
+            <?php endforeach; ?>
+        <?php endforeach; ?>
+    </tbody>
+</table>
 
-                        echo '<tr>';
-                        echo '<td>' . ucfirst($category) . '</td>';
-                        echo '<td>' . htmlspecialchars($product_name) . '</td>';
-                        echo '<td>' . (isset($data['code']) ? htmlspecialchars($data['code']) : 'N/A') . '</td>';
-                        echo '<td>' . htmlspecialchars($removed) . '</td>';
-                        echo '<td>' . htmlspecialchars($total_quantity) . '</td>'; 
-                        echo '</tr>';
-                    }
-                }
-            }
-            ?>
-        </tbody>
-    </table>
+   
 </body>
 </html>

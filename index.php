@@ -33,7 +33,7 @@ $query = "
         rh.code, 
         rh.quantity, 
         rh.date_time AS received_date, 
-        DATE_ADD(rh.date_time, INTERVAL 3 MONTH) AS expiration_date, 
+        DATE_ADD(rh.date_time, INTERVAL 1 second) AS expiration_date, 
         ROW_NUMBER() OVER (PARTITION BY rh.product_name, rh.code ORDER BY rh.date_time) AS batch_number
     FROM 
         received_history rh 
@@ -46,7 +46,6 @@ $query = "
 $result = $conn->query($query);
 
 $expiredProducts = [];
-$outOfStockProducts = []; // New array for out of stock products
 $currentDate = new DateTime();
 
 if ($result->num_rows > 0) {
@@ -54,7 +53,12 @@ if ($result->num_rows > 0) {
         $expirationDate = new DateTime($row['expiration_date']);
         // Check if the product has expired
         if ($expirationDate < $currentDate) {
-            $expiredProducts[] = $row['product_name'] . " (Batch: " . $row['batch_number'] . ")";
+            $expiredProducts[] = [
+                'product_name' => $row['product_name'],
+                'batch_number' => $row['batch_number'],
+                'code' => $row['code'],
+                'quantity' => $row['quantity']  // Include quantity in the expired products array
+            ];
         }
         
         // Check if the product is out of stock
@@ -88,7 +92,21 @@ $conn->close();?>
     <div class="messageExpired">
         <?php if (!empty($expiredProducts)): ?>
             <div class="alert alert-danger" role="alert">
-                The following products are expired: <?php echo implode(', ', $expiredProducts); ?>
+                The following products are expired:
+                <ul>
+                <?php foreach ($expiredProducts as $product): ?>
+                    <li>
+                        <?php echo htmlspecialchars($product['product_name']) . " (Batch: " . $product['batch_number'] . ",Received: " . $product['quantity'] . ")"; ?>
+                        <form action="remove_expired.php" method="post" style="display:inline;">
+                            <input type="hidden" name="product_name" value="<?php echo htmlspecialchars($product['product_name']); ?>">
+                            <input type="hidden" name="quantity" value="<?php echo htmlspecialchars($product['quantity']); ?>">
+                            <input type="hidden" name="code" value="<?php echo htmlspecialchars($product['code']); ?>">
+                            <button type="submit" class="btn btn-danger btn-sm">Remove</button>
+                        </form>
+                        
+                    </li>
+                <?php endforeach; ?>
+                </ul>
             </div>
         <?php endif; ?>
 

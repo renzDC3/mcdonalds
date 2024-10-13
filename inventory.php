@@ -4,9 +4,34 @@ if (!isset($_SESSION["user"])) {
    header("Location: index.php");
    exit();
 }
+
 $latest_data = isset($_SESSION['latest_data']) ? $_SESSION['latest_data'] : [];
 $alerts = isset($_SESSION['alerts']) ? $_SESSION['alerts'] : [];
 unset($_SESSION['alerts']); // Clear alerts after displaying
+
+// Database connection
+$servername = "localhost";
+$username = "root";
+$password = "";
+$dbname = "mcdonalds_inventory";
+
+$conn = new mysqli($servername, $username, $password, $dbname);
+if ($conn->connect_error) {
+    die("Connection failed: " . $conn->connect_error);
+}
+
+// Fetch available quantities for all products from the inventory tables
+$available_products = [];
+$categories = ['clamshell', 'can', 'powder', 'cups', 'sauces', 'paperbag', 'lids', 'utensil', 'boxes', 'granules', 'tissues', 'drinks'];
+
+foreach ($categories as $category) {
+    $result = $conn->query("SELECT product_name, SUM(quantity) AS total_quantity FROM $category GROUP BY product_name");
+    while ($row = $result->fetch_assoc()) {
+        $available_products[$category][$row['product_name']] = $row['total_quantity'];
+    }
+}
+
+$conn->close();
 ?>
 
 <!DOCTYPE html>
@@ -20,7 +45,6 @@ unset($_SESSION['alerts']); // Clear alerts after displaying
     <script src="https://unpkg.com/html5-qrcode/minified/html5-qrcode.min.js"></script>
     <script src="loadLayout.js" defer></script>
     <title>Inventory</title>
-    
 </head>
 <body>
     <!-- Display alerts if any -->
@@ -32,15 +56,14 @@ unset($_SESSION['alerts']); // Clear alerts after displaying
         </div>
     <?php endif; ?>
 
-    <table class="table table-striped" id="history">
+    <table id="history">
     <tr class="tr1">
         <td class="td1">Product Name</td>
         <td class="td1">Received</td>
         <td class="td1">Get</td>
+        <td class="td1">Available Products</td>
     </tr>
     <?php 
-    $categories = ['clamshell', 'can', 'powder', 'cups', 'sauces', 'paperbag', 'lids', 'utensil', 'boxes', 'granules', 'tissues', 'drinks'];
-
     foreach ($categories as $category) {
         // Combine both added and removed quantities into a single array of product names
         $product_names = array_unique(
@@ -53,11 +76,13 @@ unset($_SESSION['alerts']); // Clear alerts after displaying
         foreach ($product_names as $product_name) {
             $added = $_SESSION['added_quantities'][$category][$product_name] ?? 0;
             $removed = $_SESSION['removed_quantities'][$category][$product_name] ?? 0;
+            $available = $available_products[$category][$product_name] ?? 0; // Get available quantity
             
             echo '<tr>';
             echo '<td>' . htmlspecialchars($product_name) . '</td>';
             echo '<td>' . htmlspecialchars($added) . '</td>';
             echo '<td>' . htmlspecialchars($removed) . '</td>';
+            echo '<td>' . htmlspecialchars($available) . '</td>'; // Display available quantity
             echo '</tr>';
         }
     }
@@ -66,10 +91,10 @@ unset($_SESSION['alerts']); // Clear alerts after displaying
     
    
     
+    <div class="inputwidth">
+    <input style="background-color: rgb(238, 238, 238) ;width:600px; text-align:center;margin-left:420px;" type="text" id="scannerInput" autofocus placeholder="SCAN QR CODE PRODUCT">
+    </div>
     
-    <input type="text" id="scannerInput" autofocus placeholder="SCAN QR CODE HERE TO INPUT">
-    
-    <br>
 
 
 
@@ -200,12 +225,12 @@ unset($_SESSION['alerts']); // Clear alerts after displaying
                 <td>5435</td>
             </tr>
             <tr>
-                <td>12oz</td>
+                <td>12oz cups</td>
                 <td><input type="number" id="quantity_5684" name="cups[quantity_12oz]" min="0" max="200" step="1"></td>
                 <td>5684</td>
             </tr>
             <tr>
-                <td>16oz</td>
+                <td>16oz cups</td>
                 <td><input type="number" id="quantity_5788" name="cups[quantity_16oz]" min="0" max="200" step="1"></td>
                 <td>5788</td>
             </tr>
@@ -227,7 +252,7 @@ unset($_SESSION['alerts']); // Clear alerts after displaying
                 <th>Code</th>
             </tr>
             <tr>
-                <td>BBQs</td>
+                <td>BBQ sauce</td>
                 <td><input type="number" id="quantity_8092" name="sauces[quantity_bbqs]" min="0" max="200" step="1"></td>
                 <td>8092</td>
             </tr>
@@ -293,13 +318,13 @@ unset($_SESSION['alerts']); // Clear alerts after displaying
                     <th>Code</th>
                 </tr>
                 <tr>
-                    <td>12oz</td>
+                    <td>12oz lids</td>
                     <td><input type="number" id="quantity_9542" name="lids[quantity_12oz]" min="0" max="200" step="1"></td>
                     <td>9542</td>
                 </tr>
                 <tr>
-                    <td>16oz</td>
-                    <td><input type="number" id="quantity_9422" name="lids[quantity_6oz]" min="0" max="200" step="1"></td>
+                    <td>16oz lids</td>
+                    <td><input type="number" id="quantity_9422" name="lids[quantity_16oz]" min="0" max="200" step="1"></td>
                     <td>9422</td>
                 </tr>
                 <tr>
@@ -449,10 +474,10 @@ unset($_SESSION['alerts']); // Clear alerts after displaying
               
             </table>
         </div>
-        </div>
+        </div> 
 <footer>
-    <button type="submit" name="action" value="add">Received</button>
-    <button type="submit" name="action" value="remove">Get</button>
+    <button type="submit" name="action" value="add">Add Product</button>
+    <button type="submit" name="action" value="remove">Get Product</button>
 </footer>
 </form>
 

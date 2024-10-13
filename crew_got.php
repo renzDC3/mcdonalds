@@ -59,7 +59,7 @@ $conn->close();
     <thead>
         <tr>
             <td class="td1">Product Name</td>
-            <td class="td1">Quantity</td>
+            <td class="td1">Boxes Get</td>
             <td class="td1">Date & Time</td>
         </tr>
     </thead>
