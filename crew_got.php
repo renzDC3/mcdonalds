@@ -1,11 +1,10 @@
 <?php
-session_start(); 
-
-// Check if user is logged in
-if (!isset($_SESSION["user"])) {
-    header("Location:index.php");
-    exit();
+session_start();
+if (!isset($_SESSION['manager_loggedin'])) {
+    header('Location: login_manager.php');
+    exit;
 }
+
 
 $servername = "localhost";
 $username = "root";
@@ -61,7 +60,7 @@ $conn->close();
     <meta http-equiv="X-UA-Compatible" content="IE=edge">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
     <link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/bootstrap@5.2.2/dist/css/bootstrap.min.css">
-    <script src="loadLayout.js" defer></script>
+    <script src="loadLayout3.js" defer></script>
     <link rel="stylesheet" href="history_table.css">
     <title>Crew Got</title>
 </head>
@@ -99,7 +98,7 @@ $conn->close();
 </style>
 <body>
 
-<h3 class="my-4">Deduct product History</h3>
+<h4>Deduct product History</h4>
     <form method="post" action="crew_got.php">
         <button type="submit" name="archive" class="buttonarchived">Archive</button>
     </form>

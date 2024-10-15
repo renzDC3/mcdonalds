@@ -1,8 +1,8 @@
 <?php
 session_start();
-if (!isset($_SESSION["user"])) {
-   header("Location: login.php");
-   exit();
+if (!isset($_SESSION['manager_loggedin'])) {
+    header('Location: login_manager.php');
+    exit;
 }
 
 $servername = "localhost";
@@ -42,7 +42,7 @@ $result = $conn->query($query);
     <link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/bootstrap@5.2.2/dist/css/bootstrap.min.css" integrity="sha384-Zenh87qX5JnK2Jl0vWa8Ck2rdkQ2Bzep5IDxbcnCeuOxjzrPF/et3URy9Bv1WTRi" crossorigin="anonymous">
     <link rel="stylesheet" href="index.css">
     <link rel="stylesheet" href="inventory.css">
-    <script src="loadLayout.js" defer></script>
+    <script src="loadLayout3.js" defer></script>
     <title>Ordered Details</title>
 </head>
 <body>

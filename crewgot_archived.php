@@ -1,10 +1,8 @@
 <?php
-session_start(); 
-
-// Check if user is logged in
-if (!isset($_SESSION["user"])) {
-    header("Location:index.php");
-    exit();
+session_start();
+if (!isset($_SESSION['manager_loggedin'])) {
+    header('Location: login_manager.php');
+    exit;
 }
 
 $servername = "localhost";

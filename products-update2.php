@@ -1,10 +1,8 @@
 <?php
-session_start(); 
-
-// Check if user is logged in
-if (!isset($_SESSION["user"])) {
-    header("Location:index.php");
-    exit();
+session_start();
+if (!isset($_SESSION['manager_loggedin'])) {
+    header('Location: login_manager.php');
+    exit;
 }
 
 $servername = "localhost";
@@ -49,13 +47,13 @@ $conn->close();
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
     <link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/bootstrap@5.2.2/dist/css/bootstrap.min.css">
     <link rel="stylesheet" href="inventory.css">
-    <script src="loadLayout.js" defer></script>
+    <script src="loadLayout3.js" defer></script>
     
     <title>Products</title>
 </head>
 <body>
     
-
+<a class="expirelink" href="product_expiring.php">Product Expiring</a>
 <table class="table table-striped" id="productsLeft">
     <caption>Products</caption>
     <thead>

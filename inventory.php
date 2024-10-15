@@ -20,6 +20,17 @@ if ($conn->connect_error) {
     die("Connection failed: " . $conn->connect_error);
 }
 
+// Function to get the current batch number
+function getBatch($conn, $productName) {
+    $sql = "SELECT batch FROM received_history WHERE product_name = ? ORDER BY date_time DESC LIMIT 1";
+    $stmt = $conn->prepare($sql);
+    $stmt->bind_param("s", $productName);
+    $stmt->execute();
+    $result = $stmt->get_result();
+    $row = $result->fetch_assoc();
+    return $row ? $row['batch'] : 1; // Return batch number or 1 if no record found
+}
+
 // Fetch available quantities for all products from the inventory tables
 $available_products = [];
 $categories = ['clamshell', 'can', 'powder', 'cups', 'sauces', 'paperbag', 'lids', 'utensil', 'boxes', 'granules', 'tissues', 'drinks'];
@@ -30,8 +41,6 @@ foreach ($categories as $category) {
         $available_products[$category][$row['product_name']] = $row['total_quantity'];
     }
 }
-
-$conn->close();
 ?>
 
 <!DOCTYPE html>
@@ -62,6 +71,7 @@ $conn->close();
         <td class="td1">Restock</td>
         <td class="td1">Deduct</td>
         <td class="td1">Available Products</td>
+        <td class="td1">Batch</td>
     </tr>
     <?php 
     foreach ($categories as $category) {
@@ -69,7 +79,7 @@ $conn->close();
         $product_names = array_unique(
             array_merge(
                 array_keys($_SESSION['added_quantities'][$category] ?? []),
-                array_keys($_SESSION['removed_quantities'][$category] ?? [])
+                array_keys($_SESSION['removed_quantities'][$category] ?? []),
             )
         );
 
@@ -77,15 +87,18 @@ $conn->close();
             $added = $_SESSION['added_quantities'][$category][$product_name] ?? 0;
             $removed = $_SESSION['removed_quantities'][$category][$product_name] ?? 0;
             $available = $available_products[$category][$product_name] ?? 0; // Get available quantity
+            $batch = getBatch($conn, $product_name); // Get the current batch number
             
             echo '<tr>';
             echo '<td>' . htmlspecialchars($product_name) . '</td>';
             echo '<td>' . htmlspecialchars($added) . '</td>';
             echo '<td>' . htmlspecialchars($removed) . '</td>';
-            echo '<td>' . htmlspecialchars($available) . '</td>'; // Display available quantity
+            echo '<td>' . htmlspecialchars($available) . '</td>';
+            echo '<td>' . htmlspecialchars($batch) . '</td>'; // Display batch number
             echo '</tr>';
         }
     }
+    $conn->close();
     ?>
     </table>
     

@@ -76,7 +76,7 @@ $conn->close();
 <body>
     <div class="orderD">
         <table class="table-bordered" class="orderT">
-            <caption style="text-align:center;">Order List</caption>
+            <caption style="text-align:center;">Critical Product</caption>
             <tr>
                 <th class="td1">Category</th>
                 <th class="td1">Product Name</th>

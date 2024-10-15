@@ -1,8 +1,8 @@
 <?php
 session_start();
-if (!isset($_SESSION["user"])) {
-    header("Location: login.php");
-    exit();
+if (!isset($_SESSION['manager_loggedin'])) {
+    header('Location: login_manager.php');
+    exit;
 }
 
 $servername = "localhost";
@@ -71,8 +71,7 @@ $result = $conn->query($sql);
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
     <link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/bootstrap@5.2.2/dist/css/bootstrap.min.css">
     <link rel="stylesheet" href="history_table.css">
-    <script src="loadLayout.js" defer></script>
-    
+    <script src="loadLayout3.js" defer></script>
     <title>Received History</title>
 </head>
 <style>
@@ -114,7 +113,7 @@ $result = $conn->query($sql);
 </style>
 <body>
 
-<h3 class="my-4">Restock History</h3>
+<h4>Restock History</h4>
   
 <form method="post" action="history.php">
     <button class="buttonarchived" type="submit" name="archive" class="btn btn-warning">Archive</button>

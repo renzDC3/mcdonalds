@@ -58,9 +58,10 @@ li{
 
 
 
-h3{text-align:center;
-
+h4{text-align:center;
+            margin-top:20px;
+            font-size:30px;
+            letter-spacing: -.15ch;
+            line-height: .75;
 
 }
-
-

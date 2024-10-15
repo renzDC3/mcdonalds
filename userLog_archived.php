@@ -1,9 +1,10 @@
 <?php
 session_start();
-if (!isset($_SESSION["user"])) {
-    header("Location: login.php");
-    exit();
+if (!isset($_SESSION['manager_loggedin'])) {
+    header('Location: login_manager.php');
+    exit;
 }
+
 
 $servername = "localhost";
 $username = "root";

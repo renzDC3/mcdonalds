@@ -25,11 +25,7 @@ width: 50px;
     <label class="logo">Inventory System</label>
     <img src="topicon.png" alt="McDo Icon" class="top-icon">
     <ul>
-    <li><a class="btn-warning" href="index.php">Home</a></li>
-    <li><a class="btn-warning" href="inventory.php">Inventory</a></li>
-    <li><a class="btn-warning" href="products-update.php">Products</a></li>
-    <li><a class="btn-warning" href="ordered-details.php">Reorder</a></li>
-    <li><a class="btn-warning" href="history.php">History</a></li>
+
    
     <li class="log_out"><a id="account" onclick="toggleIframe()"> <img src="accountIcon.png" id="accounticon"></a></li>
     </ul>

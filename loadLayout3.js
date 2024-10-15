@@ -1,5 +1,5 @@
 document.addEventListener('DOMContentLoaded', () => {
-    fetch('layout.php')
+    fetch('layout3.php')
         .then(response => response.text())
         .then(data => {
             document.body.innerHTML = data + document.body.innerHTML;

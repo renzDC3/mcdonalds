@@ -73,12 +73,14 @@ width: 50px;}
         <li><a class="btn-warning" href="inventory.php">Inventory</a></li>
         <li><a class="btn-warning" href="products-update.php">Stocks</a></li>
         <li><a class="btn-warning" href="ordered-details.php">Reorder</a></li>
-        <li><a class="btn-warning" href="history.php">History</a></li>
+       
+        
+
         <li class="log_out"><a id="account" onclick="toggleIframe()"> <img src="accountIcon.png" id="accounticon"></a></li>
     </ul>
 </nav>
 
-
+ 
 
 <div id="iframeContainer">
     
