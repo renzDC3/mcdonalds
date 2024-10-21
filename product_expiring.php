@@ -22,17 +22,18 @@ $query = "
         rh.code, 
         rh.quantity, 
         rh.date_time AS received_date, 
-        DATE_ADD(rh.date_time, INTERVAL 3 MONTH) AS expiration_date,
+        rh.expiration_date,  -- Fetch expiration_date directly from the database
         COUNT(*) OVER (PARTITION BY rh.product_name, rh.code ORDER BY rh.date_time) AS batch_number
     FROM 
         received_history rh
     WHERE 
-        rh.product_name IN ('BBQ', 'Cheese', 'Breader', 'coating', 'BBQs', 'sweet', 'maple', 'syrups', 'coffee granules', 'brewed coffee granules', 'ice coffee', 'Sprite', 'CocaCola')
+        rh.product_name IN ('BBQ powder', 'Cheese', 'Breader', 'coating', 'BBQs', 'sweet', 'maple', 'syrups', 'coffee granules', 'brewed coffee granules', 'ice coffee', 'Sprite', 'CocaCola')
     ORDER BY 
         rh.product_name, rh.date_time";
 
 $result = $conn->query($query);
 ?>
+
 <!DOCTYPE html>
 <html lang="en">
 <head>
@@ -46,39 +47,48 @@ $result = $conn->query($query);
     <title>Ordered Details</title>
 </head>
 <body>
-<a class="expirelink"href="products-update.php">Back</a>
+<a class="expirelink" href="products-update2.php">Back</a>
 
-
-    <div class="orderD">
-       
-        <table class="table-bordered" class="orderT">
-            <thead><caption>Expiring Products</caption>
-
-                <tr>
-                    <th>Product Name</th>
-                    <th>Code</th>
-                    <th>Boxes</th>
-                    <th>Received Date</th>
-                    <th>Expiration Date</th>
-                    <th>Batch</th>
-                </tr>
-            </thead>
-            <tbody>
-                <?php
-                if ($result->num_rows > 0) {
-                    while($row = $result->fetch_assoc()) {
-                        echo "<tr>
-                                <td>{$row['product_name']}</td>
-                                <td>{$row['code']}</td>
-                                <td>{$row['quantity']}</td>
-                                <td>{$row['received_date']}</td>
-                                <td>{$row['expiration_date']}</td>
-                                <td>Batch {$row['batch_number']}</td> <!-- Displaying the batch number -->
-                              </tr>";
-                    }
-                } else {
-                    echo "<tr><td colspan='6'>No records found</td></tr>"; // Updated colspan to 6
+<div class="orderD">
+    <table class="table-bordered" class="orderT">
+        <thead>
+            <caption>Expiring Products</caption>
+            <tr>
+                <th>Product Name</th>
+                <th>Code</th>
+                <th>Boxes</th>
+                <th>Received Date</th>
+                <th>Expiration Date</th>
+                <th>Batch</th>
+           
+            </tr>
+        </thead>
+        <tbody>
+            <?php
+            if ($result->num_rows > 0) {
+                while($row = $result->fetch_assoc()) {
+                    echo "<tr>
+                            <td>{$row['product_name']}</td>
+                            <td>{$row['code']}</td>
+                            <td>{$row['quantity']}</td>
+                            <td>{$row['received_date']}</td>
+                            <td>
+                                <form method='POST' action='update_expiration.php'>
+                                    <input type='date' name='new_expiration_date' value='" . date('Y-m-d', strtotime($row['expiration_date'])) . "' required>
+                                    <input type='hidden' name='product_code' value='{$row['code']}'>
+                                    <input type='hidden' name='product_name' value='{$row['product_name']}'>
+                                    <input type='submit' value='Update' class='btn btn-primary btn-sm'>
+                                </form>
+                            </td>
+                            <td>Batch {$row['batch_number']}</td>
+                          </tr>";
                 }
-                ?>
-            </tbody>
-        </table>
+            } else {
+                echo "<tr><td colspan='7'>No records found</td></tr>"; // Updated colspan to 7
+            }
+            ?>
+        </tbody>
+    </table>
+</div>
+</body>
+</html>

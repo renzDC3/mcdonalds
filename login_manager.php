@@ -33,14 +33,26 @@ if (isset($_POST['login_manager'])) {
     <script src="loadLayout2.js" defer></script>
 </head>
 <body>
-<br><br><br><br>
+<br><br>
 
-<a href="login.php">Log in as Crew</a>
+<a href="login.php"style="
+    display: inline-block; 
+    background-color: #f0f0f0; 
+    color: black; 
+    width: 132px; 
+    border: 2px solid black; 
+    border-radius: 5px; 
+    text-decoration: none; 
+    text-align: center; 
+    padding: 10px 0; 
+    margin-left: 30px; 
+    transition: background-color 0.3s, color 0.3s;
+">Log in Crew</a>
 
 <div class="container1">
     <form action="login_manager.php" method="post">
         <div class="form-group">
-            <h1 style="color: white; text-align:center;">Manager Login</h1><br>
+            <h1 style="color: white; text-align:center;font-size:27px;">Manager Login</h1><br>
             <input type="password" placeholder="Enter Password" name="password" class="form-control" required><br>
             <?php if (isset($error)): ?>
                 <div class="alert alert-danger"><?= $error ?></div>

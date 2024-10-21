@@ -2,9 +2,9 @@ body {
     display: flex;
     flex-direction: column;
     margin-bottom: 0;
-    background: url('bg.jpeg') ;
+    background: url('bg.jpeg');
     background-size: cover; 
-    min-height: 200vh; 
+    min-height: 100vh; 
     
 }
 
@@ -26,6 +26,7 @@ body{
 
 
 .top-icon {
+    border-radius: 200px;
     width: 100px;
 }
 
@@ -34,8 +35,8 @@ nav {
     
     top: 0;
     overflow: hidden;
-    background-color: rgb(163, 0, 0) !important;
-    border: 2px solid rgb(160, 160, 0) !important;
+    background-color: rgb(36, 36, 36) !important;
+    border: 2px solid rgb(0, 0, 0) !important;
   
 
 }

@@ -17,19 +17,21 @@ $conn = new mysqli($servername, $username, $password, $dbname);
 if ($conn->connect_error) {
     die("Connection failed: " . $conn->connect_error);
 }
+
+// Query to retrieve all received products and their details
 $query = "
     SELECT 
         rh.product_name, 
         rh.code, 
         rh.quantity, 
         rh.date_time AS received_date, 
-        DATE_ADD(rh.date_time, INTERVAL 1 second) AS expiration_date, 
+        rh.expiration_date,  -- Directly select expiration_date from the table
         ROW_NUMBER() OVER (PARTITION BY rh.product_name, rh.code ORDER BY rh.date_time) AS batch_number
     FROM 
         received_history rh 
     WHERE 
         rh.action = 'added' 
-        AND rh.product_name IN ('BBQ', 'Cheese', 'Breader', 'coating', 'BBQs', 'sweet', 'maple', 'syrups', 'coffee granules', 'brewed coffee granules', 'ice coffee', 'Sprite', 'CocaCola')
+        AND rh.product_name IN ('BBQ powder', 'Cheese', 'Breader', 'coating', 'BBQs', 'sweet', 'maple', 'syrups', 'coffee granules', 'brewed coffee granules', 'ice coffee', 'Sprite', 'CocaCola')
     ORDER BY 
         rh.product_name, rh.code";
 
@@ -40,7 +42,9 @@ $currentDate = new DateTime();
 
 if ($result->num_rows > 0) {
     while ($row = $result->fetch_assoc()) {
+        // Use the expiration_date from the database directly
         $expirationDate = new DateTime($row['expiration_date']);
+        
         // Check if the product has expired
         if ($expirationDate < $currentDate) {
             $expiredProducts[] = [
@@ -50,9 +54,10 @@ if ($result->num_rows > 0) {
                 'quantity' => $row['quantity']  // Include quantity in the expired products array
             ];
         }
+    }
+}
 
-    }}
-// List of all product names
+// List of all product names (unchanged)
 $allProducts = [
     ['1PC', 2967, 'Clamshell'], ['2PC', 2987, 'Clamshell'], ['Fillet', 2957, 'Clamshell'],
     ['Spaghetti', 2968, 'Clamshell'], ['Cola', 5482, 'Can'], ['Fizz', 5924, 'Can'],
@@ -102,30 +107,28 @@ $conn->close();
     <script src="loadLayout.js" defer></script>
     <title>Home</title>
 </head>
+
 <body>
 
     <div class="messageExpired">
-    <?php if (!empty($expiredProducts)): ?>
+        <?php if (!empty($expiredProducts)): ?>
             <div class="alert alert-danger" role="alert">
                 The following products are expired:
                 <ul>
                 <?php foreach ($expiredProducts as $product): ?>
                     <li>
-                        <?php echo htmlspecialchars($product['product_name']) . " (Batch: " . $product['batch_number'] . ",Received: " . $product['quantity'] . ")"; ?>
+                        <?php echo htmlspecialchars($product['product_name']) . " (Batch: " . $product['batch_number'] . ", Received: " . $product['quantity'] . ")"; ?>
                         <form action="remove_expired.php" method="post" style="display:inline;">
                             <input type="hidden" name="product_name" value="<?php echo htmlspecialchars($product['product_name']); ?>">
                             <input type="hidden" name="quantity" value="<?php echo htmlspecialchars($product['quantity']); ?>">
                             <input type="hidden" name="code" value="<?php echo htmlspecialchars($product['code']); ?>">
-                            <button type="submit" class="btn btn-danger btn-sm">Remove</button>
+                           
                         </form>
-                        
                     </li>
                 <?php endforeach; ?>
                 </ul>
             </div>
         <?php endif; ?>
-
-
 
         <?php if (!empty($outOfStockProducts)): ?>
             <div class="alert alert-danger" role="alert">

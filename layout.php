@@ -72,7 +72,7 @@ width: 50px;}
         <li><a class="btn-warning" id="home-link" href="index.php">Home</a></li>
         <li><a class="btn-warning" href="inventory.php">Inventory</a></li>
         <li><a class="btn-warning" href="products-update.php">Stocks</a></li>
-        <li><a class="btn-warning" href="ordered-details.php">Reorder</a></li>
+        <li><a class="btn-warning" href="ordered-details.php">Critical product</a></li>
        
         
 

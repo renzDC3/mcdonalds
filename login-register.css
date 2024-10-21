@@ -1,15 +1,15 @@
 .container{
   
     margin: 0% auto;
-    width: 350px;
+    width: 250px;
     background-color:  rgb(163, 0, 0) !important;
     border: 5px solid rgb(172, 147, 0) !important;
 }
 .container1{
   
   margin: 0% auto;
-  width: 350px;
-  background-color:  rgb(43, 40, 40) !important;
+  width: 250px;
+  background-color:  rgb(10, 8, 8) !important;
   border: 5px solid rgb(172, 147, 0) !important;
 }
 .container2{

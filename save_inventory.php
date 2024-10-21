@@ -38,7 +38,7 @@ $products = [
         ["name" => "Sprite can", "code" => 5447, "quantity" => isset($_POST["can"]["quantity_sprite"]) ? $_POST["can"]["quantity_sprite"] : 0, "location" => "Row 4,Slot2"],
     ],
     "powder" => [
-        ["name" => "BBQ", "code" => 7890, "quantity" => isset($_POST["powder"]["quantity_BBQ"]) ? $_POST["powder"]["quantity_BBQ"] : 0, "location" => "Row 1,Slot3"],
+        ["name" => "BBQ powder", "code" => 7890, "quantity" => isset($_POST["powder"]["quantity_BBQ"]) ? $_POST["powder"]["quantity_BBQ"] : 0, "location" => "Row 1,Slot3"],
         ["name" => "Cheese", "code" => 7653, "quantity" => isset($_POST["powder"]["quantity_chess"]) ? $_POST["powder"]["quantity_chess"] : 0, "location" => "Row 2,Slot3"],
         ["name" => "Breader", "code" => 7554, "quantity" => isset($_POST["powder"]["quantity_breader"]) ? $_POST["powder"]["quantity_breader"] : 0, "location" => "Row 3,Slot3"],
         ["name" => "coating", "code" => 7542, "quantity" => isset($_POST["powder"]["quantity_coating"]) ? $_POST["powder"]["quantity_coating"] : 0, "location" => "Row 4,Slot3"],

@@ -70,17 +70,32 @@ if (isset($_POST["login"])) {
     <link rel="stylesheet" href="login-register.css">
     <script src="loadLayout2.js" defer></script>
 </head>
-<body>
-<br><br><br><br>
 
-<a href="login_manager.php">Log in as Manager</a>
+<body>
+<br><br>
+
+<a href="login_manager.php" style="
+    display: inline-block; 
+    background-color: #f0f0f0; 
+    color: black; 
+    width: 132px; 
+    border: 2px solid black; 
+    border-radius: 5px; 
+    text-decoration: none; 
+    text-align: center; 
+    padding: 10px 0; 
+    margin-left: 30px; 
+    transition: background-color 0.3s, color 0.3s;
+">
+    Log in Manager
+</a>
 
 <div class="container">
     <form action="login.php" method="post">
         <div class="form-group">
-            <h1 style="color: white; text-align:center;">Crew Login</h1><br>
-            <input placeholder="Enter Your Crew Number" name="crew_number" class="form-control" required><br>
-            <input type="password" placeholder="Enter Your Password" name="password" class="form-control" required><br>
+            <h1 style="color: white; text-align:center;font-size:27px;">Crew Login</h1><br>
+            <input placeholder="Enter Crew Number" name="crew_number" class="form-control" required><br>
+            <input type="password" placeholder="Enter Password" name="password" class="form-control" required><br>
             <?php if (isset($error)): ?>
                 <div class="alert alert-danger"><?= $error ?></div>
             <?php endif; ?>

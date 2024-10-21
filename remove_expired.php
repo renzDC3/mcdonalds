@@ -1,10 +1,11 @@
 <?php
 session_start();
-if (!isset($_SESSION["user"])) {
-   header("Location: login.php");
-   exit();
+if (!isset($_SESSION['manager_loggedin'])) {
+    header('Location: login_manager.php');
+    exit;
 }
 
+// Database connection
 $servername = "localhost";
 $username = "root";
 $password = "";
@@ -15,26 +16,31 @@ if ($conn->connect_error) {
     die("Connection failed: " . $conn->connect_error);
 }
 
+// Check if the form was submitted
 if ($_SERVER["REQUEST_METHOD"] == "POST") {
-    $product_name = $_POST['product_name'];
+    $productName = $_POST['product_name'];
+    $quantity = $_POST['quantity'];
     $code = $_POST['code'];
-
-    // Prepare and execute the delete statement
-    $stmt = $conn->prepare("DELETE FROM received_history WHERE product_name = ? AND code = ? AND action = 'added'");
-    $stmt->bind_param("ss", $product_name, $code);
     
-    if ($stmt->execute()) {
-        // Success message
-        $_SESSION['message'] = "Expired product $product_name removed successfully.";
-    } else {
-        // Error message
-        $_SESSION['message'] = "Error removing product: " . $conn->error;
-    }
+    // Validate input
+    if (!empty($productName) && !empty($quantity) && !empty($code)) {
+        // Prepare and execute the delete query
+        $stmt = $conn->prepare("DELETE FROM received_history WHERE product_name = ? AND code = ? LIMIT ?");
+        $stmt->bind_param("ssi", $productName, $code, $quantity); // Assuming quantity is used as limit
 
-    $stmt->close();
+        if ($stmt->execute()) {
+            // Redirect to the page where the form is rendered
+            header('Location: index2.php'); // Adjust this to your actual page
+            exit;
+        } else {
+            echo "Error removing product: " . $stmt->error;
+        }
+        
+        $stmt->close();
+    } else {
+        echo "Please provide valid input.";
+    }
 }
 
 $conn->close();
-header("Location: index.php"); // Redirect back to index.php
-exit();
 ?>

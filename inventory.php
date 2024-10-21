@@ -194,7 +194,7 @@ foreach ($categories as $category) {
                 <th>Code</th>
             </tr>
             <tr>
-                <td>BBQ</td>
+                <td>BBQ powder</td>
                 <td><input type="number" id="quantity_7890" name="powder[quantity_BBQ]" min="0" max="200" step="1"></td>
                 <td>7890</td>
             </tr>
@@ -529,11 +529,4 @@ foreach ($categories as $category) {
 </html>
 
 
-</body>
-</html>
 
-
-
-
-</body>
-</html>

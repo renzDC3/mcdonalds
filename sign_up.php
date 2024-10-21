@@ -12,22 +12,34 @@ if ($_SERVER["REQUEST_METHOD"] == "POST") {
     $crew_number = $_POST["crew_number"];
     $password = $_POST["password"];
 
-    // Validate crew number
+    // Validate crew number format
     if (!preg_match('/^044\d{3}$/', $crew_number)) {
         $error = "Crew number must be exactly 6 digits and start with '044'.";
     } elseif (strlen($password) < 8) {
         $error = "Password must be at least 8 characters long.";
     } else {
-        $password_hash = password_hash($password, PASSWORD_DEFAULT);
-        $sql = "INSERT INTO users (full_name, crew_number, password) VALUES (?, ?, ?)";
+        // Check if the crew number already exists
+        $sql = "SELECT * FROM users WHERE crew_number = ?";
         $stmt = $conn->prepare($sql);
-        $stmt->bind_param("sss", $full_name, $crew_number, $password_hash);
+        $stmt->bind_param("s", $crew_number);
+        $stmt->execute();
+        $result = $stmt->get_result();
 
-        if ($stmt->execute()) {
-            header("Location: sign_up.php");
-            exit();
+        if ($result->num_rows > 0) {
+            $error = "Crew number already exists. Please use a different crew number.";
         } else {
-            $error = "Error: " . $stmt->error;
+            // Proceed with inserting new user
+            $password_hash = password_hash($password, PASSWORD_DEFAULT);
+            $sql = "INSERT INTO users (full_name, crew_number, password) VALUES (?, ?, ?)";
+            $stmt = $conn->prepare($sql);
+            $stmt->bind_param("sss", $full_name, $crew_number, $password_hash);
+
+            if ($stmt->execute()) {
+                header("Location: sign_up.php");
+                exit();
+            } else {
+                $error = "Error: " . $stmt->error;
+            }
         }
     }
 }
@@ -38,13 +50,14 @@ $result = $conn->query($sql);
 
 ?>
 
+
 <!DOCTYPE html>
 <html lang="en">
 <head>
     <meta charset="UTF-8">
     <meta http-equiv="X-UA-Compatible" content="IE=edge">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>Sign Up</title>
+    <title>Add crew</title>
     <script src="loadLayout3.js" defer></script>
     <link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/bootstrap@5.2.2/dist/css/bootstrap.min.css">
     <link rel="stylesheet" href="login-register.css">
@@ -52,8 +65,9 @@ $result = $conn->query($sql);
 <style>
     button{
         width: 100px;
+        Background-color:black;
     }
-    a{
+    a{  color:white;
         text-decoration:none
     }
 
@@ -81,7 +95,7 @@ $result = $conn->query($sql);
 </div>
 
 <div class="usertable">
-    <h6>Account</h6>
+    <h6>Crew account</h6>
     <table class="user">
         <thead>
             <tr>

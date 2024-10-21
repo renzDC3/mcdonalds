@@ -3,7 +3,7 @@
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <link rel="stylesheet" href="layoutnav.css">
+    <link rel="stylesheet" href="layoutnav2.css">
     <script src="loadLayout3.js" defer></script>
     <title>Inventory System</title>
 </head>
