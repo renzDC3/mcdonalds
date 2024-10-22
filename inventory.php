@@ -489,8 +489,8 @@ foreach ($categories as $category) {
         </div>
         </div> 
 <footer>
-    <button type="submit" name="action" value="add">Restock product</button>
-    <button type="submit" name="action" value="remove">Deduct Product</button>
+    <button type="submit" name="action" value="add" class="button2">Restock product</button>
+    <button type="submit" name="action" value="remove" class="button1">Deduct Product</button>
 </footer>
 </form>
 

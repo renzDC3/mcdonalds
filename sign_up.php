@@ -13,8 +13,8 @@ if ($_SERVER["REQUEST_METHOD"] == "POST") {
     $password = $_POST["password"];
 
     // Validate crew number format
-    if (!preg_match('/^044\d{3}$/', $crew_number)) {
-        $error = "Crew number must be exactly 6 digits and start with '044'.";
+    if (!preg_match('/^\d{6,}$/', $crew_number)) {
+        $error = "Crew number must be exactly 6 digits";
     } elseif (strlen($password) < 8) {
         $error = "Password must be at least 8 characters long.";
     } else {
@@ -49,7 +49,7 @@ $sql = "SELECT id, full_name, crew_number, password FROM users";
 $result = $conn->query($sql);
 
 ?>
-
+ 
 
 <!DOCTYPE html>
 <html lang="en">
@@ -63,13 +63,26 @@ $result = $conn->query($sql);
     <link rel="stylesheet" href="login-register.css">
 </head>
 <style>
-    button{
-        width: 100px;
-        Background-color:black;
-    }
-    a{  color:white;
-        text-decoration:none
-    }
+    button {
+        
+        font-size: 14px;
+        font-weight: bold;
+        font-size: 0.9rem;
+        background: rgba(255, 255, 255, 0.283);
+        width: 100%;
+        box-sizing: border-box;
+        padding-inline: 0.5em;
+        padding-block: 0.7em;
+        border: none;
+        border-bottom: var(--border-height) solid var(--border-before-color);
+        box-shadow: 0 2px 4px rgba(0, 0, 0, 0.313);
+        width:130px;
+        border-radius:10px;
+        }
+        a {
+            color: black;
+            text-decoration: none;
+        }
 
 </style>
 <body>
@@ -84,10 +97,10 @@ $result = $conn->query($sql);
             <input type="text" placeholder="Input Crew Number" name="crew_number" class="input1" required><br>
             <input type="password" placeholder="Input Password" name="password" class="input1" required><br>
             <?php if (isset($error)): ?>
-                <div class="alert alert-danger"><?= $error ?></div>
+                <div style="font-size:13px; color:rgb(201, 58, 58); text-align:center;"><?= $error ?></div>
             <?php endif; ?>
             <div class="form-btn"><br>
-                <input type="submit" value="add account" name="sign_up" class="btn btn-primary" id="signupbtn" style="margin-left:20px">
+                <input type="submit" value="Add account" name="sign_up" class="btn btn-primary" id="signupbtn" style="margin-left:20px">
             </div>
             <br>
         </div>
@@ -95,12 +108,13 @@ $result = $conn->query($sql);
 </div>
 
 <div class="usertable">
-    <h6>Crew account</h6>
+    <h6 style="color:wheat">Crew account</h6>
     <table class="user">
         <thead>
-            <tr>
+            <tr style="text-align:center;">
                 <th>Full Name</th>
                 <th>Crew Number</th>
+                <th>remove</th>
       
             </tr>
         </thead>
@@ -111,7 +125,7 @@ $result = $conn->query($sql);
                         <td><?= htmlspecialchars($row["full_name"]) ?></td>
                         <td><?= htmlspecialchars($row["crew_number"]) ?></td>
                     
-                        <td id="remove_"><button class="btn btn-danger" onclick="removeUser(<?= $row['id'] ?>)">Remove</button></td>
+                        <td id="remove_"><button style="background-color: rgb(217, 56, 56); width:80px;height:35px;" onclick="removeUser(<?= $row['id'] ?>)">Remove</button></td>
                     </tr>
                 <?php endwhile; ?>
             <?php else: ?>

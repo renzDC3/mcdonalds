@@ -23,7 +23,7 @@ $full_name = $_SESSION["full_name"];
         
 
         
-        <li><a class="btn-warning" onclick="parent.location.href='feedback.php'">Give feedback</a></li>
+       <!-- <li><a class="btn-warning" onclick="parent.location.href='feedback.php'">Give feedback</a></li>-->
 
         <div class="logoutbox">
             <a href="login_manager.php" class="logoutButton btn btn-warning" onclick="parent.location.href='logout2.php'; return false;">Logout</a>

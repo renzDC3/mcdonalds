@@ -47,7 +47,6 @@ li{
     padding: 10px;
     background-color: rgb(207, 217, 226);
     color: black;
-    
     padding-bottom:10pxpx;
     border-radius: 20px;
     width: 100;
@@ -58,7 +57,9 @@ li{
 
 
 
-h4{text-align:center;
+h4{
+    text-align:center;
+    color:white;
             margin-top:20px;
             font-size:30px;
             letter-spacing: -.15ch;

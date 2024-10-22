@@ -2,7 +2,7 @@ body {
     display: flex;
     flex-direction: column;
     margin-bottom: 0;
-    background: url('bg.jpeg');
+    background: url('bg2.jpg');
     background-size: cover; 
     min-height: 100vh; 
     
@@ -15,13 +15,7 @@ body{
         height: auto;    
 }
 
-.footer {
-        color:inherit;
-        position: absolute;
-        bottom: 0;
-        width: 100%;
-        white-space: nowrap;
-  }
+
 
 
 
@@ -35,8 +29,8 @@ nav {
     
     top: 0;
     overflow: hidden;
-    background-color: rgb(36, 36, 36) !important;
-    border: 2px solid rgb(0, 0, 0) !important;
+    background-color:  rgb(163, 0, 0) !important;
+    border: 2px solid rgb(160, 160, 0) !important;
   
 
 }
@@ -89,7 +83,7 @@ nav ul li a {
 a.btn-warning.active {
     background: rgba(231, 235, 0, 0.738);
     transition: .1s;
-    color:  rgb(163, 0, 0) !important;
+    color:  rgb(197, 15, 15) !important;
 }
 
 a.btn-warning:hover {
@@ -109,7 +103,7 @@ a.btn-warning:hover {
 
 
 
-p footer{
+footer{
     color: black;
 }
 

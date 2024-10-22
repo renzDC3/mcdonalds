@@ -143,5 +143,11 @@ $conn->close();
     </div>
 
     <h1>Inventory System</h1>
+    <footer>
+  
+    <p>&copy; MCFOOD / Quezon City / 09912328099 /<br>
+       &copy; MCDONALDS RIZAL/ MALABON CITY /6065-84664</p>
+  
+</footer>
 </body>
 </html>

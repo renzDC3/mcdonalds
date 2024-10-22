@@ -109,8 +109,20 @@ $conn->close();
 </head>
 <style>
     button {
-        width: 100px;
-        background-color: black;
+        
+    font-size: 14px;
+    font-weight: 400;
+    font-size: 0.9rem;
+    background: rgba(255, 255, 255, 0.283);
+    width: 100%;
+    box-sizing: border-box;
+    padding-inline: 0.5em;
+    padding-block: 0.7em;
+    border: none;
+    border-bottom: var(--border-height) solid var(--border-before-color);
+    box-shadow: 0 2px 4px rgba(0, 0, 0, 0.313);
+    width:130px;
+    border-radius:10px;
     }
     a {
         color: white;

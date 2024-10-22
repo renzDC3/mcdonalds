@@ -77,11 +77,28 @@ footer {
     
 
 }
-button{
+.button1 {
+    
     border-radius: 20px;
     padding: 10px;
     color: rgb(222, 222, 222);
     background-color: black;
+    position: fixed; /* Change to fixed */
+    bottom: 0; /* Stick to the bottom */
+    left: 80%; /* Center horizontally */
+    transform: translateX(93%); /* Adjust position */
+    z-index: 1000; /* Ensure it appears above other elements */
+}
+.button2 {
+    border-radius: 20px;
+    padding: 10px;
+    color: rgb(222, 222, 222);
+    background-color: black;
+    position: fixed; /* Change to fixed */
+    bottom: 0; /* Stick to the bottom */
+    left:5%;/* Center horizontally */
+    transform: translateX(-50%); /* Adjust position */
+    z-index: 1000; /* Ensure it appears above other elements */
 }
 #history {
     
@@ -160,7 +177,8 @@ button{
 #box-get2 .td1{
     background-color:rgb(69, 69, 69) !important;
     color: #f6f6f6;
-    font-weight: bold;  
+    font-weight: bold; 
+    
     
 }
 #box-get2 caption{

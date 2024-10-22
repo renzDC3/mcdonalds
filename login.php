@@ -5,6 +5,7 @@ if (isset($_SESSION["user"])) {
     exit();
 }
 
+
 if (isset($_SESSION['manager_loggedin']) && $_SESSION['manager_loggedin'] === true) {
     header('Location: index2.php');
     exit();
@@ -14,8 +15,8 @@ if (isset($_POST["login"])) {
     $crew_number = $_POST["crew_number"];
     $password = $_POST["password"];
 
-    if (!preg_match('/^044\d{3}$/', $crew_number)) {
-        $error = "Crew number must be exactly 6 digits and start with '044'.";
+    if (!preg_match('/^\d{6,}$/', $crew_number)) {
+        $error = "Crew number must be at least 6 digits.";
     } elseif (empty($password)) {
         $error = "Please enter your password.";
     } else {
@@ -50,14 +51,16 @@ if (isset($_POST["login"])) {
                       </script>";
                 exit();
             } else {
-                $error = "Password does not match.";
+                $error = "Incorrect password. Please try again.";
             }
         } else {
-            $error = "No account found with this crew number.";
+            $error = "Incorrect password and crew number. Please try again.";
         }
     }
 }
+
 ?>
+
 
 <!DOCTYPE html>
 <html lang="en">
@@ -75,17 +78,22 @@ if (isset($_POST["login"])) {
 <br><br>
 
 <a href="login_manager.php" style="
-    display: inline-block; 
-    background-color: #f0f0f0; 
-    color: black; 
-    width: 132px; 
-    border: 2px solid black; 
-    border-radius: 5px; 
-    text-decoration: none; 
-    text-align: center; 
-    padding: 10px 0; 
-    margin-left: 30px; 
-    transition: background-color 0.3s, color 0.3s;
+    color: black;
+    font-size: 14px;
+    font-weight: bold;
+    font-size: 0.9rem;
+    background: rgba(255, 255, 255, 0.283);
+    width: 100%;
+    box-sizing: border-box;
+    padding-inline: 0.5em;
+    padding-block: 0.7em;
+    border: none;
+    border-bottom: var(--border-height) solid var(--border-before-color);
+    box-shadow: 0 2px 4px rgba(0, 0, 0, 0.313);
+    width:130px;
+    border-radius:10px;
+    margin-left:70px;
+    margin-bottom:5px;
 ">
     Log in Manager
 </a>
@@ -93,17 +101,16 @@ if (isset($_POST["login"])) {
 <div class="container">
     <form action="login.php" method="post">
         <div class="form-group">
-            <h1 style="color: white; text-align:center;font-size:27px;">Crew Login</h1><br>
-            <input placeholder="Enter Crew Number" name="crew_number" class="form-control" required><br>
+            <h1 style="color: rgb(65, 65, 65) !important; text-decoration-line: underline;text-align:center;font-size:25px;font-weight: bold;">Crew Login</h1><br>
+     </div><input placeholder="Enter Crew Number" name="crew_number" class="form-control" required><br>
             <input type="password" placeholder="Enter Password" name="password" class="form-control" required><br>
             <?php if (isset($error)): ?>
-                <div class="alert alert-danger"><?= $error ?></div>
+                <div style="font-size:13px; color:rgb(201, 58, 58);text-align:center;"><?= $error ?></div>
             <?php endif; ?>
-            <div class="form-btn"><br>
-                <input type="submit" value="Login" name="login" class="btn btn-primary" id="loginbtn">
-            </div>
-            <br>
-        </div>
+           
+            
+        
+        <input type="submit" value="Login" name="login" class="btn">
     </form>
 </div>
 

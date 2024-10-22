@@ -36,34 +36,37 @@ if (isset($_POST['login_manager'])) {
 <br><br>
 
 <a href="login.php"style="
-    display: inline-block; 
-    background-color: #f0f0f0; 
-    color: black; 
-    width: 132px; 
-    border: 2px solid black; 
-    border-radius: 5px; 
-    text-decoration: none; 
-    text-align: center; 
-    padding: 10px 0; 
-    margin-left: 30px; 
-    transition: background-color 0.3s, color 0.3s;
+    color: black;
+    font-size: 14px;
+    font-weight: bold;
+    font-size: 0.9rem;
+    background: rgba(255, 255, 255, 0.283);
+    width: 100%;
+    box-sizing: border-box;
+    padding-inline: 0.5em;
+    padding-block: 0.7em;
+    border: none;
+    border-bottom: var(--border-height) solid var(--border-before-color);
+    box-shadow: 0 2px 4px rgba(0, 0, 0, 0.313);
+    width:130px;
+    border-radius:10px;
+    text-align:center;
+    margin-left:70px;
+    margin-bottom:5px;
+    
 ">Log in Crew</a>
 
 <div class="container1">
     <form action="login_manager.php" method="post">
         <div class="form-group">
-            <h1 style="color: white; text-align:center;font-size:27px;">Manager Login</h1><br>
-            <input type="password" placeholder="Enter Password" name="password" class="form-control" required><br>
+            <h1 style="color: rgb(65, 65, 65) !important; text-decoration-line: underline;text-align:center;font-size:25px;font-weight: bold;">Manager Login</h1><br>
+            </div><input type="password" placeholder="Enter Password" name="password" class="form-control" required><br>
             <?php if (isset($error)): ?>
-                <div class="alert alert-danger"><?= $error ?></div>
-            <?php endif; ?>
-            <div class="form-btn"><br>
-                <input type="submit" value="Login" name="login_manager" class="btn btn-primary" id="loginbtn">
-            </div>
-            <br>
-        </div>
+                <div style="font-size:13px; color:rgb(201, 58, 58);text-align:center;"><?= $error ?></div>
+            <?php endif; ?>        
+        <input type="submit" value="Login" name="login_manager" class="btn">
     </form>
-</div>
+    </div>
 
 <br><br>
 </body>
