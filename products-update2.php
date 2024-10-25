@@ -55,7 +55,7 @@ $conn->close();
     
 <a class="expirelink" href="product_expiring.php">Product Expiring</a>
 <table class="table table-striped" id="productsLeft">
-    <caption style="color:white;">Products</caption>
+    <caption style="color:black;">Products</caption>
     <thead>
         <tr>
             <th class="td1">Category</th> 

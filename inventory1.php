@@ -1,8 +1,8 @@
 <?php
-session_start(); 
-if (!isset($_SESSION["user"])) {
-   header("Location: index.php");
-   exit();
+session_start();
+if (!isset($_SESSION['manager_loggedin'])) {
+    header('Location: login_manager.php');
+    exit;
 }
 
 $latest_data = isset($_SESSION['latest_data']) ? $_SESSION['latest_data'] : [];
@@ -52,7 +52,7 @@ foreach ($categories as $category) {
     <link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/bootstrap@5.2.2/dist/css/bootstrap.min.css">
     <link rel="stylesheet" href="inventory.css">
     <script src="https://unpkg.com/html5-qrcode/minified/html5-qrcode.min.js"></script>
-    <script src="loadLayout.js" defer></script>
+    <script src="loadLayout3.js" defer></script>
     <title>Inventory</title>
 </head>
 <body>
@@ -71,7 +71,7 @@ foreach ($categories as $category) {
         <td class="td1">Restock</td>
         <td class="td1">Deduct</td>
         <td class="td1">Available Products</td>
-       
+        <td class="td1">Batch</td>
     </tr>
     <?php 
     foreach ($categories as $category) {
@@ -94,7 +94,7 @@ foreach ($categories as $category) {
             echo '<td>' . htmlspecialchars($added) . '</td>';
             echo '<td>' . htmlspecialchars($removed) . '</td>';
             echo '<td>' . htmlspecialchars($available) . '</td>';
-      
+            echo '<td>' . htmlspecialchars($batch) . '</td>'; // Display batch number
             echo '</tr>';
         }
     }
@@ -111,7 +111,7 @@ foreach ($categories as $category) {
 
 
 
-<form action="save_inventory.php" method="POST">
+<form action="save_inventory1.php" method="POST">
 
 
 <div class="container">
@@ -489,7 +489,8 @@ foreach ($categories as $category) {
         </div>
         </div> 
 <footer>
-    <button type="submit" name="action" value="remove" class="button1">Deduct Product</button>
+<button type="submit" name="action" value="add" class="button2">Restock product</button>
+    
 </footer>
 </form>
 

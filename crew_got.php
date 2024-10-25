@@ -29,19 +29,20 @@ while ($row = $result->fetch_assoc()) {
 $stmt->close();
 
 // Handle archiving
+// Handle archiving
 if ($_SERVER['REQUEST_METHOD'] === 'POST' && isset($_POST['archive'])) {
     // Archive records
     $archive_sql = "
-        INSERT INTO crewgot_archived (product_name, quantity, date_time)
-        SELECT product_name, quantity, date_time
+        INSERT INTO crewgot_archived (product_name, quantity, date_time, action)
+        SELECT product_name, quantity, date_time, action
         FROM received_history
         WHERE action = 'removed'";
 
     if ($conn->query($archive_sql) === TRUE) {
-        // Delete archived records
+        // Delete archived records only if the archiving was successful
         $delete_sql = "DELETE FROM received_history WHERE action = 'removed'";
         if ($conn->query($delete_sql) === TRUE) {
-            $archive_message = "Records successfully archived.";
+            $archive_message = "Records successfully archived and removed.";
         } else {
             $archive_message = "Error deleting records: " . $conn->error;
         }
@@ -49,6 +50,7 @@ if ($_SERVER['REQUEST_METHOD'] === 'POST' && isset($_POST['archive'])) {
         $archive_message = "Error archiving records: " . $conn->error;
     }
 }
+
 
 $conn->close();
 ?>

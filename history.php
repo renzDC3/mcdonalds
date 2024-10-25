@@ -10,7 +10,10 @@ $username = "root";
 $password = "";
 $dbname = "mcdonalds_inventory";
 
+// Create connection
 $conn = new mysqli($servername, $username, $password, $dbname);
+
+// Check connection
 if ($conn->connect_error) {
     die("Connection failed: " . $conn->connect_error);
 }
@@ -27,24 +30,31 @@ function getNextBatch($conn, $productName) {
 }
 
 // Handling archive request
+// Handling archive request
 if ($_SERVER['REQUEST_METHOD'] === 'POST' && isset($_POST['archive'])) {
+    // Step 1: Move the products with 'added' action to the archive table
     $archive_sql = "
     INSERT INTO received_archived (product_name, code, quantity, date_time, action, batch)
     SELECT product_name, code, quantity, date_time, action, batch
     FROM received_history
     WHERE action = 'added'";
 
-
     if ($conn->query($archive_sql) === TRUE) {
+        // Step 2: Delete those records from received_history
         $delete_sql = "DELETE FROM received_history WHERE action = 'added'";
-        $conn->query($delete_sql);
-        $archive_message = "Records successfully archived.";
+
+        if ($conn->query($delete_sql) === TRUE) {
+            $archive_message = "Records successfully archived and deleted from received history.";
+        } else {
+            $archive_message = "Error deleting records from received history: " . $conn->error;
+        }
     } else {
         $archive_message = "Error archiving records: " . $conn->error;
     }
 }
 
-// Fetching received history
+
+// Fetching received history for display
 $sql = "
     SELECT 
         rh.product_name, 
@@ -58,7 +68,7 @@ $sql = "
         rh.action = 'added' 
     ORDER BY 
         rh.batch DESC,  -- Sort by batch in descending order
-        rh.date_time DESC"; 
+        rh.date_time DESC";
 
 $result = $conn->query($sql);
 ?>
@@ -75,53 +85,48 @@ $result = $conn->query($sql);
     <title>Received History</title>
 </head>
 <style>
-    .buttonarchived{
-        margin-top:175px;
+    .buttonarchived {
+        margin-top: 175px;
         width: 100px;
         position: absolute;
         right: 138px;
-        background-color:rgb(215, 66, 66);
+        background-color: rgb(215, 66, 66);
         top: 5px;
-        
     }
 
-    .button{
-        cursor:pointer;
-        margin-top:120px;
+    .button {
+        cursor: pointer;
+        margin-top: 120px;
         position: absolute;
         width: 132px;
-        background-color:black;
-        color:white;
-        text-decoration:none;
+        background-color: black;
+        color: white;
+        text-decoration: none;
     }
-    #myframe{
-        margin-top:147px;
-        position:absolute;
+
+    #myframe {
+        margin-top: 147px;
+        position: absolute;
         border-radius: 5px;
         overflow: scroll;
         width: 473px;
-        height:200px;
-        z-index:1;
+        height: 200px;
+        z-index: 1;
         visibility: hidden; /* Start hidden but keep space */
         border: none; /* Optional: remove border */
-        
-       
     }
-    
-        
-    
 </style>
 <body>
 
 <h4>Restock History</h4>
-  
+
 <form method="post" action="history.php">
     <button class="buttonarchived" type="submit" name="archive" class="btn btn-warning">Archive</button>
 </form>
 
 <a class="button" onclick="toggleFrame()">Open Archived</a>
 
-<iframe  id="myframe"></iframe>
+<iframe id="myframe"></iframe>
 
 <script>
 function toggleFrame() {
@@ -135,6 +140,7 @@ function toggleFrame() {
     }
 }
 </script>
+
 <div>
     <table class="table-d">
         <thead>
@@ -166,14 +172,19 @@ function toggleFrame() {
     </table>
 </div>
 
-<div class ="history1">
+<div class="history1">
     <li><a href="history.php" class="abox">Restock product</a></li>
 </div>
-<div class ="history2">
+<div class="history2">
     <li><a href="user_log.php" class="abox">User Log</a></li>
 </div>
-<div class ="history3">
+<div class="history3">
     <li><a href="crew_got.php" class="abox">Deduct product</a></li>
 </div>
+
 </body>
 </html>
+
+<?php
+$conn->close();
+?>

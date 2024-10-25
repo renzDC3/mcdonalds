@@ -125,12 +125,15 @@ $conn->close();
     border-radius:10px;
     }
     a {
-        color: white;
+        color: black;
         text-decoration: none;
     }
-</style>
+img{
+    width: 50px;
+}
+</style> 
 <body>
-    <button><a href="sign_up.php">Add Crew Account</a></button>
+    <button><a href="sign_up.php"><img src="crewAdd.png"></a></button>
     <div class="messageExpired">
         <?php if (!empty($expiredProducts)): ?>
             <div class="alert alert-danger" role="alert">

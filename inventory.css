@@ -85,8 +85,8 @@ footer {
     background-color: black;
     position: fixed; /* Change to fixed */
     bottom: 0; /* Stick to the bottom */
-    left: 80%; /* Center horizontally */
-    transform: translateX(93%); /* Adjust position */
+    left:5%;/* Center horizontally */
+    transform: translateX(-50%); /* Adjust position */
     z-index: 1000; /* Ensure it appears above other elements */
 }
 .button2 {
@@ -204,6 +204,7 @@ h2{
    
 }
 .inputwidth{
+    
     position:sticky;top:0%;
     
 }

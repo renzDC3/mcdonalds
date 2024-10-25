@@ -57,8 +57,10 @@ width: 50px;}
     <img src="topicon.png" alt="McDo Icon" class="top-icon">
     <ul>
     <li><a class="btn-warning" href="index2.php">Home</a></li>
+    <li><a class="btn-warning" href="inventory1.php">Inventory</a></li>
     <li><a class="btn-warning" href="products-update2.php">Stocks</a></li>
     <li><a class="btn-warning" href="report.php">Report</a></li>
+    <li><a class="btn-warning" href="ordered-details1.php">Critical Product</a></li>
     <li><a class="btn-warning" href="history.php">History</a></li>
     <li class="log_out"><a id="account" onclick="toggleIframe()"> <img src="accountIcon.png" id="accounticon"></a></li>
 

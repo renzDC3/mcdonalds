@@ -5,24 +5,30 @@ if (!isset($_SESSION['manager_loggedin'])) {
     exit;
 }
 
-
 $servername = "localhost";
 $username = "root";
 $password = "";
 $dbname = "mcdonalds_inventory";
 
+// Create connection
 $conn = new mysqli($servername, $username, $password, $dbname);
 if ($conn->connect_error) {
     die("Connection failed: " . $conn->connect_error);
 }
 
+// Handle archive request
 if ($_SERVER['REQUEST_METHOD'] === 'POST' && isset($_POST['archive'])) {
+    // Step 1: Disable foreign key checks
+    $conn->query("SET FOREIGN_KEY_CHECKS=0");
+
+    // Step 2: Move records from user_log to userLog_archived
     $archive_sql = "
         INSERT INTO userLog_archived (full_name, crew_number, date_time)
         SELECT full_name, crew_number, date_time
         FROM user_log";
 
     if ($conn->query($archive_sql) === TRUE) {
+        // Step 3: Delete records from user_log
         $delete_sql = "DELETE FROM user_log";
         if ($conn->query($delete_sql) === TRUE) {
             $archive_message = "Records successfully archived.";
@@ -32,8 +38,13 @@ if ($_SERVER['REQUEST_METHOD'] === 'POST' && isset($_POST['archive'])) {
     } else {
         $archive_message = "Error archiving records: " . $conn->error;
     }
+
+    // Step 4: Re-enable foreign key checks
+    $conn->query("SET FOREIGN_KEY_CHECKS=1");
 }
 
+
+// Fetching user log
 $sql = "SELECT * FROM user_log ORDER BY date_time DESC";
 $result = $conn->query($sql);
 ?>
@@ -50,52 +61,56 @@ $result = $conn->query($sql);
     <title>User Log</title>
 </head>
 <style>
-    .buttonarchived{
-        margin-top:175px;
+    .buttonarchived {
+        margin-top: 175px;
         width: 100px;
         position: absolute;
         right: 138px;
-        background-color:rgb(215, 66, 66);
+        background-color: rgb(215, 66, 66);
         top: 5px;
-        
     }
 
-    .button{
-        cursor:pointer;
-        margin-top:120px;
+    .button {
+        cursor: pointer;
+        margin-top: 120px;
         position: absolute;
         width: 120px;
-        background-color:black;
-        color:white;
-        text-decoration:none;
+        background-color: black;
+        color: white;
+        text-decoration: none;
     }
-    #myframe{
-        margin-top:147px;
-        position:absolute;
+
+    #myframe {
+        margin-top: 147px;
+        position: absolute;
         border-radius: 5px;
         overflow: scroll;
         width: 374px;
-        height:200px;
-        z-index:1;
+        height: 200px;
+        z-index: 1;
         visibility: hidden; /* Start hidden but keep space */
         border: none; /* Optional: remove border */
-       
     }
 </style>
 <body>
 <h4>User Log</h4>
 
-    <form method="post" action="user_log.php">
-        <button type="submit" name="archive" class="buttonarchived">Archive</button>
-    </form>
-    <a class="button" onclick="toggleFrame()">Open Archived</a>
+<!-- Form to handle the archive request -->
+<form method="post" action="user_log.php">
+    <button type="submit" name="archive" class="buttonarchived">Archive</button>
+</form>
+
+<!-- Button to toggle archived records -->
+<a class="button" onclick="toggleFrame()">Open Archived</a>
+
+<!-- iFrame to display archived records -->
 <iframe id="myframe"></iframe>
 
 <script>
 function toggleFrame() {
     var frame = document.getElementById("myframe");
     if (frame.style.visibility === "hidden" || frame.style.visibility === "") {
-        frame.src = "userLog_archived.php"; // Set the source only when opening
+        frame.src = "userLog_archived.php"; // Load archived data when opening
         frame.style.visibility = "visible"; // Show the iframe
     } else {
         frame.style.visibility = "hidden"; // Hide the iframe without removing space
@@ -104,40 +119,42 @@ function toggleFrame() {
 }
 </script>
 
-
-    <table class="table-d" id="user_log">
-        <thead>
-            <tr>
-                <td class="td1">Name</td>
-                <td class="td1">Crew Number</td>
-                <td class="td1">Date & Time</td>
-            </tr>
-        </thead>
-        <tbody>
-            <?php 
-            if ($result->num_rows > 0) {
-                while($row = $result->fetch_assoc()) {
-                    echo '<tr>';
-                    echo '<td>' . htmlspecialchars($row['full_name']) . '</td>';
-                    echo '<td>' . htmlspecialchars($row['crew_number']) . '</td>';
-                    echo '<td>' . htmlspecialchars($row['date_time']) . '</td>';
-                    echo '</tr>';
-                }
-            } else {
-                echo '<tr><td colspan="3">No records found</td></tr>';
+<!-- Table to display current user logs -->
+<table class="table-d" id="user_log">
+    <thead>
+        <tr>
+            <th class="td1">Name</th>
+            <th class="td1">Crew Number</th>
+            <th class="td1">Date & Time</th>
+        </tr>
+    </thead>
+    <tbody>
+        <?php 
+        if ($result->num_rows > 0) {
+            while ($row = $result->fetch_assoc()) {
+                echo '<tr>';
+                echo '<td>' . htmlspecialchars($row['full_name']) . '</td>';
+                echo '<td>' . htmlspecialchars($row['crew_number']) . '</td>';
+                echo '<td>' . htmlspecialchars($row['date_time']) . '</td>';
+                echo '</tr>';
             }
-            ?>
-        </tbody>
-    </table>
+        } else {
+            echo '<tr><td colspan="3">No records found</td></tr>';
+        }
+        ?>
+    </tbody>
+</table>
 
-    <div class ="history1">
+<!-- Navigation Links -->
+<div class="history1">
     <li><a href="history.php" class="abox">Restock product</a></li>
 </div>
-<div class ="history2">
+<div class="history2">
     <li><a href="user_log.php" class="abox">User Log</a></li>
 </div>
-<div class ="history3">
+<div class="history3">
     <li><a href="crew_got.php" class="abox">Deduct product</a></li>
 </div>
+
 </body>
 </html>

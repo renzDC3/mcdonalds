@@ -157,7 +157,7 @@ foreach ($productTables as $table) {
 </head>
 <body>
     <br>
-    <h4 style="color:white;">Daily Report In and Out Product <?php/* echo date('Y-m-d'); */?></h4>
+    <h4 style="color:black;">Daily Report In and Out Product <?php/* echo date('Y-m-d'); */?></h4>
     <br>
     
     <div>

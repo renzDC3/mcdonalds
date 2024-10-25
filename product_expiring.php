@@ -22,7 +22,7 @@ $query = "
         rh.code, 
         rh.quantity, 
         rh.date_time AS received_date, 
-        rh.expiration_date,  -- Fetch expiration_date directly from the database
+        rh.expiration_date,  
         COUNT(*) OVER (PARTITION BY rh.product_name, rh.code ORDER BY rh.date_time) AS batch_number
     FROM 
         received_history rh
@@ -50,45 +50,46 @@ $result = $conn->query($query);
 <a class="expirelink" href="products-update2.php">Back</a>
 
 <div class="orderD">
-    <table class="table-bordered" class="orderT">
-        <thead>
-            <caption>Expiring Products</caption>
-            <tr>
-                <th>Product Name</th>
-                <th>Code</th>
-                <th>Boxes</th>
-                <th>Received Date</th>
-                <th>Expiration Date</th>
-                <th>Batch</th>
-           
-            </tr>
-        </thead>
-        <tbody>
-            <?php
-            if ($result->num_rows > 0) {
-                while($row = $result->fetch_assoc()) {
-                    echo "<tr>
-                            <td>{$row['product_name']}</td>
-                            <td>{$row['code']}</td>
-                            <td>{$row['quantity']}</td>
-                            <td>{$row['received_date']}</td>
-                            <td>
-                                <form method='POST' action='update_expiration.php'>
-                                    <input type='date' name='new_expiration_date' value='" . date('Y-m-d', strtotime($row['expiration_date'])) . "' required>
-                                    <input type='hidden' name='product_code' value='{$row['code']}'>
-                                    <input type='hidden' name='product_name' value='{$row['product_name']}'>
-                                    <input type='submit' value='Update' class='btn btn-primary btn-sm'>
-                                </form>
-                            </td>
-                            <td>Batch {$row['batch_number']}</td>
-                          </tr>";
+    <form method="POST" action="update_expiration.php">
+        <table class="table-bordered" class="orderT">
+            <thead>
+                <caption>Expiring Products</caption>
+                <tr>
+                    <th>Product Name</th>
+                    <th>Code</th>
+                    <th>Boxes</th>
+                    <th>Received Date</th>
+                    <th>Expiration Date</th>
+                    <th>Batch</th>
+                </tr>
+            </thead>
+            <tbody>
+                <?php
+                if ($result->num_rows > 0) {
+                    $rowIndex = 0; // Index to differentiate each row's input name
+                    while($row = $result->fetch_assoc()) {
+                        echo "<tr>
+                                <td>{$row['product_name']}</td>
+                                <td>{$row['code']}</td>
+                                <td>{$row['quantity']}</td>
+                                <td>{$row['received_date']}</td>
+                                <td>
+                                    <input type='date' name='expiration_date[$rowIndex]' value='" . date('Y-m-d', strtotime($row['expiration_date'])) . "' required>
+                                    <input type='hidden' name='product_code[$rowIndex]' value='{$row['code']}'>
+                                    <input type='hidden' name='product_name[$rowIndex]' value='{$row['product_name']}'>
+                                </td>
+                                <td>Batch {$row['batch_number']}</td>
+                              </tr>";
+                        $rowIndex++;
+                    }
+                } else {
+                    echo "<tr><td colspan='7'>No records found</td></tr>";
                 }
-            } else {
-                echo "<tr><td colspan='7'>No records found</td></tr>"; // Updated colspan to 7
-            }
-            ?>
-        </tbody>
-    </table>
+                ?>
+            </tbody>
+        </table>
+        <input type="submit" value="Update All" class="btn btn-primary btn-sm">
+    </form>
 </div>
 </body>
 </html>
